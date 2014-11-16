@@ -23,7 +23,7 @@ public class Catastrofe implements Serializable {
 	@Column(name="description")
 	private String description;
 	@Column(name="logo")
-	private Byte[] logo;
+	private String logo;
 	@Column(name="css")
 	private String css;
 	@Column(name="coordX")
@@ -70,11 +70,11 @@ public class Catastrofe implements Serializable {
 		this.description = description;
 	}
 
-	public Byte[] getLogo() {
+	public String getLogo() {
 		return logo;
 	}
 
-	public void setLogo(Byte[] logo) {
+	public void setLogo(String logo) {
 		this.logo = logo;
 	}
 

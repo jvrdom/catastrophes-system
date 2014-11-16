@@ -25,16 +25,27 @@ public class CatastrofeManager implements CatastrofeManagerRemote{
 		
 		String regID = "APA91bErxDEhplg4-GT2RoY9N7tibbzJAifLrqpVhy0OYkwaNHhWWKsGAxzm31VpbBtixyssPC61jmbFNZfnq_lhfva55uE6Cb5ePauJlBygykDQV0Hje-Orjin0P94_em4nNBk8rYT-NHs96okhLmbfdDpApUAqbjAdGw21ZTnx1spu4Vtb8RM";
 		
+		//Convertir string to double
+		latLng = latLng.replace("(", "");
+		latLng = latLng.replace(")", "");
+		
+		String [] latlong = latLng.split(",");
+		double lat = Double.parseDouble(latlong[0]);
+		double lng = Double.parseDouble(latlong[1]);
+		
 		Catastrofe catastrofe = new Catastrofe();
 		catastrofe.setNombre(nombre);
-		
+		catastrofe.setDescription(descripcion);
+		catastrofe.setCoordX(lat);
+		catastrofe.setCoordY(lng);
+				
 		Plan plan = new Plan();
 		plan.setUrl(url);
 		plan.setDescripcion(descripcion);
 		plan.setTipo(nombrePlan);
 		
 		catastrofe.setPlan(plan);
-		AndroidGCMPushNotification.enviarNotificaciones("prueba", regID);
+		//AndroidGCMPushNotification.enviarNotificaciones("prueba", regID);
 		
 		catastrofeController.create(catastrofe);
 		

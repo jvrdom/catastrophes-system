@@ -21,8 +21,9 @@
 							  </div>
 							  <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 121px; max-height: 100px;"></div>
 							  <div>
-							    <span class="btn btn-default btn-file"><span class="fileinput-new">Seleccionar Icono</span><span class="fileinput-exists">Cambiar</span><input type="file" name="..."/></span>
+							    <span class="btn btn-default btn-file"><span class="fileinput-new">Seleccionar Icono</span><span class="fileinput-exists">Cambiar</span><input id="icon" type="file" name="icon" value="#{catastrofes.finalPath}"/></span>
 							    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remover</a>
+							    <h:inputHidden value="#{catastrofes.finalPath}" id='path'/>
 							  </div>
 							</div>
 						</div>
@@ -117,6 +118,8 @@
 
 			google.maps.event.addDomListener(window, 'load', initialize);
 
+			document.getElementById("j_idt24:path").value = document.getElementById("icon").value;
+			
   		</script>
 	  </ui:define>
   </ui:composition>

@@ -1,13 +1,11 @@
 package managedBeans;
 
-import java.io.IOException;
-
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.model.UploadedFile;
-
 
 import com.ssacn.ejb.business.remote.CatastrofeManagerRemote;
 
@@ -96,5 +94,15 @@ public class CatastrofesBean {
 	public void setLatLng(String latLng) {
 		this.latLng = latLng;
 	}
+
+	public String getFinalPath() {
+		return finalPath;
+	}
+
+	public void setFinalPath(String finalPath) {
+		this.finalPath = finalPath;
+	}
+	
+	
 		
 }
