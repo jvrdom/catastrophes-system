@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+  <ui:composition template="/template/layout.xhtml">
+	  <ui:define name="content">
+	  	<div class="row">
+	  		<div class="col-xs-12 text-center">
+			  	<div class="btn-group  btn-group-lg">
+				  <h:link value="Plan de Emergencia" outcome="emergenciaIndex.xhtml" class="btn btn-default" />
+		          <h:link value="Plan de Gestión de Riesgos" outcome="gestionRiesgoIndex.xhtml" class="btn btn-default" />
+				</div>
+				<h3>PDF</h3>
+		            <a href="../resources/files/Requerimientos Proyecto 20140831v01.pdf" target="_blank">click</a>
+			</div>
+		</div>
+	  </ui:define>
+  </ui:composition>
+</h:body>
+</html>

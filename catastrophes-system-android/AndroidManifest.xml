@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.catastrophes_system_android"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="17" />
+    
+    <permission
+        android:name="com.example.catastrophes_system_android.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.example.musicup.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyCjwUKUoTOP2LF7-JcXMZnJtW2o1KQvsDM" />
+     <!--   <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />          -->
+                
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".RegistroUsuarioActivity"
+            android:label="@string/titulo_registro_usuario" >
+        </activity>
+        <activity
+            android:name=".MenuPrincipalActivity"
+            android:label="@string/title_activity_menu_principal" >
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login" >
+        </activity>
+        <activity
+            android:name=".ReportePersonasDesaparecidasActivity"
+            android:label="@string/title_activity_reporte_personas_desaparecidas" >
+        </activity>
+        <activity
+            android:name=".DetallePersonaDesaparecidaActivity"
+            android:label="@string/title_activity_detalle_persona_desaparecida" >
+        </activity>
+        <activity
+            android:name=".DonacionActivity"
+            android:label="@string/title_activity_donacion" >
+        </activity>
+        <activity
+            android:name=".DonacionEconomicaActivity"
+            android:label="@string/title_activity_donacion_economica" >
+        </activity>
+        <activity
+            android:name=".DonacionBienesActivity"
+            android:label="@string/title_activity_donacion_bienes" >
+        </activity>
+        <activity
+            android:name=".DonacionServiciosActivity"
+            android:label="@string/title_activity_donacion_servicios" >
+        </activity>
+        <activity
+            android:name=".PedidoAyudaActivity"
+            android:label="@string/title_activity_pedido_ayuda" >
+        </activity>
+        <activity
+            android:name=".NovedadesActivity"
+            android:label="@string/title_activity_novedades" >
+        </activity>
+        <activity
+            android:name=".BusquedaPersonasDesaparecidasActivity"
+            android:label="@string/title_activity_busqueda_personas_desaparecidas" >
+        </activity>
+        <activity
+            android:name=".MapaLocalidadesAfectadasActivity"
+            android:label="@string/title_activity_mapa_localidades_afectadas" >
+        </activity>
+        <activity
+            android:name=".ModificarUsuarioActivity"
+            android:label="@string/title_activity_modificar_usuario" >
+        </activity>
+    </application>
+
+</manifest>

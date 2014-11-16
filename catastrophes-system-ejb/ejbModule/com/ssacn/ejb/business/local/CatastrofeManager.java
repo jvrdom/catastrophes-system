@@ -1,0 +1,43 @@
+package com.ssacn.ejb.business.local;
+
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+
+import com.ssacn.ejb.business.remote.CatastrofeManagerRemote;
+import com.ssacn.ejb.persistence.entity.Catastrofe;
+import com.ssacn.ejb.persistence.entity.Plan;
+import com.ssacn.ejb.persistence.jpaController.JpaCatastrofeController;
+import com.ssacn.ejb.util.AndroidGCMPushNotification;
+
+@LocalBean
+@Stateless
+public class CatastrofeManager implements CatastrofeManagerRemote{
+	
+	private JpaCatastrofeController catastrofeController;
+	
+	public CatastrofeManager() {
+		catastrofeController = new JpaCatastrofeController(); 
+	}
+	
+	@Override
+	public void createCatastrofe(String nombre, String nombrePlan, String url,
+			String descripcion,String latLng) {
+		
+		String regID = "APA91bErxDEhplg4-GT2RoY9N7tibbzJAifLrqpVhy0OYkwaNHhWWKsGAxzm31VpbBtixyssPC61jmbFNZfnq_lhfva55uE6Cb5ePauJlBygykDQV0Hje-Orjin0P94_em4nNBk8rYT-NHs96okhLmbfdDpApUAqbjAdGw21ZTnx1spu4Vtb8RM";
+		
+		Catastrofe catastrofe = new Catastrofe();
+		catastrofe.setNombre(nombre);
+		
+		Plan plan = new Plan();
+		plan.setUrl(url);
+		plan.setDescripcion(descripcion);
+		plan.setTipo(nombrePlan);
+		
+		catastrofe.setPlan(plan);
+		AndroidGCMPushNotification.enviarNotificaciones("prueba", regID);
+		
+		catastrofeController.create(catastrofe);
+		
+	}
+
+}
