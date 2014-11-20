@@ -7,16 +7,16 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <h:body>
-  <ui:composition template="/template/layout.xhtml">
+  <ui:composition template="/admin/template/layout.xhtml">
 	  <ui:define name="content">
 	  	<div class="row">
 	  		<div class="col-xs-12 text-center">
-			  	<div class="btn-group  btn-group-lg">
-				  <h:link value="Plan de Emergencia" outcome="emergenciaIndex.xhtml" class="btn btn-default" />
-		          <h:link value="Plan de Gestión de Riesgos" outcome="gestionRiesgoIndex.xhtml" class="btn btn-default" />
-				</div>
-				<h3>PDF</h3>
-		            <a href="../resources/files/Requerimientos Proyecto 20140831v01.pdf" target="_blank">click</a>
+	  			<h:form enctype="multipart/form-data">
+                	<p:fileUpload value="#{catastrofes.file}"  mode="simple"></p:fileUpload>
+                	<p:separator/>
+                	<h:commandButton value="Dummy Action" action="#{catastrofes.altaCatastrofe}" ajax="false"></h:commandButton>
+                	<h3 class="text-muted"> <h:graphicImage name="#{request.contextPath}/resources/file/Captura de pantalla de 2014-10-09 22:43:03.png" /></h3>
+        		</h:form>
 			</div>
 		</div>
 	  </ui:define>

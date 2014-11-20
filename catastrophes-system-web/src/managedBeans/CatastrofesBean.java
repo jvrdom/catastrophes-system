@@ -1,11 +1,15 @@
 package managedBeans;
 
+import java.io.IOException;
+
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.model.UploadedFile;
+
+import utilesWeb.UtilesWeb;
 
 import com.ssacn.ejb.business.remote.CatastrofeManagerRemote;
 
@@ -18,13 +22,14 @@ public class CatastrofesBean {
 	private String nombre,nombrePlan,url,descripcion,direccion,latLng;
 	private UploadedFile file;
 	private String finalPath;
+	private UtilesWeb utiles;
 	
 	public CatastrofesBean() {
-		
+		utiles = new UtilesWeb();
 	}
 	
 	public void altaCatastrofe(){
-		/*System.out.println("Uploaded File Name Is :: "+file.getFileName()+" :: Uploaded File Size :: "+file.getSize());
+		System.out.println("Uploaded File Name Is :: "+file.getFileName()+" :: Uploaded File Size :: "+file.getSize());
 		
 		try {
 			finalPath = utiles.fileUpload(file.getFileName(), file.getInputstream());
@@ -33,9 +38,12 @@ public class CatastrofesBean {
 		}
 		
 		System.out.println(finalPath);
-		castM.createCatastrofe(nombre, nombrePlan, finalPath, descripcion);*/
 		
-		castM.createCatastrofe(nombre, "prueba", "url", descripcion, latLng);
+		castM.createCatastrofe(nombre, "prueba", "final", descripcion, latLng);
+		//falta creacion del plan
+		//galeria de imagenes
+		//iconos
+		//notificaciones
 	}
 	
 	public String getNombre() {
@@ -94,15 +102,5 @@ public class CatastrofesBean {
 	public void setLatLng(String latLng) {
 		this.latLng = latLng;
 	}
-
-	public String getFinalPath() {
-		return finalPath;
-	}
-
-	public void setFinalPath(String finalPath) {
-		this.finalPath = finalPath;
-	}
 	
-	
-		
 }

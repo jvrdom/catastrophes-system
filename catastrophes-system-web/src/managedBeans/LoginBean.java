@@ -25,7 +25,7 @@ public class LoginBean {
 		if(result){
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", email);
 			try {
-				FacesContext.getCurrentInstance().getExternalContext().redirect("user/userIndex.xhtml");
+				FacesContext.getCurrentInstance().getExternalContext().redirect("admin/catastrofe/altaCatastrofe.xhtml");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

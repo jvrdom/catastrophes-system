@@ -7,17 +7,11 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <h:body>
-  <ui:composition template="/template/layout.xhtml">
+  <ui:composition template="/user/template/layout.xhtml">
 	  <ui:define name="content">
 	  	<div class="row">
 	  		<div class="col-xs-12 text-center">
-			  	<div class="btn-group  btn-group-lg">
-				  <h:link value="Busqueda de Personas Desaparecidas" outcome="emergenciaIndex.xhtml" class="btn btn-default" />
-		          <h:link value="Ver Personas Desaparecidas" outcome="gestionRiesgoIndex.xhtml" class="btn btn-default" />
-		          <h:link value="Realizar Donación" outcome="gestionRiesgoIndex.xhtml" class="btn btn-default" />
-		          <h:link value="Pedido de Ayuda" outcome="gestionRiesgoIndex.xhtml" class="btn btn-default" />
-				</div>
-				<div id="mapa" style="height: 300px; margin-top: 1%;"></div>
+				<div id="mapa" style="height: 400px;"></div>
 			</div>
 			<div class="col-xs-6">
 	  			<p>Welcome, #{usuario}</p>
