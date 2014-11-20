@@ -17,7 +17,7 @@ public class AccountBean {
 	private Date fechaNac;
 	
 	public void altaUsuario(){
-		userM.createUser(nombre, apellido, email, contraseña, fechaNac, sexo);;
+		userM.createUser(nombre, apellido, email, contraseña, fechaNac, sexo);
 	}
 	
 	/*Metodos de prueba*/
