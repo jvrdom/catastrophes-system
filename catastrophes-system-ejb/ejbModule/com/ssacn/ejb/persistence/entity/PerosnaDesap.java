@@ -2,7 +2,6 @@ package com.ssacn.ejb.persistence.entity;
 
 import java.io.Serializable;
 
-
 import javax.persistence.*;
 
 /**
@@ -10,7 +9,8 @@ import javax.persistence.*;
  *
  */
 @Entity
-
+@NamedQueries({
+@NamedQuery(name = "PerosnaDesap.findByCatastrofe", query = "SELECT p FROM PerosnaDesap p WHERE p.catastrofe.catastrofeId = :idCatastrofe")})
 public class PerosnaDesap implements Serializable {
 
 	
@@ -32,10 +32,26 @@ public class PerosnaDesap implements Serializable {
 	private String status;
 	@ManyToOne
 	private Usuario reportado;
+	@ManyToOne
+	private Catastrofe catastrofe;
 
 	public PerosnaDesap() {
 		super();
 	}
+	
+	
+
+	public Catastrofe getCatastrofe() {
+		return catastrofe;
+	}
+
+
+
+	public void setCatastrofe(Catastrofe catastrofe) {
+		this.catastrofe = catastrofe;
+	}
+
+
 
 	public Integer getPerosnaDesapId() {
 		return perosnaDesapId;

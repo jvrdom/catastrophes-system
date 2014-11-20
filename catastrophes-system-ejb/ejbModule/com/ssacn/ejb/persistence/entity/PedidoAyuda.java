@@ -27,13 +27,33 @@ public class PedidoAyuda implements Serializable {
 	private Date fechaHora;
 	@ManyToOne
 	private Usuario usuario;
+	@Column(name="longitud")
+	private float longitud;
+	@Column(name="latitud")
+	private float latitud;
+	
 	
 
 	public PedidoAyuda() {
 		super();
 	}
-
-
+	
+	public float getLongitud() {
+		return longitud;
+	}
+	
+	public void setLongitud(float longitud) {
+		this.longitud = longitud;
+	}
+	
+	public float getLatitud() {
+		return latitud;
+	}
+	
+	public void setLatitud(float latitud) {
+		this.latitud = latitud;
+	}
+	
 	public Integer getPedidoAyudaId() {
 		return pedidoAyudaId;
 	}
