@@ -25,7 +25,7 @@ public class JpaUserController {
 		System.out.println("jpaUserControler***");
         emf = Persistence.createEntityManagerFactory("SSCNjpaPU");
     }
-	public JpaUserController(String dataBase){
+	/*public JpaUserController(String dataBase){
 		PropertiesManager config=new PropertiesManager();
 		Map<String,String> prop=new HashMap<String,String>();
 		String url=config.getPropiedad("url").trim();
@@ -38,7 +38,7 @@ public class JpaUserController {
         
         emf = Persistence.createEntityManagerFactory("SSCNjpaPU",prop);
         
-	}
+	}*/
     
 
     public EntityManager getEntityManager() {
@@ -74,7 +74,7 @@ public class JpaUserController {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Integer id = user.getId();
-                if (findUser(id) == null) {
+                if (findUserById(id) == null) {
                     throw new NonexistentEntityException("The usuario with id " + id + " no longer exists.");
                 }
             }
@@ -108,7 +108,7 @@ public class JpaUserController {
         }
     }
     
-    public Usuario findUser(Integer id) {
+    public Usuario findUserById(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Usuario.class, id);
@@ -120,8 +120,8 @@ public class JpaUserController {
     public Usuario findUserByLogin(String login) {
         EntityManager em = getEntityManager();
         Usuario user = null;
-        if (em.createNamedQuery("User.findByLogin").setParameter("login", login).getResultList().size() > 0) {
-            user = (Usuario) em.createNamedQuery("User.findByLogin").setParameter("login", login).getSingleResult();
+        if (em.createNamedQuery("Usuario.findByLogin").setParameter("login", login).getResultList().size() > 0) {
+            user = (Usuario) em.createNamedQuery("Usuario.findByLogin").setParameter("login", login).getSingleResult();
         }
         return user;
     }

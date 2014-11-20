@@ -1,5 +1,7 @@
 package com.ssacn.ejb.business.local;
 
+import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
@@ -49,6 +51,16 @@ public class CatastrofeManager implements CatastrofeManagerRemote{
 		
 		catastrofeController.create(catastrofe);
 		
+	}
+
+	@Override
+	public List<Catastrofe> getCatastrofes() {
+		return catastrofeController.findCatastrofeEntities();
+	}
+
+	@Override
+	public Catastrofe findCatastrofeById(int idCatastrofe) {
+		return catastrofeController.findCatastrofe(idCatastrofe);
 	}
 
 }

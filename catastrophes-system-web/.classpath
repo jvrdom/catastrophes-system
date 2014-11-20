@@ -25,6 +25,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-fileupload-1.3.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-io-2.4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/javax.ejb-api-3.2.jar"/>
-	<classpathentry kind="lib" path="/home/javier/git/catastrophes-system/catastrophes-system-web/WebContent/WEB-INF/lib/servlet-api-2.5.jar"/>
+	<classpathentry kind="lib" path="/home/nico/git/catastrophes-system/catastrophes-system-web/WebContent/WEB-INF/lib/gson-2.3.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

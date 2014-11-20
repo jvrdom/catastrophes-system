@@ -1,11 +1,16 @@
 package com.ssacn.ejb.persistence.jpaController;
 
+import java.util.List;
+
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
 
 import com.ssacn.ejb.exceptions.IllegalOrphanException;
 import com.ssacn.ejb.exceptions.NonexistentEntityException;
@@ -90,6 +95,26 @@ public class JpaCatastrofeController {
 	        EntityManager em = getEntityManager();
 	        try {
 	            return em.find(Catastrofe.class, id);
+	        } finally {
+	            em.close();
+	        }
+	    }
+	    
+	    public List<Catastrofe> findCatastrofeEntities() {
+	        return findCatastrofeEntities(true, -1, -1);
+	    }
+	    
+	    private List<Catastrofe> findCatastrofeEntities(boolean all, int maxResults, int firstResult) {
+	        EntityManager em = getEntityManager();
+	        try {
+	            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+	            cq.select(cq.from(Catastrofe.class));
+	            Query q = em.createQuery(cq);
+	            if (!all) {
+	                q.setMaxResults(maxResults);
+	                q.setFirstResult(firstResult);
+	            }
+	            return q.getResultList();
 	        } finally {
 	            em.close();
 	        }

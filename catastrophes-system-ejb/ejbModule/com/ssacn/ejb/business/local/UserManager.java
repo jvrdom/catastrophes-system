@@ -2,9 +2,9 @@ package com.ssacn.ejb.business.local;
 
 import java.util.Date;
 
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-
 import com.ssacn.ejb.business.remote.UserManagerRemote;
 import com.ssacn.ejb.persistence.entity.Usuario;
 import com.ssacn.ejb.persistence.jpaController.JpaUserController;
@@ -31,6 +31,10 @@ public class UserManager implements UserManagerRemote {
     public Usuario findUserByLogin(String login){
     	return userController.findUserByLogin(login);
     }
+    @Override
+    public Usuario findUserById(int id){
+    	return userController.findUserById(id);
+    }
 
 	@Override
 	public void createUser(String nombre, String apellido, String email,
@@ -43,9 +47,19 @@ public class UserManager implements UserManagerRemote {
 		u.setPassword(password);
 		u.setNacimiento(fecNac);
 		u.setSexo(utilesUsuario.getSexo(sexo));
+	//	u.setIdReg("");
 		
 		userController.create(u);
 		
+	}
+	
+	@Override
+	public int login (String email, String pass) {
+		if(!existeUsuario(email, pass)){
+			return 0;
+		}else{
+			return findUserByLogin(email).getId();
+		}
 	}
 
 	@Override
@@ -54,8 +68,15 @@ public class UserManager implements UserManagerRemote {
 	}
 
 	@Override
-	public void actualizarUsuario(String name) {
-		// TODO Auto-generated method stub
+	public void actualizarUsuario(Usuario user){
+		try {
+			
+				userController.edit(user);
+			
+		} catch (Exception e) {
+	
+			e.printStackTrace();
+		} 
 		
 	}
 
@@ -65,4 +86,5 @@ public class UserManager implements UserManagerRemote {
 		
 	}
 
+	
 }

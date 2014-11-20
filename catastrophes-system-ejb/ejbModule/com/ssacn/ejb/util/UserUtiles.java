@@ -9,7 +9,7 @@ public class UserUtiles {
 	}
 	
 	public Sexo getSexo(String sexo){
-		if (sexo.equals(Sexo.Masculino)){
+		if (sexo.equalsIgnoreCase(Sexo.Masculino.toString())){
 			return Sexo.Masculino;
 		} else {
 			return Sexo.Femenino;

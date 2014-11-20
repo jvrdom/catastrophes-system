@@ -14,6 +14,10 @@ public class MyRESTApplication extends Application {
 	public MyRESTApplication(){
 	     singletons.add(new RescatistaResource());
 	     singletons.add(new UsuarioResource());
+	     singletons.add(new CatastrofeResource());
+	     singletons.add(new PersDesapResource());
+	     singletons.add(new PedidoDeAyudaResource());
+	     
 	}
 	@Override
 	public Set<Class<?>> getClasses() {

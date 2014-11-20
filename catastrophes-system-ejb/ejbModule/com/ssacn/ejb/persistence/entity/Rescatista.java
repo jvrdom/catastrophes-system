@@ -9,7 +9,9 @@ import javax.persistence.*;
  *
  */
 @Entity
-
+@NamedQueries({
+@NamedQuery(name = "Rescatista.findByLogin", query = "SELECT u FROM Rescatista u WHERE u.email = :login"),
+@NamedQuery(name = "Rescatista.findByNamePass", query = "SELECT u FROM Rescatista u WHERE u.email = :email AND u.password=:password")})
 public class Rescatista extends Persona implements Serializable {
 
 	
