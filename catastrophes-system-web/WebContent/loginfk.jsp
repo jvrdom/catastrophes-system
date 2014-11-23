@@ -1,11 +1,21 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-	<head>
-		<title> Ejemplo de JavaScript para Logueo con Facebook</title>
-		<meta charset="UTF-8">
-	</head>
-	
-	<body>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+
+	<%@ page import="managedBeans.AccountBean" %>
+	<%@ page import="java.util.Date" %>
+	<%@ page import="javax.ejb.EJB" %>
+	<%@ page import="javax.faces.bean.ManagedBean" %>
+	<%@ page import="com.ssacn.ejb.business.remote.UserManagerRemote" %>
+
 		<script>
 		  // Esto es llamado con los resultados de FB.getLoginStatus ().
 		  function statusChangeCallback(response) {
@@ -74,13 +84,35 @@
 		// Aquí se corre una prueba muy simple de la API de gráficos después de inicio de sesión se realiza correctamente.
 		// Ver statusChangeCallback () para cuando se realiza la presente convocatoria.  
 		  
-		  
 		  function testAPI() {
 		    console.log('Bienvenido!  Actualizando su informacion.... ');
 		    FB.api('/me', function(response) {
 		      console.log('Logueo satisfactorio para: ' + response.name);
 		      document.getElementById('status').innerHTML =
 		        'Gracias por loguearse, ' + response.name + response.first_name + response.last_name + response.gender + response.username + '!';		        
+		<%				
+	
+		AccountBean ab = new AccountBean();
+		
+		
+		String nom = "msr";
+		String ape = "msr";
+		String ema = "msr";
+		String con = "msr";
+		String sex = "msr";
+		java.util.Date fecha = new Date();
+		
+		ab.setNombre(nom);
+		ab.setApellido(ape);
+		ab.setEmail(ema);
+		ab.setContraseña(con);
+		ab.setSexo(sex);
+		ab.setFechaNac(fecha);
+		
+		// ab.altaUsuario();
+	%>
+
+
 		    });
 		  }
 		</script>
@@ -95,7 +127,6 @@
 		
 		<div id="status">  </div>
 	
-	</body>
+
+</body>
 </html>
-
-
