@@ -1,6 +1,7 @@
 package managedBeans;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -20,12 +21,15 @@ public class LoginBean {
 	private String email, password, message;
 	
 	public void login(){
-		boolean result = userM.existeUsuario(email, password);
+		Map<String, Boolean> result = userM.existeUsuario(email, password);
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
-		if(result){
+		if(result.get("Existe")){
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", email);
 			try {
-				FacesContext.getCurrentInstance().getExternalContext().redirect("admin/catastrofe/altaCatastrofe.xhtml");
+				if(result.get("Usuario") != null)
+					FacesContext.getCurrentInstance().getExternalContext().redirect("user/userIndex.xhtml");
+				if(result.get("Administrador") != null)
+					FacesContext.getCurrentInstance().getExternalContext().redirect("admin/catastrofe/altaCatastrofe.xhtml");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

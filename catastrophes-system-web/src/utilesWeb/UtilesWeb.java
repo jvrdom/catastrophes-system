@@ -21,11 +21,10 @@ public class UtilesWeb {
 	
 	public String fileUpload(String fileName, InputStream in){
 		
-		String relativeWebPath = "/resources/files/";
-		String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath(relativeWebPath);
+		String path = "/usr/local/share/jboss/prueba/"; 
 		
 		try {
-
+			
 			OutputStream out = new FileOutputStream(new File(path + fileName));
 			
 			int read = 0;
@@ -38,7 +37,7 @@ public class UtilesWeb {
 			out.flush();
 			out.close();
 			
-			return path + File.separator + fileName;
+			return path + fileName;
 			
 		} catch (FileNotFoundException e) {
 			return e.getMessage();

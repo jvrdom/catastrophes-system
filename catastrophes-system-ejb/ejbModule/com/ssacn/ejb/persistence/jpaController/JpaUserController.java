@@ -1,7 +1,6 @@
 package com.ssacn.ejb.persistence.jpaController;
 
 import java.util.HashMap;
-
 import java.util.Map;
 
 import javax.ejb.Stateless;
@@ -11,6 +10,8 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 
+import com.ssacn.ejb.persistence.entity.Administrador;
+import com.ssacn.ejb.persistence.entity.Rescatista;
 import com.ssacn.ejb.persistence.entity.Usuario;
 import com.ssacn.ejb.exceptions.IllegalOrphanException;
 import com.ssacn.ejb.exceptions.NonexistentEntityException;
@@ -126,13 +127,30 @@ public class JpaUserController {
         return user;
     }
     
-    public boolean existsUsuario(String login, String password){
+    public Map<String, Boolean> existsUsuario(String login, String password){
     	EntityManager em = getEntityManager();
-        if (em.createNamedQuery("Usuario.findByNamePass").setParameter("email", login).setParameter("password", password).getResultList().size() > 0) {
-            return true;
+    	
+    	Map<String, Boolean> map = new HashMap<String, Boolean>();
+
+    	Object user = em.createNamedQuery("Persona.findByNamePass").setParameter("email", login).setParameter("password", password).getSingleResult();
+        
+    	if (user != null) {
+    		map.put("Existe", true);
+    		
+        	if(user instanceof Usuario){
+        		map.put("Usuario", true);
+        	}
+        	if(user instanceof Administrador){
+        		map.put("Administrador", true);
+        	}
+        	if(user instanceof Rescatista){
+        		map.put("Rescatista", true);
+        	}
         } else{
-        	return false;
+        	map.put("Existe", false);
         }
+        
+        return map;
     }
 
 }

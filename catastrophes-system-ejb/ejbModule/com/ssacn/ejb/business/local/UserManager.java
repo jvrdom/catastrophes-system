@@ -1,10 +1,11 @@
 package com.ssacn.ejb.business.local;
 
 import java.util.Date;
-
+import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+
 import com.ssacn.ejb.business.remote.UserManagerRemote;
 import com.ssacn.ejb.persistence.entity.Usuario;
 import com.ssacn.ejb.persistence.jpaController.JpaUserController;
@@ -55,7 +56,7 @@ public class UserManager implements UserManagerRemote {
 	
 	@Override
 	public int login (String email, String pass) {
-		if(!existeUsuario(email, pass)){
+		if(!existeUsuario(email, pass).get("Existe")){
 			return 0;
 		}else{
 			return findUserByLogin(email).getId();
@@ -63,7 +64,7 @@ public class UserManager implements UserManagerRemote {
 	}
 
 	@Override
-	public boolean existeUsuario(String email, String password) {
+	public Map<String, Boolean> existeUsuario(String email, String password) {
 		return userController.existsUsuario(email, password);
 	}
 

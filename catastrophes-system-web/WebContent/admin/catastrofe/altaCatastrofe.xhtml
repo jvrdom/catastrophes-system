@@ -79,7 +79,7 @@
 			}
 
 			function codeAddress(){
-		          var address = document.getElementById('j_idt24:inputdireccion').value;
+		          var address = document.getElementById('j_idt29:inputdireccion').value;
 		          var bounds = new google.maps.LatLngBounds();
 		          geocoder.geocode( { 'address': address}, function(results, status) {
 		            if (status == google.maps.GeocoderStatus.OK) {
@@ -103,11 +103,11 @@
 		                    marker,
 		                    'drag',
 		                    function() {
-		                        document.getElementById('j_idt24:coord').value = marker.getPosition();
+		                        document.getElementById('j_idt29:coord').value = marker.getPosition();
 		                    }
 		                );
 		              }
-		              document.getElementById('j_idt24:coord').value = marker.getPosition();
+		              document.getElementById('j_idt29:coord').value = marker.getPosition();
 		            } else {
 		              alert('Geocode was not successful for the following reason: ' + status);
 		            }
