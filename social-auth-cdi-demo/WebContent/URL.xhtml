@@ -1,0 +1,1 @@
+<f:view> <ui:param name="originalURL" value="#{request.requestURI}?#{request.queryString}" /> <f:metadata> <f:event rendered="#{empty userSession.profile}" type="preRenderView" listener="#{userSession.setOriginalURL(originalURL)}" /> </f:metadata> </f:view> - See more at: http://mrj4mes.blogspot.com/2013/03/how-to-implement-facebook-login-in-jsf.html#sthash.ONNsAsou.dpuf
