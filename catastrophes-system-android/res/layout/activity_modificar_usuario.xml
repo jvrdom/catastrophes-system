@@ -1,0 +1,168 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gris"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.catastrophes_system_android.ModificarUsuarioActivity" >
+
+    <TextView
+        android:id="@+id/TituloModificarUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"  	
+    	android:textColor="#ffffff"    	
+    	android:fontFamily="sans-serif-condensed"
+        android:layout_centerHorizontal="true"  
+        android:layout_marginBottom="20dp"      
+        android:text="@string/titulo_modificar_usuario" />
+    
+    <EditText
+    	android:id="@+id/Nombre"
+    	android:layout_width="280dp"
+    	android:layout_height="36dp"
+    	android:textSize="13sp"  	
+    	android:textColor="#ffffff"    	   
+    	android:fontFamily="sans-serif-condensed"	
+    	android:hint="@string/hint_nombre"    	
+    	android:layout_below="@id/TituloModificarUsuario"  
+    	android:inputType="text" />
+    
+    <EditText
+    	android:id="@+id/Apellido"
+    	android:layout_width="280dp"
+    	android:layout_height="36dp"
+    	android:textSize="13sp"  	
+    	android:textColor="#ffffff"     
+    	android:fontFamily="sans-serif-condensed" 	
+    	android:hint="@string/hint_apellido"    	
+    	android:layout_below="@id/Nombre"  
+    	android:inputType="text" />
+    
+     <EditText
+    	android:id="@+id/Email"
+    	android:layout_width="280dp"
+    	android:layout_height="36dp"
+    	android:textSize="13sp"  	
+    	android:textColor="#ffffff"      	
+    	android:fontFamily="sans-serif-condensed"
+    	android:hint="@string/hint_email"    	
+    	android:layout_below="@id/Apellido"  
+    	android:inputType="textEmailAddress" />
+     
+     <EditText
+    	android:id="@+id/Telefono"
+    	android:layout_width="280dp"
+    	android:layout_height="36dp"
+    	android:textSize="13sp"  	
+    	android:textColor="#ffffff"    	   
+    	android:fontFamily="sans-serif-condensed" 	
+    	android:hint="@string/hint_telefono"    	
+    	android:layout_below="@id/Email"  
+    	android:inputType="phone" />
+    
+    <EditText
+    	android:id="@+id/FechaNacimiento"
+    	android:layout_width="240dp"
+    	android:layout_height="36dp"
+    	android:textSize="13sp"  	
+    	android:textColor="#ffffff"    	 	
+    	android:fontFamily="sans-serif-condensed"
+    	android:hint="@string/hint_fecha_nacimiento"       	
+    	android:layout_below="@id/Telefono"  
+    	android:enabled="false" 	
+    	android:inputType="text" />
+    
+     <ImageButton
+         android:id="@+id/BtnCalendario"
+         android:layout_width="40dp"
+ 	  	 android:layout_height="32dp"
+         android:layout_toRightOf="@id/FechaNacimiento"   
+         android:layout_below="@id/Telefono"        
+         android:cropToPadding="true"
+         android:contentDescription="@string/calendario"
+         android:src="@drawable/calendar" />
+    
+    <RadioGroup
+        android:id="@+id/Sexo"
+        android:layout_width="280dp"
+        android:layout_height="36dp"
+        android:orientation="horizontal"
+        android:layout_below="@id/FechaNacimiento">
+ 
+        <RadioButton
+            android:id="@+id/SexoMasculino"
+            android:layout_width="140dp"
+            android:layout_height="36dp"
+            android:textSize="13sp"  
+            android:textColor="#ffffff"
+            android:fontFamily="sans-serif-condensed"
+            android:text="@string/hint_sexo_masculino" 
+            android:checked="true" />
+ 
+        <RadioButton
+            android:id="@+id/SexoFemenino"
+            android:layout_width="140dp"
+            android:layout_height="36dp"
+            android:textSize="13sp"  
+            android:textColor="#ffffff"
+            android:fontFamily="sans-serif-condensed"
+            android:text="@string/hint_sexo_femenino" />
+ 
+    </RadioGroup>
+    
+    <EditText
+    	android:id="@+id/Usuario"
+    	android:layout_width="280dp"
+    	android:layout_height="36dp"
+    	android:textSize="13sp"  	
+    	android:textColor="#ffffff"    	 
+    	android:fontFamily="sans-serif-condensed"	
+    	android:hint="@string/hint_usuario"    	
+    	android:layout_below="@id/Sexo"  
+    	android:inputType="text" />
+     
+    <EditText
+    	android:id="@+id/Password"
+    	android:layout_width="280dp"
+    	android:layout_height="36dp"
+    	android:textSize="13sp"  	
+    	android:textColor="#ffffff"    	   
+    	android:fontFamily="sans-serif-condensed"	
+    	android:hint="@string/hint_password"    	
+    	android:layout_below="@id/Usuario"  
+    	android:inputType="textPassword" />   
+    	
+    <Button
+    	android:id="@+id/Cancelar"
+    	android:layout_width="145dp"
+    	android:layout_height="35dp"
+    	android:gravity="center"
+    	android:textSize="16sp"  	
+    	android:textColor="#000000"
+    	android:textStyle="bold"
+        android:fontFamily="sans-serif-condensed"
+    	android:layout_marginTop="65dp"
+   		android:layout_below="@id/Password"    
+   		android:background="@color/red"   					
+   		android:text="@string/btn_cancelar" />  
+     
+    <Button
+    	android:id="@+id/Modificar"
+    	android:layout_width="145dp"
+    	android:layout_height="35dp"
+    	android:gravity="center"
+    	android:textSize="16sp"  	
+    	android:textColor="#000000"
+    	android:textStyle="bold"
+        android:fontFamily="sans-serif-condensed"
+    	android:layout_marginTop="65dp"
+    	android:layout_toRightOf="@id/Cancelar"  
+   		android:layout_below="@id/Password"       		
+   		android:background="@color/green"
+   		android:text="@string/btn_modificar" />  
+
+</RelativeLayout>

@@ -1,0 +1,25 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.catastrophes_system_android.MapaLocalidadesAfectadasActivity" >
+
+    <TextView
+        android:id="@+id/TituloMapaLocalidadesAfectadas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"  	
+    	android:textColor="#ffffff"
+    	android:textStyle="bold"
+    	android:fontFamily="sans-serif-condensed"
+        android:layout_centerHorizontal="true"  
+        android:layout_marginBottom="20dp"           
+        android:text="@string/titulo_mapa_localidades_afectadas" />
+    
+   <fragment
+		android:id="@+id/Mapa"
+		class="com.google.android.gms.maps.SupportMapFragment"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"/>
+    
+</RelativeLayout>

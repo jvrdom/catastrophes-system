@@ -1,0 +1,23 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gris"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.catastrophes_system_android.NovedadesActivity" >
+
+    <TextView
+        android:id="@+id/TituloNovedades"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"  	
+    	android:textColor="#ffffff"    	
+    	android:fontFamily="sans-serif-condensed"
+        android:layout_centerHorizontal="true"  
+        android:layout_marginBottom="20dp"      
+        android:text="@string/titulo_novedades" />  
+
+</RelativeLayout>
