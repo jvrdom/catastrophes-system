@@ -1,47 +1,45 @@
 package com.ssacn.ejb.business.local;
 
+
 import java.util.Date;
-import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
-import com.ssacn.ejb.business.remote.UserManagerRemote;
+import com.ssacn.ejb.business.remote.AdminManagerRemote;
+import com.ssacn.ejb.persistence.entity.Administrador;
 import com.ssacn.ejb.persistence.entity.Usuario;
+import com.ssacn.ejb.persistence.jpaController.JpaAdminController;
 import com.ssacn.ejb.persistence.jpaController.JpaUserController;
 import com.ssacn.ejb.util.UserUtiles;
 
-/**
- * Session Bean implementation class UserManager
- */
 @LocalBean
 @Stateless
-public class UserManager implements UserManagerRemote {
-
-	private JpaUserController userController;
+public class AdminManger implements AdminManagerRemote {
+	private JpaAdminController adminController;
 	private UserUtiles utilesUsuario;
 	
     /**
      * Default constructor. 
      */
-    public UserManager() {
-    	userController = new JpaUserController();
+    public AdminManger() {
+    	adminController = new JpaAdminController();
     	utilesUsuario = new UserUtiles();
     }
     
-    public Usuario findUserByLogin(String login){
-    	return userController.findUserByLogin(login);
+    public Administrador findUserByLogin(String login){
+    	return adminController.findUserByLogin(login);
     }
     @Override
-    public Usuario findUserById(int id){
-    	return userController.findUserById(id);
+    public Administrador findUserById(int id){
+    	return adminController.findUserById(id);
     }
 
 	@Override
-	public void createUser(String nombre, String apellido, String email,
+	public void create(String nombre, String apellido, String email,
 			String password, Date fecNac, String sexo) {
 		
-		Usuario u = new Usuario();
+		Administrador u = new Administrador();
 		u.setNombre(nombre);
 		u.setApellido(apellido);
 		u.setEmail(email);
@@ -50,13 +48,13 @@ public class UserManager implements UserManagerRemote {
 		u.setSexo(utilesUsuario.getSexo(sexo));
 	//	u.setIdReg("");
 		
-		userController.create(u);
+		adminController.create(u);
 		
 	}
 	
 	@Override
 	public int login (String email, String pass) {
-		if(!existeUsuario(email, pass).get("Existe")){
+		if(!existeUsuario(email, pass)){
 			return 0;
 		}else{
 			return findUserByLogin(email).getId();
@@ -64,15 +62,15 @@ public class UserManager implements UserManagerRemote {
 	}
 
 	@Override
-	public Map<String, Boolean> existeUsuario(String email, String password) {
-		return userController.existsUsuario(email, password);
+	public boolean existeUsuario(String email, String password) {
+		return adminController.existsUsuario(email, password);
 	}
 
 	@Override
-	public void actualizarUsuario(Usuario user){
+	public void actualizarUsuario(Administrador user){
 		try {
 			
-				userController.edit(user);
+				adminController.edit(user);
 			
 		} catch (Exception e) {
 	
@@ -86,6 +84,4 @@ public class UserManager implements UserManagerRemote {
 		// TODO Auto-generated method stub
 		
 	}
-
-	
 }

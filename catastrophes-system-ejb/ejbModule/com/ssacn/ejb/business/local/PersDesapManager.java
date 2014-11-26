@@ -11,7 +11,6 @@ import com.ssacn.ejb.business.remote.UserManagerRemote;
 import com.ssacn.ejb.persistence.entity.Catastrofe;
 import com.ssacn.ejb.persistence.entity.PerosnaDesap;
 import com.ssacn.ejb.persistence.entity.Usuario;
-import com.ssacn.ejb.persistence.jpaController.JpaCatastrofeController;
 import com.ssacn.ejb.persistence.jpaController.JpaPersDesapController;
 
 @LocalBean
@@ -47,6 +46,12 @@ private JpaPersDesapController persDesapController;
 		pers.setCatastrofe(c);
 		persDesapController.create(pers);
 		
+	}
+
+	@Override
+	public List<PerosnaDesap> getDesaparecidosByName(int idCatastrofe,
+			String nombre) {
+		return persDesapController.findPersonDesapByName(idCatastrofe, nombre);
 	}
 
 }

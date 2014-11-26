@@ -5,24 +5,27 @@ import java.util.Date;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 
+import com.ssacn.ejb.business.remote.AdminManagerRemote;
 import com.ssacn.ejb.business.remote.UserManagerRemote;
 
 @ManagedBean(name = "account")
 public class AccountBean {
 	
 	@EJB
-	private UserManagerRemote userM;
+	//private UserManagerRemote userM;
+	private AdminManagerRemote adminM;
 	
 	private String nombre, apellido, email, contraseña, sexo;
 	private Date fechaNac;
 	
 	public void altaUsuario(){
-		userM.createUser(nombre, apellido, email, contraseña, fechaNac, sexo);
+		//userM.createUser(nombre, apellido, email, contraseña, fechaNac, sexo);
+		adminM.create(nombre, apellido, email, contraseña, fechaNac, sexo);
 	}
 	
 	/*Metodos de prueba*/
 	public void bajaUsuario(){
-		userM.eliminarUsuario(1);
+		//userM.eliminarUsuario(1);
 	}
 	
 	/*

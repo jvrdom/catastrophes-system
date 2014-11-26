@@ -1,8 +1,5 @@
 package com.ssacn.ejb.persistence.jpaController;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -10,44 +7,28 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 
-import com.ssacn.ejb.persistence.entity.Administrador;
-import com.ssacn.ejb.persistence.entity.Rescatista;
-import com.ssacn.ejb.persistence.entity.Usuario;
 import com.ssacn.ejb.exceptions.IllegalOrphanException;
 import com.ssacn.ejb.exceptions.NonexistentEntityException;
-import com.ssacn.ejb.util.PropertiesManager;
+import com.ssacn.ejb.persistence.entity.Administrador;
+
 
 @Stateless
-public class JpaUserController {
+public class JpaAdminController {
 	@PersistenceContext(unitName = "SSCNjpaPU")
 	private EntityManagerFactory emf;
 	
-	public JpaUserController() {
+	public JpaAdminController() {
 		System.out.println("jpaUserControler***");
         emf = Persistence.createEntityManagerFactory("SSCNjpaPU");
     }
-	/*public JpaUserController(String dataBase){
-		PropertiesManager config=new PropertiesManager();
-		Map<String,String> prop=new HashMap<String,String>();
-		String url=config.getPropiedad("url").trim();
-		url+=dataBase.trim();
-
-		prop.put("javax.persistence.jdbc.url",url);                
-        prop.put("javax.persistence.jdbc.driver",  config.getPropiedad("driver").trim());                        
-        prop.put("javax.persistence.jdbc.password", config.getPropiedad("password").trim());                    
-        prop.put("javax.persistence.jdbc.user", config.getPropiedad("user").trim());
-        
-        emf = Persistence.createEntityManagerFactory("SSCNjpaPU",prop);
-        
-	}*/
-    
+	
 
     public EntityManager getEntityManager() {
     	System.out.println("getEntityManager***");
         return emf.createEntityManager();
     }
 
-    public void create(Usuario user) {
+    public void create(Administrador user) {
         EntityManager em = null;
         try {
         	System.out.println("create***");
@@ -63,7 +44,7 @@ public class JpaUserController {
         }
     }
     
-    public void edit(Usuario user) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Administrador user) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -93,9 +74,9 @@ public class JpaUserController {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Usuario user;
+            Administrador user;
             try {
-                user = em.getReference(Usuario.class, id);
+                user = em.getReference(Administrador.class, id);
                 user.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The user with id " + id + " no longer exists.", enfe);
@@ -109,48 +90,31 @@ public class JpaUserController {
         }
     }
     
-    public Usuario findUserById(Integer id) {
+    public Administrador findUserById(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Usuario.class, id);
+            return em.find(Administrador.class, id);
         } finally {
             em.close();
         }
     }
     
-    public Usuario findUserByLogin(String login) {
+    public Administrador findUserByLogin(String login) {
         EntityManager em = getEntityManager();
-        Usuario user = null;
-        if (em.createNamedQuery("Usuario.findByLogin").setParameter("login", login).getResultList().size() > 0) {
-            user = (Usuario) em.createNamedQuery("Usuario.findByLogin").setParameter("login", login).getSingleResult();
+        Administrador user = null;
+        if (em.createNamedQuery("Administrador.findByLogin").setParameter("login", login).getResultList().size() > 0) {
+            user = (Administrador) em.createNamedQuery("Administrador.findByLogin").setParameter("login", login).getSingleResult();
         }
         return user;
     }
     
-    public Map<String, Boolean> existsUsuario(String login, String password){
+    public boolean existsUsuario(String login, String password){
     	EntityManager em = getEntityManager();
-    	
-    	Map<String, Boolean> map = new HashMap<String, Boolean>();
-
-    	Object user = em.createNamedQuery("Persona.findByNamePass").setParameter("email", login).setParameter("password", password).getSingleResult();
-        
-    	if (user != null) {
-    		map.put("Existe", true);
-    		
-        	if(user instanceof Usuario){
-        		map.put("Usuario", true);
-        	}
-        	if(user instanceof Administrador){
-        		map.put("Administrador", true);
-        	}
-        	if(user instanceof Rescatista){
-        		map.put("Rescatista", true);
-        	}
+        if (em.createNamedQuery("Administrador.findByNamePass").setParameter("email", login).setParameter("password", password).getResultList().size() > 0) {
+            return true;
         } else{
-        	map.put("Existe", false);
+        	return false;
         }
-        
-        return map;
     }
 
 }

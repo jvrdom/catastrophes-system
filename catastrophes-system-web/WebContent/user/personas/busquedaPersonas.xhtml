@@ -7,6 +7,40 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <h:body>
-
+	<ui:composition template="/user/template/layout.xhtml">
+		<ui:define name="content">
+			<div class="row">
+				<div>
+					<h:form>
+                		<p:inputText id="inputbusqueda" value="#{personaDes.search}" required="true" label="Búsqueda" styleClass="text-center form-control col-xs-12">
+                			<p:ajax event="keyup" update=":pers" listener="#{personaDes.handleKeyEvent}"/>
+                		</p:inputText>
+			        	<p:watermark for="inputbusqueda" value="Ingrese el Nombre de la persona que desea buscar..." id="watermarkBusqueda" />
+			        </h:form>
+			    </div>
+			</div>
+			<br />
+			<div class="row">
+					<p:dataGrid var="per" value="#{personaDes.listadoPersonasDes}" columns="3" layout="grid" rows="12" paginator="true" id="pers" 
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="6,12,16" paginatorPosition="bottom">
+					
+					<f:facet name="header">
+						Personas Desaparecidas
+					</f:facet>
+					
+					<p:panel header="#{per.nombre} #{per.apellido}" style="text-align:center;">
+						<h:panelGrid columns="1" style="width:100%">
+							<p:graphicImage name="images/img1.png"/>
+							<h:outputText value="#{per.descripcion}" />
+						</h:panelGrid>
+					
+					</p:panel>
+					
+					
+					</p:dataGrid>
+			</div>
+		</ui:define>
+	</ui:composition>
 </h:body>
 </html>

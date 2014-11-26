@@ -46,13 +46,22 @@ public class JpaPersDesapController {
 	public List<PerosnaDesap> findPersDesapEntities() {
         return findPersDesapEntities(true, -1, -1);
     }
+	
 	public List<PerosnaDesap> findPersDesapEntities(int idCatastrofe) {	
 	        EntityManager em = getEntityManager();
 	        List<PerosnaDesap> lista = null;	        
-	        lista = em.createNamedQuery("PerosnaDesap.findByCatastofe").setParameter("idCatastrofe", idCatastrofe).getResultList();	        
+	        lista = em.createNamedQuery("PerosnaDesap.findByCatastrofe").setParameter("idCatastrofe", idCatastrofe).getResultList();	        
 	        return lista;
 	   
     }
+	
+	public List<PerosnaDesap> findPersonDesapByName(int idCatastrofe, String name){
+		EntityManager em = getEntityManager();
+        List<PerosnaDesap> lista = null;
+        lista = em.createNamedQuery("PerosnaDesap.findByName").setParameter("idCatastrofe", idCatastrofe).setParameter("nombre", name + "%").getResultList();
+        return lista;
+	}
+	
     private List<PerosnaDesap> findPersDesapEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {

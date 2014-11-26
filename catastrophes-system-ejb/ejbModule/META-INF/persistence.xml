@@ -15,6 +15,7 @@
     <class>com.ssacn.ejb.persistence.entity.Usuario</class>
     <class>com.ssacn.ejb.persistence.entity.Rescatista</class>
     <class>com.ssacn.ejb.persistence.entity.Persona</class>
+    <class>com.ssacn.ejb.persistence.entity.Administrador</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>		
 		<properties>
 		

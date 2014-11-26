@@ -11,12 +11,23 @@
 	  <ui:define name="content">
 	  	<div class="row">
 	  		<div class="col-xs-12 text-center">
-				<div id="mapa" style="height: 400px;"></div>
+				<h:form>
+					<p:gmap center="-34.904375,-56.166414" zoom="13" type="HYBRID" style="height:400px;" model="#{userIndex.mapModel}">
+						<p:ajax event="overlaySelect" listener="#{userIndex.onMarkerSelect}"/>
+						<p:gmapInfoWindow id="infoCatastrofe">
+							<p:outputPanel>
+								<h:outputText value="#{userIndex.marker.title}" />
+							</p:outputPanel>
+							<br />
+							<p:commandLink id="nonAjax" action="#{catastrofes.buttonAction}" value="#{userIndex.marker.data.nombre}">
+								<f:setPropertyActionListener target="#{catastrofes.idCatastrofe}" value="#{userIndex.marker.data.catastrofeId}" />    
+						    </p:commandLink>
+						</p:gmapInfoWindow>
+					</p:gmap>
+				</h:form>
 			</div>
-			<div class="col-xs-6">
-	  			<p>Welcome, #{usuario}</p>
-	  		</div>
 	    </div>
+<<<<<<< HEAD
 	    <script type="text/javascript">
 			var map;
 			//var catastrofes = '#{userIndex.json}';
@@ -38,6 +49,8 @@
 			google.maps.event.addDomListener(window, 'load', initialize);
 
   		</script>
+=======
+>>>>>>> 1ea78f21cc3cc8a2361d6df5a44a58fd3e29ebf2
 	  </ui:define>
   </ui:composition>
 </h:body>

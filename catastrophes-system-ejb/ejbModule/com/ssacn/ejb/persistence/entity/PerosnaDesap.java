@@ -10,7 +10,8 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQueries({
-@NamedQuery(name = "PerosnaDesap.findByCatastrofe", query = "SELECT p FROM PerosnaDesap p WHERE p.catastrofe.catastrofeId = :idCatastrofe")})
+@NamedQuery(name = "PerosnaDesap.findByCatastrofe", query = "SELECT p FROM PerosnaDesap p WHERE p.catastrofe.catastrofeId = :idCatastrofe"),
+@NamedQuery(name = "PerosnaDesap.findByName", query = "SELECT p FROM PerosnaDesap p WHERE p.catastrofe.catastrofeId = :idCatastrofe AND p.nombre like :nombre")})
 public class PerosnaDesap implements Serializable {
 
 	
