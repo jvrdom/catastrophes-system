@@ -10,11 +10,48 @@
   <ui:composition template="/user/template/layout.xhtml">
 	  <ui:define name="content">
 	  	<div class="row">
-	  		<div class="col-xs-12 text-center">
-				<p>Prueba</p>
-				<p>#{catastrofe.nombre}</p>
-			</div>
+	  		<div class="row row-offcanvas row-offcanvas-right">
+
+        <div class="col-xs-12 col-sm-9">
+          <p class="pull-right visible-xs">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+          </p>
+          <div class="jumbotron">
+            <h1>Hello, world!</h1>
+            <p>This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some responsive-range viewport sizes to see it in action.</p>
+          </div>
+          <div class="row">
+          </div><!--/row-->
+        </div><!--/span-->
+
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+        <div class="row">
+		  <div class="col-xs-6 col-md-3">
+		    <a href="#" class="thumbnail">
+		      <img data-src="holder.js/100%x180" alt="..."/>
+		    </a>
+		  </div>
+		</div>
+          <div class="list-group">
+            <a href="#" class="list-group-item active">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+            <a href="#" class="list-group-item">Link</a>
+          </div>
+        </div><!--/span-->
+      </div><!--/row-->
 	    </div>
+	    
+	    <script type="text/javascript">
+		    $(document).ready(function () {
+		    	  $('[data-toggle="offcanvas"]').click(function () {
+		    	    $('.row-offcanvas').toggleClass('active')
+		    	  });
+		    });
+	    </script>
 	  </ui:define>
   </ui:composition>
 </h:body>

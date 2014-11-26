@@ -1,7 +1,6 @@
 package org.jboss.samples.rs.webservices;
 
 import java.text.DateFormat;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -11,6 +10,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+
+import org.json.simple.JSONObject;
 
 import com.ssacn.ejb.bean.Sexo;
 import com.ssacn.ejb.business.local.UserManager;
@@ -113,9 +114,12 @@ public class UsuarioResource {
 	@GET
 	@Path("/get")
 	@Produces("application/json")
-	public String getProductInJSON() {
+	public JSONObject getProductInJSON() {
 
-		return "Hola a todos";
+		JSONObject json = new JSONObject();
+		json.put("Prueba", "Bien");
+		
+		return json;
 
 	}
 
