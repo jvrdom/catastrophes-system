@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.ssacn.ejb.bean.Sexo;
+import com.ssacn.ejb.bean.Tipo;
+
 /**
  * Entity implementation class for Entity: Catastrophe
  *
@@ -22,6 +25,8 @@ public class Catastrofe implements Serializable {
 	private String nombre;
 	@Column(name="description")
 	private String description;
+	//@Enumerated(EnumType.STRING)
+    //protected Tipo tipo;
 	@Column(name="logo")
 	private String logo;
 	@Column(name="css")
@@ -32,12 +37,10 @@ public class Catastrofe implements Serializable {
 	private double coordY;
 	@OneToMany(cascade ={ CascadeType.PERSIST , CascadeType.REMOVE})
 	private List<ImagenCatastrofe> images;
-	@ManyToMany
-	private List<Ong> ongs;
 	@OneToMany
 	private List<Novedades> novedades;
-	@OneToMany
-	private List<PerosnaDesap> personasDesap;
+	//@OneToMany
+	//private List<PerosnaDesap> personasDesap;
 	@OneToOne(mappedBy="catastrofe",cascade= CascadeType.ALL)
 	private Plan plan;
 	
@@ -46,9 +49,40 @@ public class Catastrofe implements Serializable {
 		super();
 	}
 
+	
+	//public Tipo getTipo() {
+	//	return tipo;
+	//}
+
+
+	//public void setTipo(Tipo tipo) {
+	//	this.tipo = tipo;
+	//}
+
+
 	public int getCatastrofeId() {
 		return catastrofeId;
 	}
+
+	public List<Novedades> getNovedades() {
+		return novedades;
+	}
+
+
+	public void setNovedades(List<Novedades> novedades) {
+		this.novedades = novedades;
+	}
+
+
+	/*public List<PerosnaDesap> getPersonasDesap() {
+		return personasDesap;
+	}
+
+
+	public void setPersonasDesap(List<PerosnaDesap> personasDesap) {
+		this.personasDesap = personasDesap;
+	}*/
+
 
 	public void setCatastrofeId(int catastropheID) {
 		this.catastrofeId = catastropheID;

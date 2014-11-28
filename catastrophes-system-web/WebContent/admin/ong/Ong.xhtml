@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/admin/template/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:define name="content">
+	<h:outputStylesheet library="css" name="css/style.css" /> 
+		<h:form id="form">
+		
+			<p:growl id="messages" showDetail="true" showSummary="false"
+				life="12000" autoUpdate="true" />
+
+			<h:panelGrid id="panelId" columns="3" style="height: 200px; max-height: 300px  ">
+
+				<p:dataTable id="ongTbl" var="ong" value="#{ongMB.ongs}"
+					selectionMode="single" selection="#{ongMB.selectedOng}"
+					rowKey="#{ong.ongId}" style="width: 180px;">
+					<p:ajax event="rowSelect" listener="#{ongMB.onRowSelect}"
+						update=":form:inputname :form:inputdesc :form:btnEditId :form:btnRemoveId :form:catastrofesTbl"
+						process="ongTbl" />
+					<p:column headerText="ONG">
+						<h:outputText value="#{ong.nombre}" />
+					</p:column>
+
+				</p:dataTable>
+
+				<h:panelGroup>
+					<label for="inputname" class="col-sm-2 control-label">Nombre</label>
+					<div class="col-sm-10">
+						<p:inputText id="inputname" value="#{ongMB.name}"
+							styleClass="form-control" disabled="#{ongMB.readOnly}"/>
+					</div>
+					
+					<label for="inputdesc" class="col-sm-2 control-label">Descripcion</label>
+					<div class="col-sm-10">
+						<p:inputTextarea id="inputdesc"
+							value="#{ongMB.desc}"
+							styleClass="form-control" disabled="#{ongMB.readOnly}"/>
+					</div>
+
+				</h:panelGroup>
+				<h:panelGrid columns="1">
+					<p:commandButton id="btnAddId"  value="Agregar" actionListener="#{ongMB.cleanFields}"  styleClass="button" style="width:90px" update=":form:panelId :form:panel2Id :form:confirmBtn :form:cancelBtn messages"/>
+					<p:commandButton id="btnEditId"  value="Editar" actionListener="#{ongMB.edit}" styleClass="button" style="width:90px" disabled="#{ongMB.selectedOng==null}" update=":form:panelId :form:panel2Id :form:confirmBtn :form:cancelBtn messages "/>
+					<p:commandButton id="btnRemoveId"  value="Eliminar" onclick="PF('confirmDlg').show();"
+					 style="width:90px"  styleClass="button" disabled="#{ongMB.selectedOng==null}" />
+				</h:panelGrid>
+
+			</h:panelGrid>
+			
+			<h:panelGrid id="panel2Id" columns="3" columnClasses="izq top, cen top, top" >
+				<p:spacer width="200px"/>
+				<p:dataTable id="catastrofesTbl" var="cat" value="#{ongMB.catsOng}"
+				 selection="#{ongMB.selectedCat}"
+			    style=" width:650px" rowKey="#{cat.catastrofeId}">
+			    
+			    <p:column selectionMode="multiple" style="width:30px;text-align:center"/>	
+			    
+				<p:column headerText="Catasrofe" style="width:90px">
+							<h:outputText value="#{cat.nombre}" />
+						</p:column>
+						<p:column headerText="Descripcion" style="width:200px">
+							<h:outputText value="#{cat.description}" />
+						</p:column>						
+				</p:dataTable>
+				<h:panelGrid columns="1">
+					<p:commandButton  value="+" onclick="PF('catastrofesDlg').show();" disabled="#{ongMB.readOnly}" styleClass="button2" />
+					<p:commandButton  value="-" actionListener="#{ongMB.removeCat}" update=":form:catastrofesTbl" disabled="#{ongMB.readOnly}" styleClass="button2" style="width:38px"/>
+				</h:panelGrid>
+				
+			</h:panelGrid>
+			<p:commandButton id="confirmBtn"   value="Confirmar" actionListener="#{ongMB.createOng}" disabled="#{ongMB.readOnly}" style="margin-left:180px" />
+			<p:commandButton  id="cancelBtn" value="Cancelar" actionListener="#{ongMB.cancelar}" disabled="#{ongMB.readOnly}" update=":form:inputname :form:inputdesc :form:btnEditId :form:btnRemoveId :form:catastrofesTbl" />	
+
+			<p:dialog id="catastrofesDlgId" widgetVar="catastrofesDlg">
+				<h:panelGrid columns="1">
+					<p:dataTable id="catastrofesDlgTbl" var="catastrofe" value="#{ongMB.catastrofes}"
+						selection="#{ongMB.selectedCatastrofes}" style="width: 250px;" rowKey="#{catastrofe.catastrofeId}">
+
+						<p:column selectionMode="multiple" style="width:30px;text-align:center"/>	
+						<p:column headerText="Catasrofes">
+							<h:outputText value="#{catastrofe.nombre}" />
+						</p:column>
+						
+					</p:dataTable>
+					<p:commandButton value="Confirmar" actionListener="#{ongMB.addCatastrofes}" oncomplete="PF('catastrofesDlg').hide();" update=":form:catastrofesTbl" />					
+				</h:panelGrid>
+			</p:dialog>
+			<p:dialog header="Solicitud de confirmacón" showEffect="fade" id="usrDlgConf" resizable="false" closeOnEscape="true"
+                  widgetVar="confirmDlg" style="top: 200px !important;" modal="true" styleClass="dialogo"> 
+            <p:spacer height="5"/>
+            <h:panelGrid width="100%"  cellspacing="5" cellpadding="5" style="padding: 0 8px 5px 12px;">
+                <h:outputText value="La ONG &lt;b&gt;#{ongMB.name}&lt;/b&gt; será eliminada." escape="false" />
+                <h:outputText value="Realmente confirma esta operación?" />
+            </h:panelGrid>
+            <h:panelGrid  columns="2" cellspacing="10" styleClass="cen" columnClasses="izq, izq" cellpadding="10" >
+                <p:commandButton value="Si" actionListener="#{ongMB.deleteOng}"
+                                  icon="ui-icon-check" oncomplete="PF('confirmDlg').hide();" update="messages :form:ongTbl"   />  
+                <p:commandButton value="No" type="button" icon="ui-icon-close" process="@this"
+                                 onclick="PF('confirmDlg').hide();"/> 
+            </h:panelGrid>
+			<p:graphicImage value="#{ongMB.img}"/>
+			
+        </p:dialog> 
+			
+		</h:form>
+	</ui:define>
+
+</ui:composition>

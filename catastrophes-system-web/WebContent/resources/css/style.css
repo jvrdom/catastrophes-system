@@ -120,3 +120,50 @@ body {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 }
+
+.button
+{
+    margin: 0 0 5px 0;
+    text-decoration: none;
+    font: bold 1.0em 'Trebuchet MS',Arial, Helvetica; /*Change the em value to scale the button*/
+    display: inline-block;
+    text-align: center;
+    color: #fff;
+    border: 1px solid #9c9c9c; /* Fallback style */
+    border: 1px solid rgba(0, 0, 0, 0.3);            
+    text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+	background-color: #006C00;
+}
+.izq{
+    margin-left: 0;
+    margin-right: auto;
+    text-align:left;
+}
+.cen{
+    margin-left: auto;
+    margin-right: auto;
+    text-align:center;
+}
+
+.der{
+    margin-left: auto ;
+    margin-right: 0 ;
+    text-align:right;
+}
+.top{
+    vertical-align:top !important;
+}
+
+.button2
+{
+    margin: 0 0 0 0;
+    text-decoration: none;
+    font: bold 1.0em 'Trebuchet MS',Arial, Helvetica; /*Change the em value to scale the button*/
+    display: inline-block;
+    text-align: center;
+    color: #fff;
+    border: 1px solid #9c9c9c; /* Fallback style */
+    border: 1px solid rgba(0, 0, 0, 0.3);            
+    text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+
+}

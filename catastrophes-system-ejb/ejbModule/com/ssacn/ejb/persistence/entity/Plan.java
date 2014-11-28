@@ -10,7 +10,8 @@ import javax.persistence.*;
  *
  */
 @Entity
-
+@NamedQueries({
+@NamedQuery(name = "Plan.findByIdCatastrofe", query = "SELECT p FROM Plan p join p.catastrofe c WHERE c.catastrofeId = :idCatastrofe")})
 public class Plan implements Serializable {
 
 	
@@ -29,8 +30,7 @@ public class Plan implements Serializable {
 	@OneToOne(fetch= FetchType.LAZY)
 	@PrimaryKeyJoinColumn
 	private Catastrofe catastrofe;
-	@OneToMany
-	private List<Donacion> donaciones;
+
 	
 
 	public Plan() {
@@ -65,16 +65,6 @@ public class Plan implements Serializable {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}
-
-
-	public List<Donacion> getDonaciones() {
-		return donaciones;
-	}
-
-
-	public void setDonaciones(List<Donacion> donaciones) {
-		this.donaciones = donaciones;
 	}
 
 

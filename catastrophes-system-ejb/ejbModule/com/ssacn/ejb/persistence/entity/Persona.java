@@ -1,6 +1,7 @@
 package com.ssacn.ejb.persistence.entity;
 
 import java.io.Serializable;
+
 import java.util.Date;
 
 import javax.persistence.*;
@@ -14,8 +15,6 @@ import com.ssacn.ejb.bean.Sexo;
 
 @Entity
 @Inheritance ( strategy=InheritanceType.SINGLE_TABLE )
-@NamedQueries({
-@NamedQuery(name = "Persona.findByNamePass", query = "SELECT p FROM Persona p WHERE p.email = :email AND p.password=:password")})
 public class Persona implements Serializable {
 
 	
@@ -43,6 +42,8 @@ public class Persona implements Serializable {
     @Temporal (TemporalType.DATE)
     protected Date nacimiento;
     
+    protected String telefono;
+    
     @Enumerated(EnumType.STRING)
     protected Sexo sexo;
     
@@ -52,8 +53,13 @@ public class Persona implements Serializable {
 	}
 	public void setApellido(String lastname) {
 		this.apellido = lastname;
+	}	
+	public String getTelefono() {
+		return telefono;
 	}
-	
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
 	public Date getNacimiento() {
 		return nacimiento;
 	}
