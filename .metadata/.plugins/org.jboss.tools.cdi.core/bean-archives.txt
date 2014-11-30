@@ -1,9 +1,0 @@
-path=/home/nico/git/catastrophes-system/social-auth-cdi-demo/WebContent/WEB-INF/lib/json-20090211.jar
-size=45944
-archive=0
-path=/home/nico/git/catastrophes-system/social-auth-cdi-demo/WebContent/WEB-INF/lib/commons-logging-1.1.jar
-size=52915
-archive=0
-path=/home/nico/git/catastrophes-system/social-auth-cdi-demo/WebContent/WEB-INF/lib/openid4java-consumer-0.9.5.jar
-size=1679
-archive=0

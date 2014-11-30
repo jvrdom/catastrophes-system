@@ -21,10 +21,6 @@
 	            </p:password>
 	            <p:watermark for="inputpassword" value="password" id="watermarkPassword" />
 	         <h:commandButton value="Ingresar" actionListener="#{login.login}" class="btn btn-success btn-lg btn-block" update="formLogin"/>
-	         <h:commandLink id="twitter" name="twitter"  action="#{socialauth.login}" 
-                   actionListener="#{login.updateId}">
-                 <h:graphicImage value="/images/twitter_icon.png"/>
-             </h:commandLink>
 	     </h:form>
   	</ui:define>  	
   </ui:composition>
