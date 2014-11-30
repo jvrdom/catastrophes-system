@@ -10,7 +10,8 @@ import javax.persistence.*;
  *
  */
 @Entity
-
+@NamedQueries({
+@NamedQuery(name = "Ong.findByCatastrofe", query = "SELECT o FROM Ong o join o.catastrofes c WHERE c.catastrofeId = :idCatastrofe")})
 public class Ong implements Serializable {
 
 	
@@ -24,10 +25,10 @@ public class Ong implements Serializable {
 
 	private String descripcion;
 	
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	private List<Donacion> donaciones;
 	
-	@ManyToMany( mappedBy= "ongs" )
+	@OneToMany( fetch = FetchType.EAGER)
 	private List <Catastrofe> catastrofes;
 	
 	public Ong() {

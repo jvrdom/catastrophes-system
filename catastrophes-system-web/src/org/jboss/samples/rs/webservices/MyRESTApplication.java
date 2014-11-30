@@ -17,6 +17,7 @@ public class MyRESTApplication extends Application {
 	     singletons.add(new CatastrofeResource());
 	     singletons.add(new PersDesapResource());
 	     singletons.add(new PedidoDeAyudaResource());
+
 	     
 	}
 	@Override

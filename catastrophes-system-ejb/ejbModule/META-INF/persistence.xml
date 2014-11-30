@@ -3,19 +3,6 @@
 	<persistence-unit name="SSCNjpaPU" transaction-type="JTA">
 	<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 	<jta-data-source>java:jboss/datasources/SSCN</jta-data-source>
-    <class>com.ssacn.ejb.persistence.entity.Catastrofe</class>
-    <class>com.ssacn.ejb.persistence.entity.ImagenCatastrofe</class>
-    <class>com.ssacn.ejb.persistence.entity.Ong</class>
-    <class>com.ssacn.ejb.persistence.entity.Novedades</class>
-    <class>com.ssacn.ejb.persistence.entity.PerosnaDesap</class>
-    <class>com.ssacn.ejb.persistence.entity.Plan</class>
-    <class>com.ssacn.ejb.persistence.entity.Donacion</class>
-    <class>com.ssacn.ejb.persistence.entity.OrigenDato</class>
-    <class>com.ssacn.ejb.persistence.entity.PedidoAyuda</class>
-    <class>com.ssacn.ejb.persistence.entity.Usuario</class>
-    <class>com.ssacn.ejb.persistence.entity.Rescatista</class>
-    <class>com.ssacn.ejb.persistence.entity.Persona</class>
-    <class>com.ssacn.ejb.persistence.entity.Administrador</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>		
 		<properties>
 		

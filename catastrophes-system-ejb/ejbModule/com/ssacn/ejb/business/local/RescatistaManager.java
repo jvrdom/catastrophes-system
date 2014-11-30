@@ -58,19 +58,25 @@ public class RescatistaManager implements RescatistaManagerRemote{
 	   public Rescatista findUserByLogin(String login){
 	    	return rescatistaController.findUserByLogin(login);
 	    }
-	@Override
-	public void actualizarRescatista(Rescatista user) {
-		try {
-			rescatistaController.edit(user);
-		} catch (IllegalOrphanException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NonexistentEntityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
-	}
+	   
+	   @Override
+		public Rescatista findById(int id){
+			return rescatistaController.findUserById(id);
+		}
+		  
+		@Override
+		public void actualizarRescatista(Rescatista user) {
+			try {
+				rescatistaController.edit(user);
+			} catch (IllegalOrphanException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NonexistentEntityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
+		}
 }

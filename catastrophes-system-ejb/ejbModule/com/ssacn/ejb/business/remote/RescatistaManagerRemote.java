@@ -13,5 +13,5 @@ public interface RescatistaManagerRemote {
 			Date parse, String sexo);
 	public int login(String email, String pass);
 	void actualizarRescatista(Rescatista user);
-
+	public Rescatista findById(int id);
 }

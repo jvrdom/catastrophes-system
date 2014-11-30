@@ -16,7 +16,17 @@ public class Rescatista extends Persona implements Serializable {
 
 	
 	private static final long serialVersionUID = 1L;
+	private String regId;
 
+
+	public String getRegId() {
+		return regId;
+	}
+
+	public void setRegId(String idReg) {
+		this.regId = idReg;
+	}
+   
 	public Rescatista() {
 		super();
 	}

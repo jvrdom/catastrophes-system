@@ -11,6 +11,7 @@ import com.ssacn.ejb.persistence.entity.Usuario;
 public interface UserManagerRemote {
 	
     public void createUser(String nombre, String apellido, String email, String password, Date fecNac, String sexo);
+    public void createUser(String nombre, String apellido, String email,String password, Date fecNac, String sexo,String tel); 
     public Usuario findUserByLogin(String login);
     public Object findUserByLoginPass(String login, String password);
     public Map<String, Boolean> existeUsuario(String email, String password);

@@ -3,14 +3,17 @@ package org.jboss.samples.rs.webservices;
 
 import java.util.List;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import com.google.gson.Gson;
 import com.ssacn.ejb.business.local.CatastrofeManager;
 import com.ssacn.ejb.business.remote.CatastrofeManagerRemote;
 import com.ssacn.ejb.persistence.entity.Catastrofe;
+import com.ssacn.ejb.persistence.entity.PerosnaDesap;
 
 @Path("/ServicesCatastrofe")
 public class CatastrofeResource {
@@ -40,8 +43,6 @@ public class CatastrofeResource {
 		}
 
 	}
-	
-	
-	
+		
 
 }
