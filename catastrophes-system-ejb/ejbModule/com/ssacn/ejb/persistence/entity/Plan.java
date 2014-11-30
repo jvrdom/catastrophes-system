@@ -5,13 +5,16 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.ssacn.ejb.bean.Tipo;
+import com.ssacn.ejb.bean.TipoPlan;
+
 /**
  * Entity implementation class for Entity: Plan
  *
  */
 @Entity
 @NamedQueries({
-@NamedQuery(name = "Plan.findByIdCatastrofe", query = "SELECT p FROM Plan p join p.catastrofe c WHERE c.catastrofeId = :idCatastrofe")})
+@NamedQuery(name = "Plan.findByIdCatastrofe", query = "SELECT p FROM Plan p join p.catastrofe c WHERE c.catastrofeId = :idCatastrofe AND p.tipo = :tipo")})
 public class Plan implements Serializable {
 
 	
@@ -21,14 +24,13 @@ public class Plan implements Serializable {
     @Column(name = "planId")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer planId;
-	@Column(name="tipo")
-	private String tipo;
+	@Enumerated(EnumType.STRING)
+	private TipoPlan tipo;
 	@Column(name="descripcion")
 	private String descripcion;
 	@Column(name="url")
 	private String url;
-	@OneToOne(fetch= FetchType.LAZY)
-	@PrimaryKeyJoinColumn
+	@OneToOne
 	private Catastrofe catastrofe;
 
 	
@@ -48,12 +50,12 @@ public class Plan implements Serializable {
 	}
 
 
-	public String getTipo() {
+	public TipoPlan getTipo() {
 		return tipo;
 	}
 
 
-	public void setTipo(String tipo) {
+	public void setTipo(TipoPlan tipo) {
 		this.tipo = tipo;
 	}
 

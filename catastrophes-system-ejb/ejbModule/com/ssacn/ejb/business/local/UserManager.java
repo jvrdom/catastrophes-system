@@ -49,7 +49,6 @@ public class UserManager implements UserManagerRemote {
 		u.setPassword(password);
 		u.setNacimiento(fecNac);
 		u.setSexo(utilesUsuario.getSexo(sexo));
-	//	u.setIdReg("");
 		
 		userController.create(u);
 		
@@ -67,7 +66,6 @@ public class UserManager implements UserManagerRemote {
 		u.setNacimiento(fecNac);
 		u.setSexo(utilesUsuario.getSexo(sexo));
 		u.setTelefono(tel);
-	//	u.setIdReg("");
 		
 		userController.create(u);
 		
