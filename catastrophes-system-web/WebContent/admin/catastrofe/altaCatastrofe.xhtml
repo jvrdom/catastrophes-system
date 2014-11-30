@@ -55,13 +55,16 @@
 		<div class="row">
 			<div class="col-xs-6">
 				<p>Panel de planes de emergencia y/o gestion</p>
-				<p:fileUpload fileUploadListener="#{catastrofes.file}" mode="advanced" dragDropSupport="false"
-                  multiple="true" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+				<h:form enctype="multipart/form-data">
+					<p:fileUpload fileUploadListener="#{catastrofes.handleFileUpload}" mode="advanced" dragDropSupport="false"
+                  	multiple="true" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                </h:form>
 			</div>
 		</div>
 		<script type="text/javascript">
 			var map;
 			var geocoder;
+			var circle;
 
 			function initialize(){
 				 geocoder = new google.maps.Geocoder();
@@ -85,29 +88,26 @@
 		            if (status == google.maps.GeocoderStatus.OK) {
 		              map.setCenter(results[0].geometry.location);
 		              var latLng = results[0].geometry.location;
-		              var marker = new google.maps.Marker({
-		                  map: map,
-		                  animation: google.maps.Animation.DROP,
-		                  draggable: true,
-		                  position: results[0].geometry.location,
-		              });
+		              		              
+		              var circleOptions = {
+		            	strokeColor: '#FF0000',
+		            	strokeOpacity: 0.8,
+		            	strokeWeight: 2,
+		            	fillColor: '#FF0000',
+		            	fillOpacity: 0.35,
+		            	map: map,
+		            	center: results[0].geometry.location,
+		            	radius: Math.sqrt(10) * 100
+					  }
+					  
 		              bounds.extend(latLng);
 		              map.fitBounds(bounds);
 		              var zoom = map.getZoom();
 		              map.setZoom(zoom > 15 ? 15 : zoom);
-		              google.maps.event.addListener(marker, 'click', function() {
-		                infowindow.open(map,marker);
-		              });
-		              if(marker.getDraggable() == true) {
-		                google.maps.event.addListener(
-		                    marker,
-		                    'drag',
-		                    function() {
-		                        document.getElementById('j_idt29:coord').value = marker.getPosition();
-		                    }
-		                );
-		              }
-		              document.getElementById('j_idt29:coord').value = marker.getPosition();
+		              
+		              circle = new google.maps.Circle(circleOptions);
+		          
+		              document.getElementById('j_idt29:coord').value = circle.getCenter();
 		            } else {
 		              alert('Geocode was not successful for the following reason: ' + status);
 		            }

@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
     <wb-module deploy-name="catastrophes-system-web">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module archiveName="catastrophes-system-ejb-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/catastrophes-system-ejb/catastrophes-system-ejb">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="catastrophes-system-web"/>
         <property name="java-output-path" value="/catastrophes-system-web/build/classes"/>
     </wb-module>

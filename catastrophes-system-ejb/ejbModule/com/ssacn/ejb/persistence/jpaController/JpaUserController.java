@@ -15,7 +15,6 @@ import com.ssacn.ejb.persistence.entity.Rescatista;
 import com.ssacn.ejb.persistence.entity.Usuario;
 import com.ssacn.ejb.exceptions.IllegalOrphanException;
 import com.ssacn.ejb.exceptions.NonexistentEntityException;
-import com.ssacn.ejb.util.PropertiesManager;
 
 @Stateless
 public class JpaUserController {
@@ -26,23 +25,8 @@ public class JpaUserController {
 		System.out.println("jpaUserControler***");
         emf = Persistence.createEntityManagerFactory("SSCNjpaPU");
     }
-	/*public JpaUserController(String dataBase){
-		PropertiesManager config=new PropertiesManager();
-		Map<String,String> prop=new HashMap<String,String>();
-		String url=config.getPropiedad("url").trim();
-		url+=dataBase.trim();
-
-		prop.put("javax.persistence.jdbc.url",url);                
-        prop.put("javax.persistence.jdbc.driver",  config.getPropiedad("driver").trim());                        
-        prop.put("javax.persistence.jdbc.password", config.getPropiedad("password").trim());                    
-        prop.put("javax.persistence.jdbc.user", config.getPropiedad("user").trim());
-        
-        emf = Persistence.createEntityManagerFactory("SSCNjpaPU",prop);
-        
-	}*/
-    
-
-    public EntityManager getEntityManager() {
+	
+	public EntityManager getEntityManager() {
     	System.out.println("getEntityManager***");
         return emf.createEntityManager();
     }
@@ -151,6 +135,13 @@ public class JpaUserController {
         }
         
         return map;
+    }
+    
+    public Object findUserByLoginPass(String login, String password) {
+        EntityManager em = getEntityManager();
+        Object user = em.createNamedQuery("Persona.findByNamePass").setParameter("email", login).setParameter("password", password).getSingleResult();
+        
+        return user;
     }
 
 }

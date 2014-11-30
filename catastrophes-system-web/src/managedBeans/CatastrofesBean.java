@@ -1,21 +1,19 @@
 package managedBeans;
 
-import java.io.File;
 import java.io.IOException;
 
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
 import utilesWeb.UtilesWeb;
 
 import com.ssacn.ejb.business.remote.CatastrofeManagerRemote;
-import com.ssacn.ejb.persistence.entity.Catastrofe;
-import com.sun.faces.context.flash.ELFlash;
 
 @ManagedBean(name="catastrofes")
 @RequestScoped
@@ -28,13 +26,14 @@ public class CatastrofesBean {
 	private String finalPath;
 	private UtilesWeb utiles;
 	private int idCatastrofe;
-	private Catastrofe catastrofe;
+	
 	
 	public CatastrofesBean() {
 		utiles = new UtilesWeb();
 	}
 	
-	public void altaCatastrofe(){
+	public void altaCatastrofe() throws IOException{
+		
 		System.out.println("Uploaded File Name Is :: "+file.getFileName()+" :: Uploaded File Size :: "+file.getSize());
 		try {
 			finalPath = utiles.fileUpload(file.getFileName(), file.getInputstream());
@@ -42,27 +41,28 @@ public class CatastrofesBean {
 			e.printStackTrace();
 		}
 		
-		System.out.println(finalPath);
+		castM.createCatastrofe(nombre, "prueba", "prueba", finalPath, descripcion, latLng);
 		
-		//castM.createCatastrofe(nombre, "prueba", "final", descripcion, latLng);
 		//falta creacion del plan
 		//galeria de imagenes
-		//iconos
+		//css
 		//notificaciones
 	}
 	
-	public void buttonAction() {
-		catastrofe = castM.findCatastrofeById(idCatastrofe);
-		
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("catastrofe", catastrofe);
-		
-		if (catastrofe != null){
-			try {
-				FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/catastrofe/catastrofeIndex.xhtml");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+	public void handleFileUpload(FileUploadEvent event) {
+               
+        try {
+			finalPath = utiles.fileUpload(event.getFile().getFileName(), event.getFile().getInputstream());
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succesful", event.getFile().getFileName() + " is uploaded.");
+	        FacesContext.getCurrentInstance().addMessage(null, message);
+		} catch (IOException e) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Fail!", "Failed to upload file: " + event.getFile().getFileName() + ", reason: " + e.getMessage());
+	        FacesContext.getCurrentInstance().addMessage(null, message);
 		}
+    }
+	
+	public void buttonAction() {
+		
 		
     }
 	

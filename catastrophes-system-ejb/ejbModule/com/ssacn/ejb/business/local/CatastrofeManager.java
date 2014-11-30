@@ -22,7 +22,7 @@ public class CatastrofeManager implements CatastrofeManagerRemote{
 	}
 	
 	@Override
-	public void createCatastrofe(String nombre, String nombrePlan, String url,
+	public void createCatastrofe(String nombre, String nombrePlan, String urlPlan, String urlIcon,
 			String descripcion,String latLng) {
 		
 		String regID = "APA91bErxDEhplg4-GT2RoY9N7tibbzJAifLrqpVhy0OYkwaNHhWWKsGAxzm31VpbBtixyssPC61jmbFNZfnq_lhfva55uE6Cb5ePauJlBygykDQV0Hje-Orjin0P94_em4nNBk8rYT-NHs96okhLmbfdDpApUAqbjAdGw21ZTnx1spu4Vtb8RM";
@@ -37,12 +37,13 @@ public class CatastrofeManager implements CatastrofeManagerRemote{
 		
 		Catastrofe catastrofe = new Catastrofe();
 		catastrofe.setNombre(nombre);
+		catastrofe.setLogo(urlIcon);
 		catastrofe.setDescription(descripcion);
 		catastrofe.setCoordX(lat);
 		catastrofe.setCoordY(lng);
 				
 		Plan plan = new Plan();
-		plan.setUrl(url);
+		plan.setUrl(urlPlan);
 		plan.setDescripcion(descripcion);
 		plan.setTipo(nombrePlan);
 		

@@ -32,6 +32,7 @@ public class UserManager implements UserManagerRemote {
     public Usuario findUserByLogin(String login){
     	return userController.findUserByLogin(login);
     }
+    
     @Override
     public Usuario findUserById(int id){
     	return userController.findUserById(id);
@@ -72,7 +73,7 @@ public class UserManager implements UserManagerRemote {
 	public void actualizarUsuario(Usuario user){
 		try {
 			
-				userController.edit(user);
+		userController.edit(user);
 			
 		} catch (Exception e) {
 	
@@ -85,6 +86,11 @@ public class UserManager implements UserManagerRemote {
 	public void eliminarUsuario(int id_usuario) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Object findUserByLoginPass(String login, String password) {
+		return userController.findUserByLoginPass(login, password);
 	}
 
 	

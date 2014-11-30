@@ -10,26 +10,33 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import com.ssacn.ejb.business.remote.UserManagerRemote;
+import com.ssacn.ejb.persistence.entity.Administrador;
+import com.ssacn.ejb.persistence.entity.Usuario;
 
 @ManagedBean(name="login")
 @SessionScoped
 public class LoginBean {
+
 	
 	@EJB
 	private UserManagerRemote userM;
 	
 	private String email, password, message;
+	private Object usuario;
 	
 	public void login(){
-		Map<String, Boolean> result = userM.existeUsuario(email, password);
+		
+		usuario = userM.findUserByLoginPass(email, password);
+		
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
-		if(result.get("Existe")){
-			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", email);
+		
+		if(usuario != null){
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", usuario);
 			try {
-				if(result.get("Usuario") != null)
+				if(usuario instanceof Usuario)
 					FacesContext.getCurrentInstance().getExternalContext().redirect("user/userIndex.xhtml");
-				if(result.get("Administrador") != null)
-					FacesContext.getCurrentInstance().getExternalContext().redirect("admin/catastrofe/altaCatastrofe.xhtml");
+				if(usuario instanceof Administrador)
+					FacesContext.getCurrentInstance().getExternalContext().redirect("admin/adminIndex.xhtml");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

@@ -12,8 +12,8 @@ public interface UserManagerRemote {
 	
     public void createUser(String nombre, String apellido, String email, String password, Date fecNac, String sexo);
     public Usuario findUserByLogin(String login);
+    public Object findUserByLoginPass(String login, String password);
     public Map<String, Boolean> existeUsuario(String email, String password);
-    //Se prueba solo con nombre, más adelante veremos con más campos.
     public void actualizarUsuario(Usuario user);
     public void eliminarUsuario(int id_usuario);
     public Usuario findUserById(int id);

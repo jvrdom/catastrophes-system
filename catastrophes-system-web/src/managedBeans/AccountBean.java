@@ -12,15 +12,15 @@ import com.ssacn.ejb.business.remote.UserManagerRemote;
 public class AccountBean {
 	
 	@EJB
-	//private UserManagerRemote userM;
-	private AdminManagerRemote adminM;
+	private UserManagerRemote userM;
+	//private AdminManagerRemote adminM;
 	
 	private String nombre, apellido, email, contraseña, sexo;
 	private Date fechaNac;
 	
 	public void altaUsuario(){
-		//userM.createUser(nombre, apellido, email, contraseña, fechaNac, sexo);
-		adminM.create(nombre, apellido, email, contraseña, fechaNac, sexo);
+		userM.createUser(nombre, apellido, email, contraseña, fechaNac, sexo);
+		//adminM.create(nombre, apellido, email, contraseña, fechaNac, sexo);
 	}
 	
 	/*Metodos de prueba*/
