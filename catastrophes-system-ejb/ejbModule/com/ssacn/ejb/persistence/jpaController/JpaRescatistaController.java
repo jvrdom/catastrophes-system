@@ -114,10 +114,11 @@ public class JpaRescatistaController {
     
     public boolean existsUsuario(String login, String password){
     	EntityManager em = getEntityManager();
-        if (em.createNamedQuery("Rescatista.findByNamePass").setParameter("email", login).setParameter("password", password).getResultList().size() > 0) {
+        if (em.createNamedQuery("Persona.findByNamePass").setParameter("email", login).setParameter("password", password).getResultList().size() > 0) {
             return true;
         } else{
         	return false;
         }
     }
+    
 }
