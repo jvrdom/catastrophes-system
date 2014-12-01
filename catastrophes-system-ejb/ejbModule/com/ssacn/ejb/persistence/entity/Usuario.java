@@ -9,8 +9,6 @@ import javax.persistence.*;
  *
  */
 @Entity
-@NamedQueries({
-@NamedQuery(name = "Usuario.findByLogin", query = "SELECT u FROM Usuario u WHERE u.email = :login")})
 public class Usuario extends Persona implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

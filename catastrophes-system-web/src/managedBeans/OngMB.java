@@ -46,7 +46,7 @@ public class OngMB {
 			catastrofeM=new CatastrofeManager();
 			catsOng=new ArrayList<Catastrofe>();
 			//crea catastrofes de prueba
-			catastrofeM.createCatastrofe("nom", TipoPlan.Emergencia, "/opt/url","urlicon" ,"desc", "(10,11)");
+			//catastrofeM.createCatastrofe("nom", TipoPlan.Emergencia, "/opt/url","urlicon" ,"desc", "(10,11)");
 			 
 		/*catastrofeM.createCatastrofe("nom2", "nplan2", "/opt/url2", "desc2", "(10,12)");
 			catastrofeM.createCatastrofe("nom3", "nplan3", "/opt/url3", "desc3", "(10,13)");
