@@ -22,9 +22,9 @@
 	        </div>
 	        <div class="collapse navbar-collapse pull-right">
 	          <ul class="nav navbar-nav">
-	          	<c:if test="#{usuario}">
+	          	<c:if test="#{ not empty usuario}">
 	            	<li class="active"><a href="#">Home</a></li>
-	            	<li><a href="#about">Bienvenido #{usuario}</a></li>
+	            	<li><a href="#about">Bienvenido #{usuario.email}</a></li>
 	            </c:if>
 	            <li><a href="#contact">Contact</a></li>
 	          </ul>

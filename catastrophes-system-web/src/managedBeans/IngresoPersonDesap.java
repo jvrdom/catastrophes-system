@@ -38,7 +38,7 @@ public class IngresoPersonDesap {
         FacesContext.getCurrentInstance().addMessage(null, message);
         
         try {
-			finalPath = utiles.fileUpload(event.getFile().getFileName(), event.getFile().getInputstream());
+			finalPath = utiles.fileUpload(event.getFile().getFileName(), null, event.getFile().getInputstream());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

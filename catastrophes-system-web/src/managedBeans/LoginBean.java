@@ -17,7 +17,6 @@ import com.ssacn.ejb.persistence.entity.Usuario;
 @SessionScoped
 public class LoginBean {
 
-	
 	@EJB
 	private UserManagerRemote userM;
 	

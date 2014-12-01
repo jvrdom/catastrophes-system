@@ -9,6 +9,7 @@ import com.ssacn.ejb.business.remote.CatastrofeManagerRemote;
 import com.ssacn.ejb.business.remote.PersDesapManagerRemote;
 import com.ssacn.ejb.business.remote.UserManagerRemote;
 import com.ssacn.ejb.persistence.entity.Catastrofe;
+import com.ssacn.ejb.persistence.entity.ImagenPersonaDesap;
 import com.ssacn.ejb.persistence.entity.PerosnaDesap;
 import com.ssacn.ejb.persistence.entity.Usuario;
 import com.ssacn.ejb.persistence.jpaController.JpaPersDesapController;
@@ -30,7 +31,7 @@ private JpaPersDesapController persDesapController;
 
 	@Override
 	public void createPerosnaDesap(String nombre, String apellido,
-			String telefono, String descripcion, String status, int idUsuario, int idCatastrofe) {
+			String telefono, String descripcion, String status, int idUsuario, int idCatastrofe, List<ImagenPersonaDesap> imagenes) {
 		
 		PerosnaDesap pers=new PerosnaDesap();
 		pers.setApellido(apellido);
@@ -44,6 +45,7 @@ private JpaPersDesapController persDesapController;
 		CatastrofeManagerRemote cm=new CatastrofeManager();
 		Catastrofe c=cm.findCatastrofeById(idCatastrofe);
 		pers.setCatastrofe(c);
+		pers.setImages(imagenes);
 		persDesapController.create(pers);
 		
 	}

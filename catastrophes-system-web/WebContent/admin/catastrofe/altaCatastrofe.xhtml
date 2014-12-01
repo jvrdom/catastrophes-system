@@ -11,10 +11,15 @@
 	  <ui:define name="content">
 	  	<div class="row">
 	  		<div class="col-xs-6">
-	  			<h:form enctype="multipart/form-data" class = "form-horizontal">
+	  			<h:form enctype="multipart/form-data" class="form-horizontal" id="form-catastrofe">
+	  				<p:growl id="messages" showDetail="true" />
 	  				<div class="form-group">
-	  				<div class="col-sm-12">
-			  				<p:fileUpload value="#{catastrofes.file}" mode="simple" styleClass="btn btn-success form-control"/>
+	  					<div class="col-sm-12">
+			  				<p:fileUpload fileUploadListener="#{catastrofes.handleFileUploadImagen}" mode="advanced" dragDropSupport="false"
+                  			multiple="false" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                  			label="Elegir Icono"
+                  			cancelLabel="Cancelar"
+                  			update="messages" />
 						</div>
 					</div>
 	  				<div class="form-group">
@@ -45,21 +50,20 @@
 			                </div>
 			            </div>
 	                </div>
-	                <div class="form-group">
-	                </div>
+					<div class="form-group">
+						<div class="col-sm-12">
+							<p:fileUpload fileUploadListener="#{catastrofes.handleFileUpload}" mode="advanced" dragDropSupport="false"
+	                  		multiple="true" allowTypes="/(\.|\/)(pdf)$/"
+	                  		label="Elegir Plan"
+	                  		cancelLabel="Cancelar"
+	                  		update="messages" />
+	                  	</div>
+	            	</div>    
+					
                 	<h:commandButton value="Ingresar Catástrofe" action="#{catastrofes.altaCatastrofe}" class="pull-right btn btn-success"></h:commandButton>
         		</h:form>
 			</div>
 			<div class="col-xs-6" id="mapa" style="height: 300px;"></div>
-		</div>
-		<div class="row">
-			<div class="col-xs-6">
-				<p>Panel de planes de emergencia y/o gestion</p>
-				<h:form enctype="multipart/form-data">
-					<p:fileUpload fileUploadListener="#{catastrofes.handleFileUpload}" mode="advanced" dragDropSupport="false"
-                  	multiple="true" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
-                </h:form>
-			</div>
 		</div>
 		<script type="text/javascript">
 			var map;
@@ -82,7 +86,7 @@
 			}
 
 			function codeAddress(){
-		          var address = document.getElementById('j_idt29:inputdireccion').value;
+		          var address = document.getElementById('form-catastrofe:inputdireccion').value;
 		          var bounds = new google.maps.LatLngBounds();
 		          geocoder.geocode( { 'address': address}, function(results, status) {
 		            if (status == google.maps.GeocoderStatus.OK) {
@@ -107,7 +111,7 @@
 		              
 		              circle = new google.maps.Circle(circleOptions);
 		          
-		              document.getElementById('j_idt29:coord').value = circle.getCenter();
+		              document.getElementById('form-catastrofe:coord').value = circle.getCenter();
 		            } else {
 		              alert('Geocode was not successful for the following reason: ' + status);
 		            }

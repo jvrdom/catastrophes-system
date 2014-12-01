@@ -40,23 +40,6 @@ public class UserManager implements UserManagerRemote {
 
 	@Override
 	public void createUser(String nombre, String apellido, String email,
-			String password, Date fecNac, String sexo) {
-		
-		Usuario u = new Usuario();
-		u.setNombre(nombre);
-		u.setApellido(apellido);
-		u.setEmail(email);
-		u.setPassword(password);
-		u.setNacimiento(fecNac);
-		u.setSexo(utilesUsuario.getSexo(sexo));
-	//	u.setIdReg("");
-		
-		userController.create(u);
-		
-	}
-	
-	@Override
-	public void createUser(String nombre, String apellido, String email,
 			String password, Date fecNac, String sexo,String tel) {
 		
 		Usuario u = new Usuario();

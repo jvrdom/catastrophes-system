@@ -1,7 +1,6 @@
 package com.ssacn.ejb.persistence.entity;
 
 import java.io.Serializable;
-
 import java.util.Date;
 
 import javax.persistence.*;
@@ -15,6 +14,8 @@ import com.ssacn.ejb.bean.Sexo;
 
 @Entity
 @Inheritance ( strategy=InheritanceType.SINGLE_TABLE )
+@NamedQueries({
+@NamedQuery(name = "Persona.findByNamePass", query = "SELECT u FROM Persona u WHERE u.email = :email AND u.password=:password")})
 public class Persona implements Serializable {
 
 	

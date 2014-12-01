@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
+import com.ssacn.ejb.bean.Tipo;
 import com.ssacn.ejb.business.remote.CatastrofeManagerRemote;
 import com.ssacn.ejb.persistence.entity.Catastrofe;
 import com.ssacn.ejb.persistence.entity.Plan;
@@ -41,11 +42,13 @@ public class CatastrofeManager implements CatastrofeManagerRemote{
 		catastrofe.setDescription(descripcion);
 		catastrofe.setCoordX(lat);
 		catastrofe.setCoordY(lng);
+		catastrofe.setTipo(Tipo.Incendio);
 				
 		Plan plan = new Plan();
 		plan.setUrl(urlPlan);
-		plan.setDescripcion(descripcion);
-		plan.setTipo(nombrePlan);
+		plan.setDescripcion("xdfdxffdxdfxdfxdfx");
+		plan.setTipo("Me cago");
+		//plan.setCatastrofe(catastrofe);
 		
 		catastrofe.setPlan(plan);
 		//AndroidGCMPushNotification.enviarNotificaciones("prueba", regID);

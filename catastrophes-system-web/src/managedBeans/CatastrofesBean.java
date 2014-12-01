@@ -1,11 +1,15 @@
 package managedBeans;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.FileUploadEvent;
@@ -16,43 +20,52 @@ import utilesWeb.UtilesWeb;
 import com.ssacn.ejb.business.remote.CatastrofeManagerRemote;
 
 @ManagedBean(name="catastrofes")
-@RequestScoped
+@ViewScoped
 public class CatastrofesBean {
 	
 	@EJB
 	private CatastrofeManagerRemote castM;
 	private String nombre,nombrePlan,url,descripcion,direccion,latLng;
 	private UploadedFile file;
-	private String finalPath;
+	private String finalPath, finalPathImg;
 	private UtilesWeb utiles;
 	private int idCatastrofe;
+	private Map<String,String> countries;
 	
 	
 	public CatastrofesBean() {
 		utiles = new UtilesWeb();
 	}
 	
+	@PostConstruct
+	public void init(){
+	}
+	
 	public void altaCatastrofe() throws IOException{
 		
-		System.out.println("Uploaded File Name Is :: "+file.getFileName()+" :: Uploaded File Size :: "+file.getSize());
-		try {
-			finalPath = utiles.fileUpload(file.getFileName(), file.getInputstream());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		castM.createCatastrofe(nombre, "prueba", "prueba", finalPath, descripcion, latLng);
-		
-		//falta creacion del plan
+		castM.createCatastrofe(nombre, "prueba", this.finalPath, this.finalPathImg , descripcion, latLng);
 		//galeria de imagenes
 		//css
 		//notificaciones
 	}
 	
+	
+	public void handleFileUploadImagen(FileUploadEvent event) {
+        
+        try {
+			this.finalPathImg = utiles.fileUpload(event.getFile().getFileName(), nombre, event.getFile().getInputstream());
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succesful", event.getFile().getFileName() + " is uploaded.");
+	        FacesContext.getCurrentInstance().addMessage(null, message);
+		} catch (IOException e) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Fail!", "Failed to upload file: " + event.getFile().getFileName() + ", reason: " + e.getMessage());
+	        FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+    }
+	
 	public void handleFileUpload(FileUploadEvent event) {
                
         try {
-			finalPath = utiles.fileUpload(event.getFile().getFileName(), event.getFile().getInputstream());
+			this.finalPath = utiles.fileUpload(event.getFile().getFileName(), nombre, event.getFile().getInputstream());
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succesful", event.getFile().getFileName() + " is uploaded.");
 	        FacesContext.getCurrentInstance().addMessage(null, message);
 		} catch (IOException e) {
@@ -129,6 +142,14 @@ public class CatastrofesBean {
 
 	public void setIdCatastrofe(int idCatastrofe) {
 		this.idCatastrofe = idCatastrofe;
+	}
+
+	public Map<String, String> getCountries() {
+		return countries;
+	}
+
+	public void setCountries(Map<String, String> countries) {
+		this.countries = countries;
 	}
 	
 }

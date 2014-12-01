@@ -1,6 +1,7 @@
 package com.ssacn.ejb.persistence.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -35,24 +36,20 @@ public class PerosnaDesap implements Serializable {
 	private Usuario reportado;
 	@ManyToOne
 	private Catastrofe catastrofe;
+	@OneToMany(cascade ={ CascadeType.PERSIST , CascadeType.REMOVE}, fetch=FetchType.EAGER)
+	private List<ImagenPersonaDesap> images;
 
 	public PerosnaDesap() {
 		super();
 	}
 	
-	
-
 	public Catastrofe getCatastrofe() {
 		return catastrofe;
 	}
 
-
-
 	public void setCatastrofe(Catastrofe catastrofe) {
 		this.catastrofe = catastrofe;
 	}
-
-
 
 	public Integer getPerosnaDesapId() {
 		return perosnaDesapId;
@@ -109,7 +106,13 @@ public class PerosnaDesap implements Serializable {
 	public void setReportado(Usuario reportado) {
 		this.reportado = reportado;
 	}
-	
-	
-   
+
+	public List<ImagenPersonaDesap> getImages() {
+		return images;
+	}
+
+	public void setImages(List<ImagenPersonaDesap> images) {
+		this.images = images;
+	}
+	   
 }

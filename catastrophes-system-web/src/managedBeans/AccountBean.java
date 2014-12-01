@@ -15,11 +15,11 @@ public class AccountBean {
 	private UserManagerRemote userM;
 	//private AdminManagerRemote adminM;
 	
-	private String nombre, apellido, email, contraseña, sexo;
+	private String nombre, apellido, email, contraseña, sexo, telefono;
 	private Date fechaNac;
 	
 	public void altaUsuario(){
-		userM.createUser(nombre, apellido, email, contraseña, fechaNac, sexo);
+		userM.createUser(nombre, apellido, email, contraseña, fechaNac, sexo,telefono);
 		//adminM.create(nombre, apellido, email, contraseña, fechaNac, sexo);
 	}
 	
@@ -79,6 +79,14 @@ public class AccountBean {
 
 	public void setSexo(String sexo) {
 		this.sexo = sexo;
+	}
+
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
 	}
 	
 }

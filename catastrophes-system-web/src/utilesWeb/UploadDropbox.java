@@ -8,25 +8,26 @@ import java.util.Locale;
 /**	
  * En caso de que se caiga nuevamente el token, lo cual espero que no 'o_o
  */
-
+/*
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import org.apache.http.entity.InputStreamEntity;
-
 import com.dropbox.core.DbxAppInfo;
 import com.dropbox.core.DbxAuthFinish;
+import com.dropbox.core.DbxWebAuthNoRedirect;
+*/
 import com.dropbox.core.DbxClient;
 import com.dropbox.core.DbxEntry;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
-import com.dropbox.core.DbxWebAuthNoRedirect;
 import com.dropbox.core.DbxWriteMode;
 
 public class UploadDropbox {
 	
-	private final static String APP_KEY = "KEY";
-    private final static String APP_SECRET = "SECRET";
+	//private final static String APP_KEY = "KEY";
+	//private final static String APP_SECRET = "SECRET";
     public static String sharedUrl;
+    private final static String terminacion = "plan_de_emergencia";
     
     public UploadDropbox() {
 		sharedUrl = null;
@@ -36,15 +37,17 @@ public class UploadDropbox {
 	public String uploadDropbox(String path) throws IOException, DbxException {
         // Get your app key and secret from the Dropbox developers website.
 
-        DbxAppInfo appInfo = new DbxAppInfo(APP_KEY, APP_SECRET);
-
         DbxRequestConfig config = new DbxRequestConfig("catastrophes-system",
             Locale.getDefault().toString());
-        DbxWebAuthNoRedirect webAuth = new DbxWebAuthNoRedirect(config, appInfo);
         
         /*
          * Obtenemos el token en caso de que se pierda.
          */
+        /*
+         * 
+        DbxAppInfo appInfo = new DbxAppInfo(APP_KEY, APP_SECRET);
+        DbxWebAuthNoRedirect webAuth = new DbxWebAuthNoRedirect(config, appInfo);
+        
         // Have the user sign in and authorize your app.
         String authorizeUrl = webAuth.start();
         System.out.println("1. Go to: " + authorizeUrl);
@@ -53,20 +56,23 @@ public class UploadDropbox {
         String code = new BufferedReader(new InputStreamReader(System.in)).readLine().trim();
         
         // This will fail if the user enters an invalid authorization code.
-        DbxAuthFinish authFinish = webAuth.finish(code);
-        String accessToken = authFinish.accessToken;
-
+        DbxAuthFinish authFinish = webAuth.finish("y_CxxWVFQGEAAAAAAAAAbM5ySyKv_69juSBN4WiKdcI");
+        */
+        
+        String accessToken = "TOKEN";
+        
+        //System.out.println("TOKEN: " + accessToken);
         DbxClient client = new DbxClient(config, accessToken);        
 
         System.out.println("Linked account: " + client.getAccountInfo().displayName);
 
-        File inputFile = new File("/home/javier/Descargas/Requerimientos.pdf");
+        File inputFile = new File(path);
         FileInputStream inputStream = new FileInputStream(inputFile);
         try {
-            DbxEntry.File uploadedFile = client.uploadFile("/magnum-opus.pdf",
+            DbxEntry.File uploadedFile = client.uploadFile("/" + terminacion + ".pdf",
                 DbxWriteMode.add(), inputFile.length(), inputStream);
-            sharedUrl = client.createShareableUrl("/magnum-opus.pdf");
-            System.out.println("Uploaded: " + uploadedFile.toString() + " URL: " + sharedUrl );
+            sharedUrl = client.createShareableUrl("/"+uploadedFile.name);
+            System.out.println("Uploaded: " + uploadedFile.name + " URL: " + sharedUrl );
         } finally {
             inputStream.close();
         }

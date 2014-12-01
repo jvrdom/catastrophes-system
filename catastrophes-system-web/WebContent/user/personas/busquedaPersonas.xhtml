@@ -5,7 +5,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:body>
 	<ui:composition template="/user/template/layout.xhtml">
 		<ui:define name="content">
@@ -31,7 +32,13 @@
 					
 					<p:panel header="#{per.nombre} #{per.apellido}" style="text-align:center;">
 						<h:panelGrid columns="1" style="width:100%">
-							<p:graphicImage name="images/img1.png"/>
+						
+							<p:imageSwitch effect="fade" id="fadeEffect">
+							    <ui:repeat value="#{per.images}" var="image" id="fadeEffectImages">
+							        <p:graphicImage url="#{image.imagen}" id="image" />
+							    </ui:repeat>
+							</p:imageSwitch>
+							
 							<h:outputText value="#{per.descripcion}" />
 						</h:panelGrid>
 					

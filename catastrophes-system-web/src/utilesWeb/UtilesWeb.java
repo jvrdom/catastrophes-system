@@ -22,16 +22,16 @@ import org.apache.commons.io.output.ByteArrayOutputStream;
 
 public class UtilesWeb {
 	
-	private String IMGUR_POST_URI = "URI";
+	private String IMGUR_POST_URI = "URL";
 	private String IMGUR_API_KEY = "KEY";
-	private String PATH = "PATH";
+	private String PATH = "/home/javier/images/";
 	private UploadDropbox upload;
 	
 	public UtilesWeb() {
 		upload = new UploadDropbox();
 	}
 	
-	public String fileUpload(String fileName, InputStream in){
+	public String fileUpload(String fileName, String nombreCatastrofe, InputStream in){
 		
 		String retorno = null;
 		File file = null;

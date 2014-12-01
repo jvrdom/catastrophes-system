@@ -25,8 +25,8 @@ public class Catastrofe implements Serializable {
 	private String nombre;
 	@Column(name="description")
 	private String description;
-	//@Enumerated(EnumType.STRING)
-    //protected Tipo tipo;
+	@Enumerated(EnumType.STRING)
+    protected Tipo tipo;
 	@Column(name="logo")
 	private String logo;
 	@Column(name="css")
@@ -50,14 +50,14 @@ public class Catastrofe implements Serializable {
 	}
 
 	
-	//public Tipo getTipo() {
-	//	return tipo;
-	//}
+	public Tipo getTipo() {
+		return tipo;
+	}
 
 
-	//public void setTipo(Tipo tipo) {
-	//	this.tipo = tipo;
-	//}
+	public void setTipo(Tipo tipo) {
+		this.tipo = tipo;
+	}
 
 
 	public int getCatastrofeId() {
