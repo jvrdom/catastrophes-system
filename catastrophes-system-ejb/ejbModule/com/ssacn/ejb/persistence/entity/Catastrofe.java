@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.*;
-
-import com.ssacn.ejb.bean.Sexo;
 import com.ssacn.ejb.bean.Tipo;
 
 /**
@@ -41,9 +39,9 @@ public class Catastrofe implements Serializable {
 	private List<Novedades> novedades;
 	//@OneToMany
 	//private List<PerosnaDesap> personasDesap;
-	@OneToOne(mappedBy="catastrofe",cascade= CascadeType.ALL)
-	private Plan plan;
-	
+	@OneToMany (cascade= CascadeType.ALL)
+	private List<Plan> planes;
+
 
 	public Catastrofe() {
 		super();
@@ -73,15 +71,6 @@ public class Catastrofe implements Serializable {
 		this.novedades = novedades;
 	}
 
-
-	/*public List<PerosnaDesap> getPersonasDesap() {
-		return personasDesap;
-	}
-
-
-	public void setPersonasDesap(List<PerosnaDesap> personasDesap) {
-		this.personasDesap = personasDesap;
-	}*/
 
 
 	public void setCatastrofeId(int catastropheID) {
@@ -144,12 +133,16 @@ public class Catastrofe implements Serializable {
 		this.images = images;
 	}
 
-	public Plan getPlan() {
-		return plan;
+
+	public List<Plan> getPlanes() {
+		return planes;
 	}
 
-	public void setPlan(Plan plan) {
-		this.plan = plan;
+
+	public void setPlanes(List<Plan> planes) {
+		this.planes = planes;
 	}
+
+	
 	
 }

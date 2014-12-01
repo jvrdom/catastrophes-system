@@ -40,6 +40,25 @@ public class UserManager implements UserManagerRemote {
 
 	@Override
 	public void createUser(String nombre, String apellido, String email,
+<<<<<<< HEAD
+=======
+			String password, Date fecNac, String sexo) {
+		
+		Usuario u = new Usuario();
+		u.setNombre(nombre);
+		u.setApellido(apellido);
+		u.setEmail(email);
+		u.setPassword(password);
+		u.setNacimiento(fecNac);
+		u.setSexo(utilesUsuario.getSexo(sexo));
+		
+		userController.create(u);
+		
+	}
+	
+	@Override
+	public void createUser(String nombre, String apellido, String email,
+>>>>>>> 753f60cb624d7c65931cc520c1cdcd9b1de50662
 			String password, Date fecNac, String sexo,String tel) {
 		
 		Usuario u = new Usuario();
@@ -50,7 +69,6 @@ public class UserManager implements UserManagerRemote {
 		u.setNacimiento(fecNac);
 		u.setSexo(utilesUsuario.getSexo(sexo));
 		u.setTelefono(tel);
-	//	u.setIdReg("");
 		
 		userController.create(u);
 		

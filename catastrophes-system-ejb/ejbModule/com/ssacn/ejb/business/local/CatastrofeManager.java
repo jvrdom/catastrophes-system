@@ -1,15 +1,21 @@
 package com.ssacn.ejb.business.local;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
+<<<<<<< HEAD
 import com.ssacn.ejb.bean.Tipo;
+=======
+import com.ssacn.ejb.bean.TipoPlan;
+>>>>>>> 753f60cb624d7c65931cc520c1cdcd9b1de50662
 import com.ssacn.ejb.business.remote.CatastrofeManagerRemote;
 import com.ssacn.ejb.persistence.entity.Catastrofe;
 import com.ssacn.ejb.persistence.entity.Plan;
 import com.ssacn.ejb.persistence.jpaController.JpaCatastrofeController;
+import com.ssacn.ejb.persistence.jpaController.JpaPlanController;
 import com.ssacn.ejb.util.AndroidGCMPushNotification;
 
 @LocalBean
@@ -17,13 +23,14 @@ import com.ssacn.ejb.util.AndroidGCMPushNotification;
 public class CatastrofeManager implements CatastrofeManagerRemote{
 	
 	private JpaCatastrofeController catastrofeController;
-	
+	private JpaPlanController planController;
 	public CatastrofeManager() {
 		catastrofeController = new JpaCatastrofeController(); 
+		planController=new JpaPlanController();
 	}
 	
 	@Override
-	public void createCatastrofe(String nombre, String nombrePlan, String urlPlan, String urlIcon,
+	public void createCatastrofe(String nombre, TipoPlan tipoPlan, String urlPlan, String urlIcon,
 			String descripcion,String latLng) {
 		
 		String regID = "APA91bErxDEhplg4-GT2RoY9N7tibbzJAifLrqpVhy0OYkwaNHhWWKsGAxzm31VpbBtixyssPC61jmbFNZfnq_lhfva55uE6Cb5ePauJlBygykDQV0Hje-Orjin0P94_em4nNBk8rYT-NHs96okhLmbfdDpApUAqbjAdGw21ZTnx1spu4Vtb8RM";
@@ -46,15 +53,28 @@ public class CatastrofeManager implements CatastrofeManagerRemote{
 				
 		Plan plan = new Plan();
 		plan.setUrl(urlPlan);
+<<<<<<< HEAD
 		plan.setDescripcion("xdfdxffdxdfxdfxdfx");
 		plan.setTipo("Me cago");
 		//plan.setCatastrofe(catastrofe);
+=======
+		plan.setDescripcion(descripcion);
+		plan.setTipo(tipoPlan);
+		plan.setCatastrofe(catastrofe);
+		if(catastrofe.getPlanes()==null){
+			List<Plan> planes=new ArrayList<Plan>();
+			planes.add(plan);
+			catastrofe.setPlanes(planes);
+		}else{
+			catastrofe.getPlanes().add(plan);
+		}
+>>>>>>> 753f60cb624d7c65931cc520c1cdcd9b1de50662
 		
-		catastrofe.setPlan(plan);
-		//AndroidGCMPushNotification.enviarNotificaciones("prueba", regID);
 		
+		//
+		//AndroidGCMPushNotification.enviarNotificaciones("prueba", regID);		
 		catastrofeController.create(catastrofe);
-		
+
 	}
 
 	@Override

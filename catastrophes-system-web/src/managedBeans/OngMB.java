@@ -1,12 +1,6 @@
 package managedBeans;
 
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+	
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,26 +8,19 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.DualListModel;
-import org.primefaces.model.StreamedContent;
-
+import com.ssacn.ejb.bean.TipoPlan;
 import com.ssacn.ejb.business.local.CatastrofeManager;
 import com.ssacn.ejb.business.local.PersDesapManager;
-import com.ssacn.ejb.business.local.UserManager;
 import com.ssacn.ejb.business.remote.OngManagerRemote;
 import com.ssacn.ejb.business.remote.PersDesapManagerRemote;
 import com.ssacn.ejb.persistence.entity.Catastrofe;
 import com.ssacn.ejb.persistence.entity.Ong;
-import com.ssacn.ejb.persistence.entity.Persona;
+
 
 @ManagedBean(name="ongMB")
-@RequestScoped
+@ViewScoped
 public class OngMB {
 
 	@EJB
@@ -51,7 +38,6 @@ public class OngMB {
 	private boolean created;
 	private String name;
 	private String desc;
-	private StreamedContent img;
 	 
 	@PostConstruct
 	public void init(){
@@ -62,8 +48,9 @@ public class OngMB {
 			catastrofeM=new CatastrofeManager();
 			catsOng=new ArrayList<Catastrofe>();
 			//crea catastrofes de prueba
-			/*catastrofeM.createCatastrofe("nom", "nplan", "/opt/url", "desc", "(10,11)");
-			catastrofeM.createCatastrofe("nom2", "nplan2", "/opt/url2", "desc2", "(10,12)");
+			catastrofeM.createCatastrofe("nom", TipoPlan.Emergencia, "/opt/url","urlicon" ,"desc", "(10,11)");
+			 
+		/*catastrofeM.createCatastrofe("nom2", "nplan2", "/opt/url2", "desc2", "(10,12)");
 			catastrofeM.createCatastrofe("nom3", "nplan3", "/opt/url3", "desc3", "(10,13)");
 			catastrofeM.createCatastrofe("nom4", "nplan4", "/opt/url4", "desc4", "(10,14)");*/
 			PersDesapManagerRemote perM=new PersDesapManager();
@@ -80,40 +67,6 @@ public class OngMB {
 			ex.printStackTrace();
 		}
 	}
-
-	
-	
-
-
-
-
-	
-
-
-
-
-
-	/*private FileInputStream cargarImagen() throws FileNotFoundException {
-		FileInputStream fis=null;
-		File file=new File("/home/nico/Prueba/prueba.png");
-		fis=new FileInputStream(file);
-		return fis;
-	}*/
-
-
-
-
-
-
-
-	public void setImg(StreamedContent img) {
-		this.img = img;
-	}
-
-
-
-
-
 
 
 	public String getName() {

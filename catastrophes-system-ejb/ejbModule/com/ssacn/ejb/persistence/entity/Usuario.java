@@ -16,18 +16,12 @@ public class Usuario extends Persona implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private String regId;
+	
 	
 	public Usuario() {
 		super();
 	}
 
-	public String getRegId() {
-		return regId;
-	}
-
-	public void setRegId(String idReg) {
-		this.regId = idReg;
-	}
+	
    
 }

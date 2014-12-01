@@ -17,6 +17,7 @@ import org.primefaces.model.UploadedFile;
 
 import utilesWeb.UtilesWeb;
 
+import com.ssacn.ejb.bean.TipoPlan;
 import com.ssacn.ejb.business.remote.CatastrofeManagerRemote;
 
 @ManagedBean(name="catastrofes")
@@ -44,6 +45,7 @@ public class CatastrofesBean {
 	public void altaCatastrofe() throws IOException{
 		
 		castM.createCatastrofe(nombre, "prueba", this.finalPath, this.finalPathImg , descripcion, latLng);
+
 		//galeria de imagenes
 		//css
 		//notificaciones

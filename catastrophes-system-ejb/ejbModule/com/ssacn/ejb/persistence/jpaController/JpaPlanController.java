@@ -18,11 +18,11 @@ import com.ssacn.ejb.persistence.entity.PerosnaDesap;
 import com.ssacn.ejb.persistence.entity.Plan;
 
 @Stateless
-public class JpaPlanEmController {
+public class JpaPlanController {
 	@PersistenceContext(unitName = "SSCNjpaPU")
 	private EntityManagerFactory emf;
 	
-	public JpaPlanEmController() {		
+	public JpaPlanController() {		
         emf = Persistence.createEntityManagerFactory("SSCNjpaPU");
     }
 	
@@ -121,12 +121,12 @@ public class JpaPlanEmController {
 	        }
 	    }
 	    
-	    public Plan findPlanByIdCatastrofe(int idCatastrofe) {	
+	    public Plan findPlanByIdCatastrofe(int idCatastrofe, String tipo) {	
 	        EntityManager em = getEntityManager();
 	        Plan plan = null;	        
-	        plan = em.createNamedQuery("Plan.findByIdCatastofe",Plan.class).setParameter("idCatastrofe", idCatastrofe).getSingleResult();	        
+	        plan = em.createNamedQuery("Plan.findByIdCatastofe",Plan.class).setParameter("idCatastrofe", idCatastrofe).setParameter("tipo", tipo).getSingleResult();	        
 	        return plan;
 	   
-    }
+	    }
 	    
 }

@@ -7,6 +7,9 @@ import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.HeaderParam;
@@ -16,25 +19,37 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.ext.Provider;
 
-import org.jboss.resteasy.spi.interception.MessageBodyWriterContext;
-import org.jboss.resteasy.util.Base64;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.primefaces.json.JSONException;
 
-import com.google.gson.JsonObject;
+
+
+
+
+
+
+
+
+
 import com.ssacn.ejb.bean.Sexo;
-import com.ssacn.ejb.business.local.PlanEmManager;
+import com.ssacn.ejb.bean.TipoPlan;
+import com.ssacn.ejb.business.local.CatastrofeManager;
+import com.ssacn.ejb.business.local.PlanManager;
 import com.ssacn.ejb.business.local.RescatistaManager;
 import com.ssacn.ejb.business.local.UserManager;
-import com.ssacn.ejb.business.remote.PlanEmManagerRemote;
+import com.ssacn.ejb.business.remote.CatastrofeManagerRemote;
+import com.ssacn.ejb.business.remote.PlanManagerRemote;
 import com.ssacn.ejb.business.remote.RescatistaManagerRemote;
 import com.ssacn.ejb.business.remote.UserManagerRemote;
+import com.ssacn.ejb.persistence.entity.Catastrofe;
 import com.ssacn.ejb.persistence.entity.Plan;
 import com.ssacn.ejb.persistence.entity.Rescatista;
 
@@ -43,13 +58,27 @@ import com.ssacn.ejb.persistence.entity.Rescatista;
 public class RescatistaResource {
 
 	private RescatistaManagerRemote rescatistaM;
-
+	private CatastrofeManagerRemote catastrofeM;
+	private PlanManagerRemote planM;
+	
 	public RescatistaManagerRemote getRescatistaManager() {
 		if (rescatistaM == null) {
 			rescatistaM = new RescatistaManager();
 		}
 		return rescatistaM;
+	}
+	public CatastrofeManagerRemote getCatastrofeManager() {
+		if (catastrofeM == null) {
+			catastrofeM = new CatastrofeManager();
+		}
+		return catastrofeM;
 
+	} 
+	public PlanManagerRemote getPlanManager() {
+		if (planM == null) {
+			planM = new PlanManager();
+		}
+		return planM;
 	}
 
 	@Path("/alta")
@@ -79,19 +108,50 @@ public class RescatistaResource {
 
 	}
 
+	@GET
 	@Path("/login")
-	@POST
-	@Produces("application/json")
-	public int login(@FormParam("email") String email,
-			@FormParam("pass") String pass) {
+	@Produces(MediaType.APPLICATION_JSON)
+	public Map<String, String> login(@QueryParam("email") String email,
+			@QueryParam("pass") String pass) {
+		Map<String, String> map = new HashMap<String, String>();
+		System.out.println("mail " + email + " pass " + pass);
+		
+		int resultado;
 		try {
-			return getRescatistaManager().login(email, pass);
+			resultado = getRescatistaManager().login(email,pass);
+			//Integer.toString(i) or String.valueOf(i).
+			map.put("login", String.valueOf(resultado) );
+			return map;
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			return -1;
+			map.put("login", String.valueOf(-1) );
+			return map;
 		}
 
 	}
+	
+	
+	@GET
+	@Path("/insertRegId")
+	@Produces(MediaType.APPLICATION_JSON)
+	public  Map<String, String> insertRegId(@QueryParam("idResc") int id,
+			@QueryParam("idReg") String idReg) {
+		try {
+			Rescatista res = getRescatistaManager().findById(id);
+			res.setRegId(idReg);
+			getRescatistaManager().actualizarRescatista(res);
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("insertRegId", "ok" );
+			return map;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("insertRegId", ex.getMessage());
+			return map;
+		}
+
+	}
+	
 
 	@Path("/actualizar")
 	@POST
@@ -130,98 +190,51 @@ public class RescatistaResource {
 
 	}
 
-	@Path("/idReg/{idResc}/{idReg}")
+	
+
 	@GET
+	@Path("/catastrofes")
 	@Produces("application/json")
-	public String actualizarIdReg(@PathParam("idResc") int id,
-			@PathParam("idReg") String idReg) {
-		try {
-			Rescatista res = getRescatistaManager().findById(id);
-			res.setRegId(idReg);
-			getRescatistaManager().actualizarRescatista(res);
+	public JSONArray getCatastrofes(){
+	//public JsonArray getCatastrofes(){
+		
+	List<Catastrofe> catastrofes;
+	catastrofes = getCatastrofeManager().getCatastrofes();
+	
+	JSONObject jObject = new JSONObject();
+	
+	JSONArray jArray = new JSONArray();
+    try {
+            
+            for (Catastrofe catastrofe : catastrofes) {
+//            	String planDescripcion = catastrofe.getPlan().getUrl();
+                JSONObject catastrofeJSON = new JSONObject();
+                catastrofeJSON.put("idC", catastrofe.getCatastrofeId() );
+                catastrofeJSON.put("nombre", catastrofe.getNombre() );
+                catastrofeJSON.put("latitud", catastrofe.getCoordY() );
+                catastrofeJSON.put("longitud", catastrofe.getCoordX() );
+                
+                for(Plan plan: catastrofe.getPlanes()){
+                	if(plan.getTipo()==TipoPlan.Emergencia){
+                		catastrofeJSON.put("planEmergencia", plan.getUrl());
+                	}else if(plan.getTipo()==TipoPlan.Riesgo){
+                		catastrofeJSON.put("planRiesgo", plan.getUrl());
+                	}
+                }                       
+                jArray.add(catastrofeJSON);
+                }
+            jObject.put("StudentList", jArray);
+    } catch (Exception jse) {
+        jse.printStackTrace();
+    }
+    
+    return jArray;
 
-			return "ok";
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return ex.getMessage();
-		}
+}
 
-	}
 
-	@GET
-	@Path("/PlanEmergencia/{idCatastrofe}")
-	@Produces("application/pdf")
-	public Response findPlan(@PathParam("idCatastrofe") int idCatastrofe) {
-		PlanEmManagerRemote pm = new PlanEmManager();
-		Plan plan = pm.findPlanByIdCatastrofe(idCatastrofe);
 
-		File file = new File(plan.getUrl());
 
-		ResponseBuilder response = Response.ok((Object) file);
-		response.header("Content-Disposition", "attachment; filename=plan.pdf");
-		return response.build();
-
-		// convertFile(json.getString("file"), json.getString("file_name"));
-		// Prints my json object
-		// return json;
-	}
-
-	@GET
-	@Path("/PlanEmergencia2/{idCatastrofe}")
-	@Produces("application/json")
-	public String findPlan2(@PathParam("idCatastrofe") int idCatastrofe) throws Exception {
-		try{
-		PlanEmManagerRemote pm = new PlanEmManager();
-		//Plan plan = pm.findPlanByIdCatastrofe(idCatastrofe);
-
-		//File file = new File(plan.getUrl());
-		File file = new File("/home/nico/Descargas/pdf-sample.pdf");
-		byte[] bytes = loadFile(file);
-		String encoded = Base64.encodeBytes(bytes);
-		// String encodedString = new String(encoded);
-		//JsonObject json = new JsonObject();
-		//json.addProperty("plan", encoded);
-		//return json;
-		return encoded;
-		}catch(Exception ex){
-			ex.printStackTrace();
-			throw new Exception(ex);
-		}
-		// convertFile(json.getString("file"), json.getString("file_name"));
-		// Prints my json object
-		// return json;
-	}
-
-	// Convert a Base64 string and create a file
-	/*
-	 * private void convertFile(String file_string, String file_name) throws
-	 * IOException{ byte[] bytes = Base64.decode(file_string); File file = new
-	 * File("local_path/"+file_name); FileOutputStream fop = new
-	 * FileOutputStream(file); fop.write(bytes); fop.flush(); fop.close(); }
-	 */
-
-	private static byte[] loadFile(File file) throws IOException {
-		InputStream is = new FileInputStream(file);
-
-		long length = file.length();
-		if (length > Integer.MAX_VALUE) {
-			// File is too large
-		}
-		byte[] bytes = new byte[(int) length];
-		int offset = 0;
-		int numRead = 0;
-		while (offset < bytes.length
-				&& (numRead = is.read(bytes, offset, bytes.length - offset)) >= 0) {
-			offset += numRead;
-		}
-
-		if (offset < bytes.length) {
-			throw new IOException("Could not completely read file "+ file.getName());
-		}
-
-		is.close();
-		return bytes;
-	}
 
 	@GET()
 	@Produces("text/plain")
