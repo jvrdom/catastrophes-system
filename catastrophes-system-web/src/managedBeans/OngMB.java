@@ -42,8 +42,6 @@ public class OngMB {
 	@PostConstruct
 	public void init(){
 		try{
-			
-			
 			ongs=ongM.getOngs();
 			catastrofeM=new CatastrofeManager();
 			catsOng=new ArrayList<Catastrofe>();

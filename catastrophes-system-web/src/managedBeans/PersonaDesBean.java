@@ -25,27 +25,19 @@ import com.ssacn.ejb.persistence.entity.Usuario;
 @ViewScoped
 public class PersonaDesBean {
 	
-	private static final String estado = "Desaparecido";
-	
 	@EJB
 	private PersDesapManagerRemote personaDesM;
 	
 	private String search;
 	private String nombre, apellido,telefono,descripcion;
-	private String finalPath;
-	private List<ImagenPersonaDesap> images;
 	private PerosnaDesap persona;
 	private Catastrofe catastrofe;
-	private Usuario usuario;
 	private List<PerosnaDesap> listadoPersonasDes;
-	private UtilesWeb utiles;
+	
 	
 	@PostConstruct
 	public void init(){
-		utiles = new UtilesWeb();
-		images = new ArrayList<ImagenPersonaDesap>();
 		catastrofe = (Catastrofe) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("catastrofe");
-		usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
 		listadoPersonasDes = personaDesM.getDesaparecidos(catastrofe.getCatastrofeId());
 	}
 	
@@ -56,27 +48,6 @@ public class PersonaDesBean {
 			listadoPersonasDes = personaDesM.getDesaparecidos(catastrofe.getCatastrofeId());
 		}
 	}
-	
-	public void altaPersonDesaparecida(){
-		personaDesM.createPerosnaDesap(nombre, apellido, telefono, descripcion, estado, usuario.getId(), catastrofe.getCatastrofeId(), this.images);
-	}
-	
-	public void handleFileUpload(FileUploadEvent event) {
-		try {
-			finalPath = utiles.fileUpload(event.getFile().getFileName(), nombre, event.getFile().getInputstream());
-			
-			ImagenPersonaDesap imagen = new ImagenPersonaDesap();
-			imagen.setImagen(finalPath);
-			
-			images.add(imagen);
-			
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succesful", event.getFile().getFileName() + " is uploaded.");
-	        FacesContext.getCurrentInstance().addMessage(null, message);
-		} catch (IOException e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Fail!", "Failed to upload file: " + event.getFile().getFileName() + ", reason: " + e.getMessage());
-	        FacesContext.getCurrentInstance().addMessage(null, message);
-		}
-    }
 	
 	public String getSearch() {
 		return search;

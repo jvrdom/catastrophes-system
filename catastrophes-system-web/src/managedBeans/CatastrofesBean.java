@@ -1,14 +1,12 @@
 package managedBeans;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -17,6 +15,7 @@ import org.primefaces.model.UploadedFile;
 
 import utilesWeb.UtilesWeb;
 
+import com.ssacn.ejb.bean.Tipo;
 import com.ssacn.ejb.bean.TipoPlan;
 import com.ssacn.ejb.business.remote.CatastrofeManagerRemote;
 
@@ -44,7 +43,7 @@ public class CatastrofesBean {
 	
 	public void altaCatastrofe() throws IOException{
 		
-		castM.createCatastrofe(nombre, "prueba", this.finalPath, this.finalPathImg , descripcion, latLng);
+		castM.createCatastrofe(nombre, TipoPlan.Emergencia, this.finalPath, this.finalPathImg , descripcion, latLng, Tipo.Incendio);
 
 		//galeria de imagenes
 		//css
@@ -74,11 +73,6 @@ public class CatastrofesBean {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Fail!", "Failed to upload file: " + event.getFile().getFileName() + ", reason: " + e.getMessage());
 	        FacesContext.getCurrentInstance().addMessage(null, message);
 		}
-    }
-	
-	public void buttonAction() {
-		
-		
     }
 	
 	public String getNombre() {

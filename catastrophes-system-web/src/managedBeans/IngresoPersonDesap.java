@@ -1,7 +1,10 @@
 package managedBeans;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -13,37 +16,54 @@ import org.primefaces.event.FileUploadEvent;
 import utilesWeb.UtilesWeb;
 
 import com.ssacn.ejb.business.remote.PersDesapManagerRemote;
+import com.ssacn.ejb.persistence.entity.Catastrofe;
+import com.ssacn.ejb.persistence.entity.ImagenPersonaDesap;
+import com.ssacn.ejb.persistence.entity.Usuario;
 
 @ManagedBean(name="ingresoPersona")
 @RequestScoped
 public class IngresoPersonDesap {
+		
+	private static final String estado = "Desaparecido";
 	
 	@EJB
 	private PersDesapManagerRemote personaDesM;
 	
 	private String nombre,apellido,telefono,descripcion;
 	private UtilesWeb utiles;
-	String finalPath;
+	private String finalPath;
+	private List<ImagenPersonaDesap> images;
+	private Usuario usuario;
+	private Catastrofe catastrofe;
 	
-	public IngresoPersonDesap() {
+	@PostConstruct
+	public void init(){
 		utiles = new UtilesWeb();
+		images = new ArrayList<ImagenPersonaDesap>();
+		catastrofe = (Catastrofe) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("catastrofe");
+		usuario = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
 	}
 	
-	public void ingresoPersonsaDesaparecida(){
-		
+	public void altaPersonDesaparecida(){
+		personaDesM.createPerosnaDesap(nombre, apellido, telefono, descripcion, estado, usuario.getId(), catastrofe.getCatastrofeId(), this.images);
 	}
 	
-	public void handleFileUpload(FileUploadEvent event){
-		FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
-        FacesContext.getCurrentInstance().addMessage(null, message);
-        
-        try {
-			finalPath = utiles.fileUpload(event.getFile().getFileName(), null, event.getFile().getInputstream());
+	public void handleFileUpload(FileUploadEvent event) {
+		try {
+			finalPath = utiles.fileUpload(event.getFile().getFileName(), nombre, event.getFile().getInputstream());
+			
+			ImagenPersonaDesap imagen = new ImagenPersonaDesap();
+			imagen.setImagen(finalPath);
+			
+			images.add(imagen);
+			
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succesful", event.getFile().getFileName() + " is uploaded.");
+	        FacesContext.getCurrentInstance().addMessage(null, message);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Fail!", "Failed to upload file: " + event.getFile().getFileName() + ", reason: " + e.getMessage());
+	        FacesContext.getCurrentInstance().addMessage(null, message);
 		}
-	}
+    }
 	
 	public String getNombre() {
 		return nombre;
