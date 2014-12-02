@@ -1,6 +1,7 @@
 package com.ssacn.ejb.business.local;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -9,9 +10,7 @@ import com.ssacn.ejb.business.remote.RescatistaManagerRemote;
 import com.ssacn.ejb.exceptions.IllegalOrphanException;
 import com.ssacn.ejb.exceptions.NonexistentEntityException;
 import com.ssacn.ejb.persistence.entity.Rescatista;
-import com.ssacn.ejb.persistence.entity.Usuario;
 import com.ssacn.ejb.persistence.jpaController.JpaRescatistaController;
-import com.ssacn.ejb.persistence.jpaController.JpaUserController;
 import com.ssacn.ejb.util.UserUtiles;
 
 @LocalBean
@@ -78,5 +77,21 @@ public class RescatistaManager implements RescatistaManagerRemote{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}		
+		}
+		@Override
+		public void create(Rescatista rescatista) {
+			rescatistaController.create(rescatista);
+			
+		}
+		@Override
+		public void delete(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+			rescatistaController.destroy(id);
+			
+		}
+		@Override
+		public List<Rescatista> getRescatistas() {
+			// TODO Auto-generated method stub
+			List<Rescatista> resultado=rescatistaController.findRescatistas();
+			return resultado;
 		}
 }

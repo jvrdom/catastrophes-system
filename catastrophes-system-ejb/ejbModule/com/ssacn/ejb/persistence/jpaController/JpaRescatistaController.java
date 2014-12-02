@@ -1,5 +1,7 @@
 package com.ssacn.ejb.persistence.jpaController;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -106,8 +108,8 @@ public class JpaRescatistaController {
     public Rescatista findUserByLogin(String login) {
         EntityManager em = getEntityManager();
         Rescatista user = null;
-        if (em.createNamedQuery("Rescatista.findByLogin").setParameter("login", login).getResultList().size() > 0) {
-            user = (Rescatista) em.createNamedQuery("Rescatista.findByLogin").setParameter("login", login).getSingleResult();
+        if (em.createNamedQuery("Persona.findByLogin").setParameter("login", login).getResultList().size() > 0) {
+            user = (Rescatista) em.createNamedQuery("Persona.findByLogin").setParameter("login", login).getSingleResult();
         }
         return user;
     }
@@ -120,5 +122,13 @@ public class JpaRescatistaController {
         	return false;
         }
     }
+
+
+
+	public List<Rescatista> findRescatistas() {
+		EntityManager em = getEntityManager();
+        List<Rescatista> resultado= em.createNamedQuery("Persona.findRescatistas",Rescatista.class).getResultList();
+        return resultado;	
+	}
     
 }

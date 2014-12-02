@@ -2,7 +2,6 @@ package com.ssacn.ejb.persistence.jpaController;
 
 import java.util.List;
 
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -15,6 +14,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import com.ssacn.ejb.exceptions.IllegalOrphanException;
 import com.ssacn.ejb.exceptions.NonexistentEntityException;
 import com.ssacn.ejb.persistence.entity.Catastrofe;
+import com.ssacn.ejb.persistence.entity.Ong;
 
 @Stateless
 public class JpaCatastrofeController {
@@ -101,7 +101,11 @@ public class JpaCatastrofeController {
 	    }
 	    
 	    public List<Catastrofe> findCatastrofeEntities() {
-	        return findCatastrofeEntities(true, -1, -1);
+	        //return findCatastrofeEntities(true, -1, -1);
+	    	EntityManager em = getEntityManager();
+	        List<Catastrofe> lista = null;	        
+	        lista = em.createNamedQuery("Catastrofe.findAll",Catastrofe.class).getResultList();	        
+	        return lista;
 	    }
 	    
 	    private List<Catastrofe> findCatastrofeEntities(boolean all, int maxResults, int firstResult) {

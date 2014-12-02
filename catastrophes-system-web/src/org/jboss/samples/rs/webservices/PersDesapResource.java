@@ -41,7 +41,7 @@ public class PersDesapResource {
 		
 		try {			
 
-			getPersDesapManager().createPerosnaDesap(nombre, ape, telefono, descripcion, status, idUsuario, idCatastrofe);
+			getPersDesapManager().createPerosnaDesap(nombre, ape, telefono, descripcion, status, idUsuario, idCatastrofe, null);
 			return "ok";
 		} catch (Exception ex) {
 			ex.printStackTrace();

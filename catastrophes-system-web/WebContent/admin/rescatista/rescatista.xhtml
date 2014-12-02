@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/admin/template/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:define name="content">
+	<h:outputStylesheet library="css" name="css/style.css" /> 
+		<h:form id="form">
+		
+			<p:growl id="messages" showDetail="true" showSummary="false"
+				life="12000" autoUpdate="true" />
+
+			<h:panelGrid id="panelId" columns="4" columnClasses="top ,top,top, top"  style="height: 200px; max-height: 800px ">
+				<p:spacer width="270px" />
+				<p:dataTable id="rescatistasTbl" var="rescatista" value="#{rescatistaMB.rescatistas}"
+					selectionMode="single" selection="#{rescatistaMB.selectedRescatista}"
+					rowKey="#{rescatista.id}" style="width: 180px;" styleClass="table2">
+					<p:ajax event="rowSelect" listener="#{rescatistaMB.onRowSelect}"
+						update=":form:panelData :form:btnEditId :form:btnRemoveId "
+						process="rescatistasTbl" />
+					<p:column headerText="Rescatistas">
+						<h:outputText value="#{rescatista.nombre} #{rescatista.apellido}" />
+					</p:column>
+
+				</p:dataTable>
+				
+				<h:panelGroup id="panelData">
+					<p:watermark for="inputname" value="Nombre" id="watermarkName" />
+					<div class="form-group">
+					<div class="col-sm-10">
+						<p:inputText id="inputname" value="#{rescatistaMB.nombre}"
+							styleClass="form-control" disabled="#{rescatistaMB.readOnly}" style="margin-bottom:10px; width:300px"/>
+					</div>
+					</div>
+					<div class="form-group">
+					<p:watermark for="inputape" value="Apellido" id="watermarkApe" />
+					<div class="col-sm-10">
+						<p:inputText id="inputape" value="#{rescatistaMB.apellido}"
+							styleClass="form-control" disabled="#{rescatistaMB.readOnly}" style="margin-bottom:10px; width:300px"/>
+					</div>
+					</div>
+					<div class="form-group">
+					<p:watermark for="inputemail" value="Email" id="watermarkEmail" />
+					<div class="col-sm-10">
+						<p:inputText id="inputemail" value="#{rescatistaMB.email}"
+							styleClass="form-control" disabled="#{rescatistaMB.readOnly}" style="margin-bottom:10px; width:300px"/>
+					</div>
+					</div>
+					<div class="form-group">
+	                	<div class="col-sm-10">
+					<p:watermark for="inputpassword" value="Password" id="watermarkPass" />
+					<p:password id="inputpassword" value="#{rescatistaMB.password}" required="true" label="Password" styleClass="form-control"
+		                style="margin-bottom:10px; width:300px"	requiredMessage="Por favor ingrese un password" disabled="#{rescatistaMB.readOnly}">		                	
+			        </p:password>
+			        </div>
+			        </div>
+			        <div class="form-group">
+			        <p:watermark for="inputTel" value="Teléfono" id="watermarkDesc" />
+					<div class="col-sm-10">
+						<p:inputText id="inputTel" value="#{rescatistaMB.telefono}"
+							styleClass="form-control" disabled="#{rescatistaMB.readOnly}" style="margin-bottom:10px; width:300px"/>
+					</div>
+					</div>
+					<div class="form-group">
+			        <p:watermark for="inputdate" value="Fecha de Nacimiento" id="watermarkNac" />
+	                	<div class="col-sm-10"  style="margin-bottom:10px; width:300px" >
+	                		<p:calendar id="inputdate" value="#{rescatistaMB.fechaNac}"/>
+	                	</div>
+					</div>
+					 <div class="form-group">				             	
+		            	<div class="col-sm-10">   
+		            		<label for="inputsexo" style="margin-right:20px" class="col-sm-2 control-label">Sexo:</label>	
+							<h:selectOneRadio id="sexo" value="#{rescatistaMB.sexo}">
+								<f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+								<f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+							</h:selectOneRadio>	   
+						</div> 
+					</div>       
+					
+					
+				
+				</h:panelGroup>
+				
+						<h:panelGrid columns="1" >
+						<p:commandButton id="btnAddId"  value="Agregar" actionListener="#{rescatistaMB.cleanFields()}"  styleClass="button4" update=":form:panelData :form:confirmBtn :form:cancelBtn" />
+						<p:commandButton id="btnEditId"  value="Editar" styleClass="button4" update=":form:panelData :form:confirmBtn :form:cancelBtn"/>
+						<p:commandButton id="btnRemoveId"  value="Eliminar" styleClass="button4" onclick="PF('confirmDlg').show();" />
+					 </h:panelGrid>
+				
+			
+			</h:panelGrid>
+			
+			
+			<p:commandButton id="confirmBtn"   value="Confirmar" actionListener="#{rescatistaMB.create}" update=":form:rescatistasTbl" disabled="#{rescatistaMB.readOnly}" styleClass="button5" style="margin-left:250px;margin-top:50px;"/>
+			<p:commandButton  id="cancelBtn" value="Cancelar" actionListener="#{rescatistaMB.cancelar}" update=":form:panelData" disabled="#{rescatistaMB.readOnly}" styleClass="button5" style="margin-top:50px;" />	
+
+			
+			<p:dialog header="Solicitud de confirmacón" showEffect="fade" id="usrDlgConf" resizable="false" closeOnEscape="true"
+                  widgetVar="confirmDlg" style="top: 200px !important;" modal="true" styleClass="dialogo"> 
+            <p:spacer height="5"/>
+            <h:panelGrid width="100%"  cellspacing="5" cellpadding="5" style="padding: 0 8px 5px 12px;">
+                <h:outputText value="El rescatista &lt;b&gt;#{rescatistaMB.nombre}&lt;/b&gt; será eliminado." escape="false" />
+                <h:outputText value="Realmente confirma esta operación?" />
+            </h:panelGrid>
+            <h:panelGrid  columns="2" cellspacing="10" styleClass="cen" columnClasses="izq, izq" cellpadding="10" >
+                <p:commandButton value="Si" actionListener="#{rescatistaMB.deleteRescatista}"
+                                  icon="ui-icon-check" oncomplete="PF('confirmDlg').hide();" update="messages"   />  
+                <p:commandButton value="No" type="button" icon="ui-icon-close" process="@this"
+                                 onclick="PF('confirmDlg').hide();"/> 
+            </h:panelGrid>
+			
+        </p:dialog> 
+			
+		</h:form>
+	</ui:define>
+
+</ui:composition>

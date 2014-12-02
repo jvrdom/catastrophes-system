@@ -105,8 +105,8 @@ public class JpaUserController {
     public Usuario findUserByLogin(String login) {
         EntityManager em = getEntityManager();
         Usuario user = null;
-        if (em.createNamedQuery("Usuario.findByLogin",Usuario.class).setParameter("login", login).getResultList().size() > 0) {
-            user =  em.createNamedQuery("Usuario.findByLogin",Usuario.class).setParameter("login", login).getSingleResult();
+        if (em.createNamedQuery("Persona.findByLogin").setParameter("login", login).getResultList().size() > 0) {
+            user =  (Usuario)em.createNamedQuery("Persona.findByLogin").setParameter("login", login).getSingleResult();
         }
         return user;
     }

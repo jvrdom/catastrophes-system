@@ -16,11 +16,11 @@
 			<p:growl id="messages" showDetail="true" showSummary="false"
 				life="12000" autoUpdate="true" />
 
-			<h:panelGrid id="panelId" columns="3" style="height: 200px; max-height: 300px  ">
-
+			<h:panelGrid id="panelId" columns="4" columnClasses="top ,top,top , top"  style="height: 200px; max-height: 300px ">
+				<p:spacer width="200px" />
 				<p:dataTable id="ongTbl" var="ong" value="#{ongMB.ongs}"
 					selectionMode="single" selection="#{ongMB.selectedOng}"
-					rowKey="#{ong.ongId}" style="width: 180px;">
+					rowKey="#{ong.ongId}" style="width: 180px;" styleClass="table2">
 					<p:ajax event="rowSelect" listener="#{ongMB.onRowSelect}"
 						update=":form:inputname :form:inputdesc :form:btnEditId :form:btnRemoveId :form:catastrofesTbl"
 						process="ongTbl" />
@@ -29,35 +29,39 @@
 					</p:column>
 
 				</p:dataTable>
-
-				<h:panelGroup>
-					<label for="inputname" class="col-sm-2 control-label">Nombre</label>
+				<p:spacer width="20px" />
+				<h:panelGroup >
+					<p:watermark for="inputname" value="Nombre" id="watermarkName" />
 					<div class="col-sm-10">
 						<p:inputText id="inputname" value="#{ongMB.name}"
 							styleClass="form-control" disabled="#{ongMB.readOnly}"/>
 					</div>
 					
-					<label for="inputdesc" class="col-sm-2 control-label">Descripcion</label>
+					<p:watermark for="inputdesc" value="Descripción" id="watermarkDesc" />
 					<div class="col-sm-10">
 						<p:inputTextarea id="inputdesc"
 							value="#{ongMB.desc}"
-							styleClass="form-control" disabled="#{ongMB.readOnly}"/>
+							styleClass="form-control" disabled="#{ongMB.readOnly}" style="margin-top:5px"/>
 					</div>
-
+					<div>
+						<h:panelGrid columns="1" style="margin-left:0px">
+						<p:commandButton id="btnAddId"  value="Agregar" actionListener="#{ongMB.cleanFields}" styleClass="button4" update=":form:panelId :form:panel2Id :form:confirmBtn :form:cancelBtn messages"/>
+						<p:commandButton id="btnEditId"  value="Editar" actionListener="#{ongMB.edit}" styleClass="button4" style="width:90px" disabled="#{ongMB.selectedOng==null}" update=":form:panelId :form:panel2Id :form:confirmBtn :form:cancelBtn messages "/>
+						<p:commandButton id="btnRemoveId"  value="Eliminar" onclick="PF('confirmDlg').show();"
+					 style="width:90px"  styleClass="button4" disabled="#{ongMB.selectedOng==null}" />
+					 </h:panelGrid>
+					</div>
+					
+				
 				</h:panelGroup>
-				<h:panelGrid columns="1">
-					<p:commandButton id="btnAddId"  value="Agregar" actionListener="#{ongMB.cleanFields}"  styleClass="button" style="width:90px" update=":form:panelId :form:panel2Id :form:confirmBtn :form:cancelBtn messages"/>
-					<p:commandButton id="btnEditId"  value="Editar" actionListener="#{ongMB.edit}" styleClass="button" style="width:90px" disabled="#{ongMB.selectedOng==null}" update=":form:panelId :form:panel2Id :form:confirmBtn :form:cancelBtn messages "/>
-					<p:commandButton id="btnRemoveId"  value="Eliminar" onclick="PF('confirmDlg').show();"
-					 style="width:90px"  styleClass="button" disabled="#{ongMB.selectedOng==null}" />
-				</h:panelGrid>
+				
 
 			</h:panelGrid>
 			
 			<h:panelGrid id="panel2Id" columns="3" columnClasses="izq top, cen top, top" >
 				<p:spacer width="200px"/>
 				<p:dataTable id="catastrofesTbl" var="cat" value="#{ongMB.catsOng}"
-				 selection="#{ongMB.selectedCat}"
+				 selection="#{ongMB.selectedCat}" styleClass="table2"
 			    style=" width:650px" rowKey="#{cat.catastrofeId}">
 			    
 			    <p:column selectionMode="multiple" style="width:30px;text-align:center"/>	
@@ -75,8 +79,8 @@
 				</h:panelGrid>
 				
 			</h:panelGrid>
-			<p:commandButton id="confirmBtn"   value="Confirmar" actionListener="#{ongMB.createOng}" disabled="#{ongMB.readOnly}" style="margin-left:180px" />
-			<p:commandButton  id="cancelBtn" value="Cancelar" actionListener="#{ongMB.cancelar}" disabled="#{ongMB.readOnly}" update=":form:inputname :form:inputdesc :form:btnEditId :form:btnRemoveId :form:catastrofesTbl" />	
+			<p:commandButton id="confirmBtn"   value="Confirmar" actionListener="#{ongMB.createOng}" disabled="#{ongMB.readOnly}" style="margin-left:180px" styleClass="button5" />
+			<p:commandButton  id="cancelBtn" value="Cancelar" actionListener="#{ongMB.cancelar}" disabled="#{ongMB.readOnly}" styleClass="button5"  update=":form:inputname :form:inputdesc :form:btnEditId :form:btnRemoveId :form:catastrofesTbl" />	
 
 			<p:dialog id="catastrofesDlgId" widgetVar="catastrofesDlg">
 				<h:panelGrid columns="1">

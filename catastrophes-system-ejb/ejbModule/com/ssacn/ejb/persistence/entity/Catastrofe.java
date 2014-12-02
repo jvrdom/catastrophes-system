@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.*;
+
 import com.ssacn.ejb.bean.Tipo;
 
 /**
@@ -11,6 +12,8 @@ import com.ssacn.ejb.bean.Tipo;
  *
  */
 @Entity
+@NamedQueries({
+@NamedQuery(name="Catastrofe.findAll", query="SELECT c FROM Catastrofe c")})
 public class Catastrofe implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

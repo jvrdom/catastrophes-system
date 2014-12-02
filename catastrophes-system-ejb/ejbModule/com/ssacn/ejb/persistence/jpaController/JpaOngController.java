@@ -112,13 +112,17 @@ public class JpaOngController {
     }
     
     public List<Ong> findOngEntities() {
-        return findOngEntities(true, -1, -1);
+        //return findOngEntities(true, -1, -1);
+    	EntityManager em = getEntityManager();
+        List<Ong> lista = null;	        
+        lista = em.createNamedQuery("Ong.findAll",Ong.class).getResultList();	        
+        return lista;
     }
     
-    private List<Ong> findOngEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
+    /* private List<Ong> findOngEntities(boolean all, int maxResults, int firstResult) {
+       EntityManager em = getEntityManager();
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            CriteriaQuery<Ong> cq = em.getCriteriaBuilder().createQuery(Ong.class);
             cq.select(cq.from(Ong.class));
             Query q = em.createQuery(cq);
             if (!all) {
@@ -129,6 +133,8 @@ public class JpaOngController {
         } finally {
             em.close();
         }
-    }
+    	
+    	
+    }*/
     
 }

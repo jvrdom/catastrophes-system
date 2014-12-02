@@ -16,8 +16,8 @@ import com.ssacn.ejb.bean.Sexo;
 @Inheritance ( strategy=InheritanceType.SINGLE_TABLE )
 @NamedQueries({
 @NamedQuery(name = "Persona.findByNamePass", query = "SELECT u FROM Persona u WHERE u.email = :email AND u.password=:password"),
-@NamedQuery(name = "Rescatista.findByLogin", query = "SELECT u FROM Rescatista u WHERE u.email = :login"),
-@NamedQuery(name = "Usuario.findByLogin", query = "SELECT u FROM Usuario u WHERE u.email = :login")})
+@NamedQuery(name = "Persona.findByLogin", query = "SELECT u FROM Persona u WHERE u.email = :login"),
+@NamedQuery(name = "Persona.findRescatistas", query = "SELECT u FROM Rescatista u")})
 public class Persona implements Serializable {
 
 	

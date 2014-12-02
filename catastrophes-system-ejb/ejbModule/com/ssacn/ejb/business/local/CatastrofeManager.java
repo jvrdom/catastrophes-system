@@ -20,10 +20,10 @@ import com.ssacn.ejb.util.AndroidGCMPushNotification;
 public class CatastrofeManager implements CatastrofeManagerRemote{
 	
 	private JpaCatastrofeController catastrofeController;
-	private JpaPlanController planController;
+
 	public CatastrofeManager() {
 		catastrofeController = new JpaCatastrofeController(); 
-		planController=new JpaPlanController();
+
 	}
 	
 	@Override
