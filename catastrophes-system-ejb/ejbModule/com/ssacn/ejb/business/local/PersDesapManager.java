@@ -31,7 +31,7 @@ private JpaPersDesapController persDesapController;
 
 	@Override
 	public void createPerosnaDesap(String nombre, String apellido,
-			String telefono, String descripcion, String status, int idUsuario, int idCatastrofe, List<ImagenPersonaDesap> imagenes) {
+			String telefono, String descripcion, String status, String email, int idCatastrofe, List<ImagenPersonaDesap> imagenes) {
 		
 		PerosnaDesap pers=new PerosnaDesap();
 		pers.setApellido(apellido);
@@ -40,7 +40,8 @@ private JpaPersDesapController persDesapController;
 		pers.setStatus(status);
 		pers.setTelDeContacto(telefono);
 		UserManagerRemote um=new UserManager();
-		Usuario u=um.findUserById(idUsuario);		
+		//Usuario u=um.findUserById(idUsuario);
+		Usuario u = um.findUserByLogin(email);
 		pers.setReportado(u);
 		CatastrofeManagerRemote cm=new CatastrofeManager();
 		Catastrofe c=cm.findCatastrofeById(idCatastrofe);

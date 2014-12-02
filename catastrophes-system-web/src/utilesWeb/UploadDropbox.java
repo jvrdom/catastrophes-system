@@ -59,7 +59,7 @@ public class UploadDropbox {
         DbxAuthFinish authFinish = webAuth.finish("y_CxxWVFQGEAAAAAAAAAbM5ySyKv_69juSBN4WiKdcI");
         */
         
-        String accessToken = "TOKEN";
+        String accessToken = "y_CxxWVFQGEAAAAAAAAAbUt4hGKA7JWSFyl_aFG6DVsq8ADnVWTu2x-EofasFxX0";
         
         //System.out.println("TOKEN: " + accessToken);
         DbxClient client = new DbxClient(config, accessToken);        

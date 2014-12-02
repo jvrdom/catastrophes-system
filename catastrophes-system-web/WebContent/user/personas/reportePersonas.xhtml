@@ -12,7 +12,7 @@
   		<div class="row">
   			<div class="col-xs-6">
   				<h:form>
- 				   <p:fileUpload fileUploadListener="#{personaDes.handleFileUpload}" mode="advanced" dragDropSupport="false"
+ 				   <p:fileUpload fileUploadListener="#{ingresoPersona.handleFileUpload}" mode="advanced" dragDropSupport="false"
                   	multiple="true" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
                   	label="Elegir Icono"
                   	cancelLabel="Cancelar" />
@@ -22,31 +22,31 @@
 	  			<h:form id="formIngreso" class="form-horizontal">
 		  			<div class="form-group">
 			  			<div class="col-sm-12">	
-			                <p:inputText id="inputname" value="#{personaDes.nombre}" required="true" label="Nombre" styleClass="form-control" placeholder="Nombre">
+			                <p:inputText id="inputname" value="#{ingresoPersona.nombre}" required="true" label="Nombre" styleClass="form-control" placeholder="Nombre">
 			                    <f:validateLength minimum="2" />
 			                </p:inputText>
 			            </div>
 	                </div>
 	                <div class="form-group">
 			  			<div class="col-sm-12">	
-			                <p:inputText id="inputapellido" value="#{personaDes.apellido}" required="true" label="Apellido" styleClass="form-control" placeholder="Apellido">
+			                <p:inputText id="inputapellido" value="#{ingresoPersona.apellido}" required="true" label="Apellido" styleClass="form-control" placeholder="Apellido">
 			                    <f:validateLength minimum="2" />
 			                </p:inputText>
 			            </div>
 	                </div>
 	                <div class="form-group">
 			  			<div class="col-sm-12">	
-			                <p:inputText id="inputelefono" value="#{personaDes.telefono}" required="true" label="Descripcion" styleClass="form-control" placeholder="Teléfono">
+			                <p:inputText id="inputelefono" value="#{ingresoPersona.telefono}" required="true" label="Descripcion" styleClass="form-control" placeholder="Teléfono">
 			                    <f:validateLength minimum="2" />
 			                </p:inputText>
 			            </div>
 	                </div>
 	                <div class="form-group">
 			  			<div class="col-sm-12">	
-			                <p:inputTextarea id="inputdescricpion" rows="10" cols="50" value="#{personaDes.descripcion}" required="true" label="Descripcion" styleClass="form-control" placeholder="Descripción"/>
+			                <p:inputTextarea id="inputdescricpion" rows="10" cols="50" value="#{ingresoPersona.descripcion}" required="true" label="Descripcion" styleClass="form-control" placeholder="Descripción"/>
 			            </div>
 	                </div>
-	                <h:commandButton value="Ingresar Persona Desaparecida" actionListener="#{personaDes.altaPersonDesaparecida}" class="pull-right btn btn-success"/>
+	                <h:commandButton value="Ingresar Persona Desaparecida" actionListener="#{ingresoPersona.altaPersonDesaparecida}" class="pull-right btn btn-success"/>
 		        </h:form>
         	</div>        
   		</div>

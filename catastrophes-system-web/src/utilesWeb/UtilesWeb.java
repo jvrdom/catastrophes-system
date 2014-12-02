@@ -22,8 +22,8 @@ import org.apache.commons.io.output.ByteArrayOutputStream;
 
 public class UtilesWeb {
 	
-	private String IMGUR_POST_URI = "URL";
-	private String IMGUR_API_KEY = "KEY";
+	private String IMGUR_POST_URI = "https://api.imgur.com/3/image";
+	private String IMGUR_API_KEY = "c72609f2ad972ee";
 	private String PATH = "/home/javier/images/";
 	private UploadDropbox upload;
 	

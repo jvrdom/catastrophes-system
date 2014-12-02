@@ -9,6 +9,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.FileUploadEvent;
@@ -21,7 +22,7 @@ import com.ssacn.ejb.persistence.entity.ImagenPersonaDesap;
 import com.ssacn.ejb.persistence.entity.Usuario;
 
 @ManagedBean(name="ingresoPersona")
-@RequestScoped
+@ViewScoped
 public class IngresoPersonDesap {
 		
 	private static final String estado = "Desaparecido";
@@ -45,7 +46,7 @@ public class IngresoPersonDesap {
 	}
 	
 	public void altaPersonDesaparecida(){
-		personaDesM.createPerosnaDesap(nombre, apellido, telefono, descripcion, estado, usuario.getId(), catastrofe.getCatastrofeId(), this.images);
+		personaDesM.createPerosnaDesap(nombre, apellido, telefono, descripcion, estado, usuario.getEmail(), catastrofe.getCatastrofeId(), this.images);
 	}
 	
 	public void handleFileUpload(FileUploadEvent event) {

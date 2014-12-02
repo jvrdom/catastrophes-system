@@ -11,6 +11,7 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 
 import com.ssacn.ejb.persistence.entity.Administrador;
+import com.ssacn.ejb.persistence.entity.Persona;
 import com.ssacn.ejb.persistence.entity.Rescatista;
 import com.ssacn.ejb.persistence.entity.Usuario;
 import com.ssacn.ejb.exceptions.IllegalOrphanException;
@@ -104,11 +105,11 @@ public class JpaUserController {
     
     public Usuario findUserByLogin(String login) {
         EntityManager em = getEntityManager();
-        Usuario user = null;
+        Object user = null;
         if (em.createNamedQuery("Persona.findByLogin").setParameter("login", login).getResultList().size() > 0) {
-            user =  (Usuario)em.createNamedQuery("Persona.findByLogin").setParameter("login", login).getSingleResult();
+            user =  em.createNamedQuery("Persona.findByLogin").setParameter("login", login).getSingleResult();
         }
-        return user;
+        return (Usuario) user;
     }
     
     public Map<String, Boolean> existsUsuario(String login, String password){
