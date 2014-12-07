@@ -1,4 +1,4 @@
-package com.login.model;
+package com.catastrofe.model;
 
 public enum sexo
 {

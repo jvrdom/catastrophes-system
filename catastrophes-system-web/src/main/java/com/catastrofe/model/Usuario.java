@@ -1,4 +1,4 @@
-package com.login.model;
+package com.catastrofe.model;
 
 import javax.persistence.Entity;
 
@@ -14,13 +14,15 @@ import javax.persistence.Version;
 
 import java.lang.Override;
 
-import com.login.model.Rol;
+import com.catastrofe.model.Rol;
+import com.catastrofe.model.sexo;
 
 import javax.persistence.ManyToOne;
+
 import java.util.Date;
+
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import com.login.model.sexo;
 
 @Entity
 @NamedQueries({

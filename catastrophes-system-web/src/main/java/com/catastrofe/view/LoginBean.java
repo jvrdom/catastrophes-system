@@ -1,4 +1,4 @@
-package com.login.view;
+package com.catastrofe.view;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
@@ -7,7 +7,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.login.model.Usuario;
+import com.catastrofe.model.Usuario;
 
 @Named
 @SessionScoped

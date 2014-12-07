@@ -1,4 +1,4 @@
-package com.login.view;
+package com.catastrofe.view;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;

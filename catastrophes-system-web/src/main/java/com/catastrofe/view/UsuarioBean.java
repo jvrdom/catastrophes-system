@@ -1,4 +1,4 @@
-package com.login.view;
+package com.catastrofe.view;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,8 +24,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import com.login.model.Usuario;
-import com.login.model.Rol;
+import com.catastrofe.model.Rol;
+import com.catastrofe.model.Usuario;
 
 /**
  * Backing bean for Usuario entities.
