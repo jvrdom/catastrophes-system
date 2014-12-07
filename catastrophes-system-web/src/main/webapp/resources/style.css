@@ -1,0 +1,245 @@
+/* Space out content a bit */
+body {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+/* Custom page header */
+.header {
+	border-bottom: 1px solid #e5e5e5;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+	padding-bottom: 19px;
+	margin-top: 0;
+	margin-bottom: 0;
+	line-height: 40px;
+}
+
+/* Custom page footer */
+.footer {
+	padding-top: 19px;
+	color: #777;
+	border-top: 1px solid #e5e5e5;
+}
+
+/* Customize container */
+@media (min-width: 1200px) {
+	.container {
+		max-width: 1170px;
+	}
+}
+
+@media (min-width: 768px) {
+	.header {
+		max-width: 730px;
+	}
+}
+
+.container-narrow > hr {
+	margin: 30px 0;
+}
+
+/* Supporting marketing content */
+.marketing {
+	margin: 40px 0;
+}
+
+.marketing p + h4 {
+	margin-top: 28px;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+/* Remove the padding we set earlier */
+	.header,
+	.marketing,
+	.footer {
+		padding-right: 0;
+		padding-left: 0;
+	}
+/* Space out the masthead */
+	.header {
+		margin-bottom: 5px;
+	}
+}
+
+.panel-registro {
+	margin-top: 2%;
+}
+
+
+.form-signin {
+	max-width: 330px;
+	padding: 15px;
+	margin: 0 auto;
+}
+
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+	margin-bottom: 10px;
+}
+
+.form-signin .checkbox {
+	font-weight: normal;
+}
+
+.form-signin .form-control {
+	position: relative;
+	height: auto;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 10px;
+	font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+	z-index: 2;
+}
+
+.form-signin input[type="email"] {
+	margin-bottom: -1px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+	margin-bottom: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.button
+{
+    margin: 0 0 5px 0;
+    text-decoration: none;
+    font: bold 1.0em 'Trebuchet MS',Arial, Helvetica; /*Change the em value to scale the button*/
+    display: inline-block;
+    text-align: center;
+    color: #fff;
+    /*border: 1px solid #9c9c9c; /* Fallback style */
+    border: 1px solid rgba(0, 0, 0, 0.3);            
+    text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+	background-color: #006C00;
+}
+.izq{
+    margin-left: 0;
+    margin-right: auto;
+    text-align:left;
+}
+.cen{
+    margin-left: auto;
+    margin-right: auto;
+    text-align:center;
+}
+
+.der{
+    margin-left: auto ;
+    margin-right: 0 ;
+    text-align:right;
+}
+.top{
+    vertical-align:top !important;
+}
+
+.button2
+{
+    margin: 0 0 0 0;
+    text-decoration: none;
+    font: bold 1.0em 'Trebuchet MS',Arial, Helvetica; /*Change the em value to scale the button*/
+    display: inline-block;
+    text-align: center;
+    color: #565656;
+    border: 1px solid #9c9c9c; /* Fallback style */
+    border: 1px solid rgba(0, 0, 0, 0.3);            
+    text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+
+}
+
+.button4{
+	background:#006C00;
+	background:-moz-linear-gradient(top,#006C00 0%,#4AA400 100%);
+	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#006C00),color-stop(100%,#4AA400));
+	background:-webkit-linear-gradient(top,#006C00 0%,#4AA400 100%);
+	background:-o-linear-gradient(top,#006C00 0%,#4AA400 100%);
+	background:-ms-linear-gradient(top,#006C00 0%,#4AA400 100%);
+	background:linear-gradient(top,#006C00 0%,#4AA400 100%);
+	color:#fff;
+	font-family:'Helvetica Neue',sans-serif;
+	font-size:14px;
+	line-height:30px;
+	border-radius:20px;
+	-webkit-border-radius:20px;
+	-moz-border-radius:20px;
+	border:0;
+	text-shadow:#C17C3A 0 -1px 0;
+	width:90px;
+	height:27px;
+	margin: 0 0 5px 0;
+}
+
+
+.table2 {
+	font-family:Arial, Helvetica, sans-serif;
+	color:#666;
+	font-size:12px;
+	text-shadow: 1px 1px 0px #fff;
+	background:#eaebec;
+	border:#ccc 1px solid;
+
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+
+	-moz-box-shadow: 0 1px 2px #d1d1d1;
+	-webkit-box-shadow: 0 1px 2px #d1d1d1;
+	box-shadow: 0 1px 2px #d1d1d1;
+}
+.button5 {
+	display: inline-block;
+	color: #666;
+	background-color: #eee;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-size: 12px;
+	padding: 10px 20px;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 1px solid rgba(0,0,0,0.4);
+	border-bottom-width: 3px;
+}
+
+.button5:hover {
+		background-color: #e3e3e3;
+		border-color: rgba(0,0,0,0.5);
+	}
+	
+.button5:active {
+		background-color: #CCC;
+		border-color: rgba(0,0,0,0.9);
+	}
+	
+.inputAdmin{
+    border: 1px solid #a8a8a8 !important;
+    margin-left: 5px;
+    outline: medium none;
+    padding: 4px;
+    font-weight: normal
+}
+
+	
+
+	

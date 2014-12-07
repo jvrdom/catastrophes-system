@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{usuarioBean.id}"/>
+		<f:event type="preRenderView" listener="#{usuarioBean.retrieve}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="View Usuario"/>
+
+	<ui:define name="header">
+		Usuario
+	</ui:define>
+
+	<ui:define name="subheader">
+		View existing Usuario
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="usuarioBeanUsuarioUser" value="User:"/>
+			<h:outputText id="usuarioBeanUsuarioUser" value="#{usuarioBean.usuario.user}"/>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioPassword" value="Password:"/>
+			<h:outputText id="usuarioBeanUsuarioPassword" value="#{usuarioBean.usuario.password}"/>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioRol" value="Rol:"/>
+			<h:link id="usuarioBeanUsuarioRol" outcome="/rol/view" value="#{usuarioBean.usuario.rol}">
+				<f:param name="id" value="#{usuarioBean.usuario.rol.id}"/>
+			</h:link>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioNombre" value="Nombre:"/>
+			<h:outputText id="usuarioBeanUsuarioNombre" value="#{usuarioBean.usuario.nombre}"/>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioApellido" value="Apellido:"/>
+			<h:outputText id="usuarioBeanUsuarioApellido" value="#{usuarioBean.usuario.apellido}"/>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioNacimiento" value="Nacimiento:"/>
+			<h:outputText id="usuarioBeanUsuarioNacimiento" value="#{usuarioBean.usuario.nacimiento}">
+				<f:convertDateTime type="date"/>
+			</h:outputText>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioTelefono" value="Telefono:"/>
+			<h:outputText id="usuarioBeanUsuarioTelefono" value="#{usuarioBean.usuario.telefono}"/>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioSexo" value="Sexo:"/>
+			<h:outputText id="usuarioBeanUsuarioSexo" value="#{usuarioBean.usuario.sexo}"/>
+			<h:outputText/>
+			<h:outputLabel for="usuarioBeanUsuarioEmail" value="Email:"/>
+			<h:outputText id="usuarioBeanUsuarioEmail" value="#{usuarioBean.usuario.email}"/>
+			<h:outputText/>
+		</h:panelGrid>
+
+		<div class="buttons">
+			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
+			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
+			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+		</div>
+	</ui:define>
+
+</ui:composition>
