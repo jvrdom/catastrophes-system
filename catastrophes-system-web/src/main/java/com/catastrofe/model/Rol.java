@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 
 import java.io.Serializable;
 
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -38,9 +39,6 @@ public class Rol implements Serializable
 
    @Column
    private String name;
-
-   @OneToMany(mappedBy = "rol", cascade = CascadeType.ALL)
-   private Set<Usuario> usuarios = new HashSet<Usuario>();
 
    public Long getId()
    {
@@ -113,13 +111,4 @@ public class Rol implements Serializable
       return result;
    }
 
-   public Set<Usuario> getUsuarios()
-   {
-      return this.usuarios;
-   }
-
-   public void setUsuarios(final Set<Usuario> usuarios)
-   {
-      this.usuarios = usuarios;
-   }
 }

@@ -16,4 +16,6 @@
 <enabled>false</enabled>
 </analytics>
 </forge>
+<activatorChoice>WEB_XML</activatorChoice>
+<rootpath>/rest</rootpath>
 </configuration>

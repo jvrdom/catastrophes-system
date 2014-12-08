@@ -23,10 +23,14 @@ import java.util.Date;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @NamedQueries({
-      @NamedQuery(name = "Usuario.findByLoginPass", query = "SELECT u FROM Usuario u WHERE u.user = :usuario AND u.password=:password") })
+      @NamedQuery(name = "Usuario.findByLoginPass", query = "SELECT u FROM Usuario u WHERE u.user = :usuario AND u.password=:password"),
+      @NamedQuery(name= "Usuario.findAll", query="SELECT u FROM Usuario u"),
+})
+@XmlRootElement
 public class Usuario implements Serializable
 {
 

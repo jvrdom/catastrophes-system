@@ -49,15 +49,25 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-    	<groupId>org.primefaces</groupId>
-    	<artifactId>primefaces</artifactId>
-    	<version>5.1</version>
+      <groupId>org.primefaces</groupId>
+      <artifactId>primefaces</artifactId>
+      <version>5.1</version>
     </dependency>
-	<dependency>
-		<groupId>org.primefaces.themes</groupId>
-		<artifactId>all-themes</artifactId>
-		<version>1.0.10</version>
-	</dependency>
+    <dependency>
+      <groupId>org.primefaces.themes</groupId>
+      <artifactId>all-themes</artifactId>
+      <version>1.0.10</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.spec.javax.ws.rs</groupId>
+      <artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+    	<groupId>com.google.code.gson</groupId>
+    	<artifactId>gson</artifactId>
+    	<version>1.6</version>
+    </dependency>
   </dependencies>
   <repositories>
     <repository>
