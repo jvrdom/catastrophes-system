@@ -66,6 +66,30 @@ public class UsuarioEndpoint
       }
       return Response.ok(entity).build();
    }
+   
+   @GET
+   @Path("/login/{user}/{password}")
+   @Produces("application/json")
+   public Response findByUserAndPass(@PathParam("user") String user, @PathParam("password") String password)
+   {
+      TypedQuery<Usuario> findByUserAndPass = em.createQuery("SELECT DISTINCT u FROM Usuario u LEFT JOIN FETCH u.rol WHERE u.user = :user AND u.password = :password ORDER BY u.email", Usuario.class);
+      findByUserAndPass.setParameter("user", user).setParameter("password", password);
+      Usuario entity;
+      try
+      {
+         entity = findByUserAndPass.getSingleResult();
+      }
+      catch (NoResultException nre)
+      {
+         entity = null;
+      }
+      if (entity == null)
+      {
+         return Response.status(Status.NOT_FOUND).build();
+      }
+      
+      return Response.ok(entity).build();
+   }
 
    @GET
    @Produces("application/json")
