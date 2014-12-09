@@ -11,31 +11,31 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
-import com.catastrofe.model.Usuario;
+import com.catastrofe.model.Catastrofe;
 
 /**
  * 
  */
 @Stateless
-@Path("/usuarios")
-public class UsuarioEndpoint
+@Path("/catastrofes")
+public class CatastrofeEndpoint
 {
    @PersistenceContext(unitName = "forge-default")
    private EntityManager em;
 
    @POST
    @Consumes("application/json")
-   public Response create(Usuario entity)
+   public Response create(Catastrofe entity)
    {
       em.persist(entity);
-      return Response.created(UriBuilder.fromResource(UsuarioEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
+      return Response.created(UriBuilder.fromResource(CatastrofeEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
    }
 
    @DELETE
    @Path("/{id:[0-9][0-9]*}")
    public Response deleteById(@PathParam("id") Long id)
    {
-      Usuario entity = em.find(Usuario.class, id);
+      Catastrofe entity = em.find(Catastrofe.class, id);
       if (entity == null)
       {
          return Response.status(Status.NOT_FOUND).build();
@@ -49,9 +49,9 @@ public class UsuarioEndpoint
    @Produces("application/json")
    public Response findById(@PathParam("id") Long id)
    {
-      TypedQuery<Usuario> findByIdQuery = em.createQuery("SELECT DISTINCT u FROM Usuario u LEFT JOIN FETCH u.rol WHERE u.id = :entityId ORDER BY u.id", Usuario.class);
+      TypedQuery<Catastrofe> findByIdQuery = em.createQuery("SELECT DISTINCT c FROM Catastrofe c WHERE c.id = :entityId ORDER BY c.id", Catastrofe.class);
       findByIdQuery.setParameter("entityId", id);
-      Usuario entity;
+      Catastrofe entity;
       try
       {
          entity = findByIdQuery.getSingleResult();
@@ -66,46 +66,21 @@ public class UsuarioEndpoint
       }
       return Response.ok(entity).build();
    }
-   
-   @GET
-   @Path("/login/{user}/{password}")
-   @Produces("application/json")
-   public Response findByUserAndPass(@PathParam("user") String user, @PathParam("password") String password)
-   {
-      TypedQuery<Usuario> findByUserAndPass = em.createQuery("SELECT DISTINCT u FROM Usuario u LEFT JOIN FETCH u.rol WHERE u.user = :user AND u.password = :password ORDER BY u.email", Usuario.class);
-      findByUserAndPass.setParameter("user", user).setParameter("password", password);
-      Usuario entity;
-      try
-      {
-         entity = findByUserAndPass.getSingleResult();
-      }
-      catch (NoResultException nre)
-      {
-         entity = null;
-      }
-      if (entity == null)
-      {
-         return Response.status(Status.NOT_FOUND).build();
-      }
-      
-      return Response.ok(entity).build();
-   }
 
    @GET
    @Produces("application/json")
-   public List<Usuario> listAll()
+   public List<Catastrofe> listAll()
    {
-      final List<Usuario> results = em.createQuery("SELECT DISTINCT u FROM Usuario u LEFT JOIN FETCH u.rol ORDER BY u.id", Usuario.class).getResultList();
+      final List<Catastrofe> results = em.createQuery("SELECT DISTINCT c FROM Catastrofe c ORDER BY c.id", Catastrofe.class).getResultList();
       return results;
    }
 
    @PUT
    @Path("/{id:[0-9][0-9]*}")
    @Consumes("application/json")
-   public Response update(Usuario entity)
+   public Response update(Catastrofe entity)
    {
       entity = em.merge(entity);
       return Response.noContent().build();
    }
-   
 }

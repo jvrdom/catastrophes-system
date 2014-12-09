@@ -37,7 +37,7 @@ public class LoginBean {
 			if(usuario.getRol().getName().equals("administrador")){
 				return "usuario/create?faces-redirect=true";
 			} else if (usuario.getRol().getName().equals("usuario")) {
-				return "usuario/search?faces-redirect=true";
+				return "usuario/index?faces-redirect=true";
 			} else {
 				return "usuario/view?faces-redirect=true";
 			}

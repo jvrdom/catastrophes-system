@@ -24,13 +24,12 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import com.catastrofe.model.Rol;
-import com.catastrofe.model.Usuario;
+import com.catastrofe.model.Catastrofe;
 
 /**
- * Backing bean for Usuario entities.
+ * Backing bean for Catastrofe entities.
  * <p>
- * This class provides CRUD functionality for all Usuario entities. It focuses
+ * This class provides CRUD functionality for all Catastrofe entities. It focuses
  * purely on Java EE 6 standards (e.g. <tt>&#64;ConversationScoped</tt> for
  * state management, <tt>PersistenceContext</tt> for persistence,
  * <tt>CriteriaBuilder</tt> for searches) rather than introducing a CRUD framework or
@@ -40,13 +39,13 @@ import com.catastrofe.model.Usuario;
 @Named
 @Stateful
 @ConversationScoped
-public class UsuarioBean implements Serializable
+public class CatastrofeBean implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
 
    /*
-    * Support creating and retrieving Usuario entities
+    * Support creating and retrieving Catastrofe entities
     */
 
    private Long id;
@@ -61,11 +60,11 @@ public class UsuarioBean implements Serializable
       this.id = id;
    }
 
-   private Usuario usuario;
+   private Catastrofe catastrofe;
 
-   public Usuario getUsuario()
+   public Catastrofe getCatastrofe()
    {
-      return this.usuario;
+      return this.catastrofe;
    }
 
    @Inject
@@ -96,30 +95,22 @@ public class UsuarioBean implements Serializable
 
       if (this.id == null)
       {
-         this.usuario = this.example;
+         this.catastrofe = this.example;
       }
       else
       {
-         this.usuario = findById(getId());
+         this.catastrofe = findById(getId());
       }
    }
 
-   public Usuario findById(Long id)
+   public Catastrofe findById(Long id)
    {
 
-      return this.entityManager.find(Usuario.class, id);
-   }
-   
-   public Usuario findByUserAndPass(String user, String password){
-	   if (this.entityManager.createNamedQuery("Usuario.findByLoginPass").setParameter("usuario", user).setParameter("password", password).getResultList().size() > 0) {
-           return (Usuario) this.entityManager.createNamedQuery("Usuario.findByLoginPass").setParameter("usuario", user).setParameter("password", password).getSingleResult();
-       } else {
-    	   return null;
-       }
+      return this.entityManager.find(Catastrofe.class, id);
    }
 
    /*
-    * Support updating and deleting Usuario entities
+    * Support updating and deleting Catastrofe entities
     */
 
    public String update()
@@ -130,13 +121,13 @@ public class UsuarioBean implements Serializable
       {
          if (this.id == null)
          {
-            this.entityManager.persist(this.usuario);
+            this.entityManager.persist(this.catastrofe);
             return "search?faces-redirect=true";
          }
          else
          {
-            this.entityManager.merge(this.usuario);
-            return "view?faces-redirect=true&id=" + this.usuario.getId();
+            this.entityManager.merge(this.catastrofe);
+            return "view?faces-redirect=true&id=" + this.catastrofe.getId();
          }
       }
       catch (Exception e)
@@ -152,10 +143,8 @@ public class UsuarioBean implements Serializable
 
       try
       {
-         Usuario deletableEntity = findById(getId());
-         Rol rol = deletableEntity.getRol();
-         deletableEntity.setRol(null);
-         this.entityManager.merge(rol);
+         Catastrofe deletableEntity = findById(getId());
+
          this.entityManager.remove(deletableEntity);
          this.entityManager.flush();
          return "search?faces-redirect=true";
@@ -168,14 +157,14 @@ public class UsuarioBean implements Serializable
    }
 
    /*
-    * Support searching Usuario entities with pagination
+    * Support searching Catastrofe entities with pagination
     */
 
    private int page;
    private long count;
-   private List<Usuario> pageItems;
+   private List<Catastrofe> pageItems;
 
-   private Usuario example = new Usuario();
+   private Catastrofe example = new Catastrofe();
 
    public int getPage()
    {
@@ -192,12 +181,12 @@ public class UsuarioBean implements Serializable
       return 10;
    }
 
-   public Usuario getExample()
+   public Catastrofe getExample()
    {
       return this.example;
    }
 
-   public void setExample(Usuario example)
+   public void setExample(Catastrofe example)
    {
       this.example = example;
    }
@@ -215,7 +204,7 @@ public class UsuarioBean implements Serializable
       // Populate this.count
 
       CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-      Root<Usuario> root = countCriteria.from(Usuario.class);
+      Root<Catastrofe> root = countCriteria.from(Catastrofe.class);
       countCriteria = countCriteria.select(builder.count(root)).where(
             getSearchPredicates(root));
       this.count = this.entityManager.createQuery(countCriteria)
@@ -223,51 +212,41 @@ public class UsuarioBean implements Serializable
 
       // Populate this.pageItems
 
-      CriteriaQuery<Usuario> criteria = builder.createQuery(Usuario.class);
-      root = criteria.from(Usuario.class);
-      TypedQuery<Usuario> query = this.entityManager.createQuery(criteria
+      CriteriaQuery<Catastrofe> criteria = builder.createQuery(Catastrofe.class);
+      root = criteria.from(Catastrofe.class);
+      TypedQuery<Catastrofe> query = this.entityManager.createQuery(criteria
             .select(root).where(getSearchPredicates(root)));
       query.setFirstResult(this.page * getPageSize()).setMaxResults(
             getPageSize());
       this.pageItems = query.getResultList();
    }
 
-   private Predicate[] getSearchPredicates(Root<Usuario> root)
+   private Predicate[] getSearchPredicates(Root<Catastrofe> root)
    {
 
       CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
       List<Predicate> predicatesList = new ArrayList<Predicate>();
 
-      String user = this.example.getUser();
-      if (user != null && !"".equals(user))
-      {
-         predicatesList.add(builder.like(root.<String> get("user"), '%' + user + '%'));
-      }
-      String password = this.example.getPassword();
-      if (password != null && !"".equals(password))
-      {
-         predicatesList.add(builder.like(root.<String> get("password"), '%' + password + '%'));
-      }
-      Rol rol = this.example.getRol();
-      if (rol != null)
-      {
-         predicatesList.add(builder.equal(root.get("rol"), rol));
-      }
       String nombre = this.example.getNombre();
       if (nombre != null && !"".equals(nombre))
       {
          predicatesList.add(builder.like(root.<String> get("nombre"), '%' + nombre + '%'));
       }
-      String apellido = this.example.getApellido();
-      if (apellido != null && !"".equals(apellido))
+      String descripcion = this.example.getDescripcion();
+      if (descripcion != null && !"".equals(descripcion))
       {
-         predicatesList.add(builder.like(root.<String> get("apellido"), '%' + apellido + '%'));
+         predicatesList.add(builder.like(root.<String> get("descripcion"), '%' + descripcion + '%'));
+      }
+      String logo = this.example.getLogo();
+      if (logo != null && !"".equals(logo))
+      {
+         predicatesList.add(builder.like(root.<String> get("logo"), '%' + logo + '%'));
       }
 
       return predicatesList.toArray(new Predicate[predicatesList.size()]);
    }
 
-   public List<Usuario> getPageItems()
+   public List<Catastrofe> getPageItems()
    {
       return this.pageItems;
    }
@@ -278,17 +257,17 @@ public class UsuarioBean implements Serializable
    }
 
    /*
-    * Support listing and POSTing back Usuario entities (e.g. from inside an
+    * Support listing and POSTing back Catastrofe entities (e.g. from inside an
     * HtmlSelectOneMenu)
     */
 
-   public List<Usuario> getAll()
+   public List<Catastrofe> getAll()
    {
 
-      CriteriaQuery<Usuario> criteria = this.entityManager
-            .getCriteriaBuilder().createQuery(Usuario.class);
+      CriteriaQuery<Catastrofe> criteria = this.entityManager
+            .getCriteriaBuilder().createQuery(Catastrofe.class);
       return this.entityManager.createQuery(
-            criteria.select(criteria.from(Usuario.class))).getResultList();
+            criteria.select(criteria.from(Catastrofe.class))).getResultList();
    }
 
    @Resource
@@ -297,7 +276,7 @@ public class UsuarioBean implements Serializable
    public Converter getConverter()
    {
 
-      final UsuarioBean ejbProxy = this.sessionContext.getBusinessObject(UsuarioBean.class);
+      final CatastrofeBean ejbProxy = this.sessionContext.getBusinessObject(CatastrofeBean.class);
 
       return new Converter()
       {
@@ -320,7 +299,7 @@ public class UsuarioBean implements Serializable
                return "";
             }
 
-            return String.valueOf(((Usuario) value).getId());
+            return String.valueOf(((Catastrofe) value).getId());
          }
       };
    }
@@ -329,17 +308,17 @@ public class UsuarioBean implements Serializable
     * Support adding children to bidirectional, one-to-many tables
     */
 
-   private Usuario add = new Usuario();
+   private Catastrofe add = new Catastrofe();
 
-   public Usuario getAdd()
+   public Catastrofe getAdd()
    {
       return this.add;
    }
 
-   public Usuario getAdded()
+   public Catastrofe getAdded()
    {
-      Usuario added = this.add;
-      this.add = new Usuario();
+      Catastrofe added = this.add;
+      this.add = new Catastrofe();
       return added;
    }
 }

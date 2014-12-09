@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{catastrofeBean.id}"/>
+		<f:event type="preRenderView" listener="#{catastrofeBean.retrieve}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="View Catastrofe"/>
+
+	<ui:define name="header">
+		Catastrofe
+	</ui:define>
+
+	<ui:define name="subheader">
+		View existing Catastrofe
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="catastrofeBeanCatastrofeNombre" value="Nombre:"/>
+			<h:outputText id="catastrofeBeanCatastrofeNombre" value="#{catastrofeBean.catastrofe.nombre}"/>
+			<h:outputText/>
+			<h:outputLabel for="catastrofeBeanCatastrofeDescripcion" value="Descripcion:"/>
+			<h:outputText id="catastrofeBeanCatastrofeDescripcion" value="#{catastrofeBean.catastrofe.descripcion}"/>
+			<h:outputText/>
+			<h:outputLabel for="catastrofeBeanCatastrofeLogo" value="Logo:"/>
+			<h:outputText id="catastrofeBeanCatastrofeLogo" value="#{catastrofeBean.catastrofe.logo}"/>
+			<h:outputText/>
+			<h:outputLabel for="catastrofeBeanCatastrofeLatitud" value="Latitud:"/>
+			<h:outputText id="catastrofeBeanCatastrofeLatitud" value="#{catastrofeBean.catastrofe.latitud}"/>
+			<h:outputText/>
+			<h:outputLabel for="catastrofeBeanCatastrofeLongitud" value="Longitud:"/>
+			<h:outputText id="catastrofeBeanCatastrofeLongitud" value="#{catastrofeBean.catastrofe.longitud}"/>
+			<h:outputText/>
+		</h:panelGrid>
+
+		<div class="buttons">
+			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
+			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
+			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+		</div>
+	</ui:define>
+
+</ui:composition>
