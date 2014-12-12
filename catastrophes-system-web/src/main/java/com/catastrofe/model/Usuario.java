@@ -73,6 +73,9 @@ public class Usuario implements Serializable
 
    @Column
    private String email;
+   
+   @Column
+   private String regId;
 
    public Long getId()
    {
@@ -214,6 +217,15 @@ public class Usuario implements Serializable
    public void setEmail(final String email)
    {
       this.email = email;
+   }
+   
+
+   public String getRegId() {
+	  return regId;
+   }
+
+   public void setRegId(String regId) {
+	   this.regId = regId;
    }
 
    @Override

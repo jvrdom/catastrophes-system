@@ -1,17 +1,25 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.0" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-  <display-name>catastrophes-system-web</display-name>
+<display-name>catastrophes-system-web</display-name>
   <context-param>
-    <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+  <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
     <param-value>true</param-value>
   </context-param>
   <context-param>
-    <param-name>primefaces.THEME</param-name>
+  <param-name>primefaces.THEME</param-name>
     <param-value>bootstrap</param-value>
   </context-param>
   <session-config>
-    <session-timeout>30</session-timeout>
+  <session-timeout>30</session-timeout>
   </session-config>
+  <servlet>
+  <servlet-name>javax.ws.rs.core.Application</servlet-name>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>javax.ws.rs.core.Application</servlet-name>
+    <url-pattern>/rest/*</url-pattern>
+  </servlet-mapping>
   <error-page>
     <error-code>404</error-code>
     <location>/faces/error.xhtml</location>
@@ -20,12 +28,4 @@
     <error-code>500</error-code>
     <location>/faces/error.xhtml</location>
   </error-page>
-  <servlet>
-    <servlet-name>javax.ws.rs.core.Application</servlet-name>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>javax.ws.rs.core.Application</servlet-name>
-    <url-pattern>/rest/*</url-pattern>
-  </servlet-mapping>
 </web-app>

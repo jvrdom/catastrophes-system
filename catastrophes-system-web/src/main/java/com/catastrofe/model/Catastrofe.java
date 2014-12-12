@@ -10,6 +10,13 @@ import javax.persistence.Version;
 import java.lang.Override;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import com.catastrofe.model.Imagen;
+import java.util.Set;
+import java.util.HashSet;
+import javax.persistence.OneToMany;
+import com.catastrofe.model.Novedades;
+import com.catastrofe.model.Plan;
+import javax.persistence.CascadeType;
 
 @Entity
 @XmlRootElement
@@ -39,6 +46,15 @@ public class Catastrofe implements Serializable
 
    @Column
    private double longitud;
+
+   @OneToMany
+   private Set<Imagen> imagenes = new HashSet<Imagen>();
+
+   @OneToMany
+   private Set<Novedades> novedades = new HashSet<Novedades>();
+
+   @OneToMany(mappedBy = "catastrofe", cascade = CascadeType.ALL)
+   private Set<Plan> planes = new HashSet<Plan>();
 
    public Long getId()
    {
@@ -155,5 +171,35 @@ public class Catastrofe implements Serializable
       result += ", latitud: " + latitud;
       result += ", longitud: " + longitud;
       return result;
+   }
+
+   public Set<Imagen> getImagenes()
+   {
+      return this.imagenes;
+   }
+
+   public void setImagenes(final Set<Imagen> imagenes)
+   {
+      this.imagenes = imagenes;
+   }
+
+   public Set<Novedades> getNovedades()
+   {
+      return this.novedades;
+   }
+
+   public void setNovedades(final Set<Novedades> novedades)
+   {
+      this.novedades = novedades;
+   }
+
+   public Set<Plan> getPlanes()
+   {
+      return this.planes;
+   }
+
+   public void setPlanes(final Set<Plan> planes)
+   {
+      this.planes = planes;
    }
 }
