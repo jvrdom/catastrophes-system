@@ -109,14 +109,6 @@ public class UsuarioBean implements Serializable
 
       return this.entityManager.find(Usuario.class, id);
    }
-   
-   public Usuario findByUserAndPass(String user, String password){
-	   if (this.entityManager.createNamedQuery("Usuario.findByLoginPass").setParameter("usuario", user).setParameter("password", password).getResultList().size() > 0) {
-           return (Usuario) this.entityManager.createNamedQuery("Usuario.findByLoginPass").setParameter("usuario", user).setParameter("password", password).getSingleResult();
-       } else {
-    	   return null;
-       }
-   }
 
    /*
     * Support updating and deleting Usuario entities

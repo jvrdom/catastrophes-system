@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+
 import com.catastrofe.model.Usuario;
 
 /**
@@ -53,5 +54,13 @@ public class UsuarioDao
          findAllQuery.setMaxResults(maxResult);
       }
       return findAllQuery.getResultList();
+   }
+   
+   public Usuario findByUserAndPass(String user, String password){
+	   if (em.createNamedQuery("Usuario.findByLoginPass").setParameter("usuario", user).setParameter("password", password).getResultList().size() > 0) {
+           return (Usuario) em.createNamedQuery("Usuario.findByLoginPass").setParameter("usuario", user).setParameter("password", password).getSingleResult();
+       } else {
+    	   return null;
+       }
    }
 }
