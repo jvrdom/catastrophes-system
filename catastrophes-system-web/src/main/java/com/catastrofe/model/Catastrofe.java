@@ -1,22 +1,34 @@
 package com.catastrofe.model;
 
 import javax.persistence.Entity;
+
 import java.io.Serializable;
+
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
+import javax.persistence.ManyToOne;
 import javax.persistence.Version;
+
 import java.lang.Override;
+
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+
 import com.catastrofe.model.Imagen;
+
 import java.util.Set;
 import java.util.HashSet;
+
 import javax.persistence.OneToMany;
+
 import com.catastrofe.model.Novedades;
 import com.catastrofe.model.Plan;
+
 import javax.persistence.CascadeType;
+
+import com.catastrofe.model.tipoCatastrofe;
 
 @Entity
 @XmlRootElement
@@ -53,8 +65,14 @@ public class Catastrofe implements Serializable
    @OneToMany
    private Set<Novedades> novedades = new HashSet<Novedades>();
 
-   @OneToMany(mappedBy = "catastrofe", cascade = CascadeType.ALL)
+   @OneToMany
    private Set<Plan> planes = new HashSet<Plan>();
+
+   @Column
+   private String direccion;
+
+   @Column
+   private tipoCatastrofe tipoCatastrofe;
 
    public Long getId()
    {
@@ -158,21 +176,6 @@ public class Catastrofe implements Serializable
       this.longitud = longitud;
    }
 
-   @Override
-   public String toString()
-   {
-      String result = getClass().getSimpleName() + " ";
-      if (nombre != null && !nombre.trim().isEmpty())
-         result += "nombre: " + nombre;
-      if (descripcion != null && !descripcion.trim().isEmpty())
-         result += ", descripcion: " + descripcion;
-      if (logo != null && !logo.trim().isEmpty())
-         result += ", logo: " + logo;
-      result += ", latitud: " + latitud;
-      result += ", longitud: " + longitud;
-      return result;
-   }
-
    public Set<Imagen> getImagenes()
    {
       return this.imagenes;
@@ -201,5 +204,42 @@ public class Catastrofe implements Serializable
    public void setPlanes(final Set<Plan> planes)
    {
       this.planes = planes;
+   }
+
+   public String getDireccion()
+   {
+      return this.direccion;
+   }
+
+   public void setDireccion(final String direccion)
+   {
+      this.direccion = direccion;
+   }
+
+   public tipoCatastrofe getTipoCatastrofe()
+   {
+      return this.tipoCatastrofe;
+   }
+
+   public void setTipoCatastrofe(final tipoCatastrofe tipoCatastrofe)
+   {
+      this.tipoCatastrofe = tipoCatastrofe;
+   }
+
+   @Override
+   public String toString()
+   {
+      String result = getClass().getSimpleName() + " ";
+      if (nombre != null && !nombre.trim().isEmpty())
+         result += "nombre: " + nombre;
+      if (descripcion != null && !descripcion.trim().isEmpty())
+         result += ", descripcion: " + descripcion;
+      if (logo != null && !logo.trim().isEmpty())
+         result += ", logo: " + logo;
+      result += ", latitud: " + latitud;
+      result += ", longitud: " + longitud;
+      if (direccion != null && !direccion.trim().isEmpty())
+         result += ", direccion: " + direccion;
+      return result;
    }
 }

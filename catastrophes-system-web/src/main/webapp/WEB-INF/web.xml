@@ -6,8 +6,12 @@
     <param-value>true</param-value>
   </context-param>
   <context-param>
-  <param-name>primefaces.THEME</param-name>
+  	<param-name>primefaces.THEME</param-name>
     <param-value>bootstrap</param-value>
+  </context-param>
+  <context-param>
+	<param-name>primefaces.UPLOADER</param-name>
+	<param-value>auto</param-value>
   </context-param>
   <session-config>
   <session-timeout>30</session-timeout>
@@ -20,6 +24,14 @@
   <servlet-name>javax.ws.rs.core.Application</servlet-name>
     <url-pattern>/rest/*</url-pattern>
   </servlet-mapping>
+  <filter>
+	<filter-name>PrimeFaces FileUpload Filter</filter-name>
+	<filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+  </filter>
+  <filter-mapping>
+	<filter-name>PrimeFaces FileUpload Filter</filter-name>
+	<servlet-name>javax.ws.rs.core.Application</servlet-name>
+  </filter-mapping>
   <error-page>
     <error-code>404</error-code>
     <location>/faces/error.xhtml</location>

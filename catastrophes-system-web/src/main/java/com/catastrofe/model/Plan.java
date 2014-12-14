@@ -34,9 +34,6 @@ public class Plan implements Serializable
    @Column
    private String url;
 
-   @ManyToOne
-   private Catastrofe catastrofe;
-
    public Long getId()
    {
       return this.id;
@@ -129,13 +126,4 @@ public class Plan implements Serializable
       return result;
    }
 
-   public Catastrofe getCatastrofe()
-   {
-      return this.catastrofe;
-   }
-
-   public void setCatastrofe(final Catastrofe catastrofe)
-   {
-      this.catastrofe = catastrofe;
-   }
 }

@@ -49,7 +49,7 @@ public class CatastrofeEndpoint
    @Produces("application/json")
    public Response findById(@PathParam("id") Long id)
    {
-      TypedQuery<Catastrofe> findByIdQuery = em.createQuery("SELECT DISTINCT c FROM Catastrofe c WHERE c.id = :entityId ORDER BY c.id", Catastrofe.class);
+      TypedQuery<Catastrofe> findByIdQuery = em.createQuery("SELECT DISTINCT c FROM Catastrofe c LEFT JOIN FETCH c.imagenes LEFT JOIN FETCH c.novedades LEFT JOIN FETCH c.planes WHERE c.id = :entityId ORDER BY c.id", Catastrofe.class);
       findByIdQuery.setParameter("entityId", id);
       Catastrofe entity;
       try
@@ -71,7 +71,7 @@ public class CatastrofeEndpoint
    @Produces("application/json")
    public List<Catastrofe> listAll()
    {
-      final List<Catastrofe> results = em.createQuery("SELECT DISTINCT c FROM Catastrofe c ORDER BY c.id", Catastrofe.class).getResultList();
+      final List<Catastrofe> results = em.createQuery("SELECT DISTINCT c FROM Catastrofe c LEFT JOIN FETCH c.imagenes LEFT JOIN FETCH c.novedades LEFT JOIN FETCH c.planes ORDER BY c.id", Catastrofe.class).getResultList();
       return results;
    }
 

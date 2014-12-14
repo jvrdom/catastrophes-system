@@ -4,9 +4,10 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"	
-	template="/resources/scaffold/pageTemplate.xhtml">
-
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"	
+	template="/resources/template/layout.xhtml">
+	
 	<f:metadata>
 		<f:viewParam name="id" value="#{catastrofeBean.id}"/>
 		<f:event type="preRenderView" listener="#{catastrofeBean.retrieve}"/>
@@ -14,75 +15,120 @@
 
 	<ui:param name="pageTitle" value="Create Catastrofe"/>
 
-	<ui:define name="header">
-		Catastrofe
-	</ui:define>
-
-	<ui:define name="subheader">
-		<c:choose>
-			<c:when test="#{!empty catastrofeBean.id}">
-				Edit existing Catastrofe
-			</c:when>
-			<c:otherwise>
-				Create a new Catastrofe
-			</c:otherwise>
-		</c:choose>
-	</ui:define>
-
 	<ui:define name="footer"/>
-
-	<ui:define name="main">
-		<h:form id="create">
-			<h:messages globalOnly="true" styleClass="error"/>
-
-			<h:panelGrid columnClasses="label,component,required" columns="3">
-				<h:outputLabel for="catastrofeBeanCatastrofeNombre" value="Nombre:"/>
-				<h:panelGroup>
-					<h:inputText id="catastrofeBeanCatastrofeNombre" required="true" value="#{catastrofeBean.catastrofe.nombre}"/>
-					<h:message for="catastrofeBeanCatastrofeNombre" styleClass="error"/>
-				</h:panelGroup>
-				<h:outputText value="*"/>
-				<h:outputLabel for="catastrofeBeanCatastrofeDescripcion" value="Descripcion:"/>
-				<h:panelGroup>
-					<h:inputText id="catastrofeBeanCatastrofeDescripcion" value="#{catastrofeBean.catastrofe.descripcion}"/>
-					<h:message for="catastrofeBeanCatastrofeDescripcion" styleClass="error"/>
-				</h:panelGroup>
-				<h:outputText/>
-				<h:outputLabel for="catastrofeBeanCatastrofeLogo" value="Logo:"/>
-				<h:panelGroup>
-					<h:inputText id="catastrofeBeanCatastrofeLogo" value="#{catastrofeBean.catastrofe.logo}"/>
-					<h:message for="catastrofeBeanCatastrofeLogo" styleClass="error"/>
-				</h:panelGroup>
-				<h:outputText/>
-				<h:outputLabel for="catastrofeBeanCatastrofeLatitud" value="Latitud:"/>
-				<h:panelGroup>
-					<h:inputText id="catastrofeBeanCatastrofeLatitud" value="#{catastrofeBean.catastrofe.latitud}"/>
-					<h:message for="catastrofeBeanCatastrofeLatitud" styleClass="error"/>
-				</h:panelGroup>
-				<h:outputText/>
-				<h:outputLabel for="catastrofeBeanCatastrofeLongitud" value="Longitud:"/>
-				<h:panelGroup>
-					<h:inputText id="catastrofeBeanCatastrofeLongitud" value="#{catastrofeBean.catastrofe.longitud}"/>
-					<h:message for="catastrofeBeanCatastrofeLongitud" styleClass="error"/>
-				</h:panelGroup>
-				<h:outputText/>
-			</h:panelGrid>
-
-			<div class="buttons">
-				<h:commandLink value="Save" action="#{catastrofeBean.update}" styleClass="btn btn-primary"/>
-				<c:choose>
-					<c:when test="#{!empty catastrofeBean.id}">
-						<h:link value="Cancel" outcome="view" styleClass="btn btn-primary">
-							<f:param name="id" value="#{catastrofeBean.id}"/>
-						</h:link>
-						<h:commandLink value="Delete" action="#{catastrofeBean.delete}" styleClass="btn btn-primary"/>
-					</c:when>
-					<c:otherwise>
-						<h:link value="Cancel" outcome="search" styleClass="btn btn-primary"/>
-					</c:otherwise>
-				</c:choose>
+	
+	  <ui:define name="content">
+	  	<div class="row">
+	  		<div class="col-xs-6">
+	  			<h:form enctype="multipart/form-data" class="form-horizontal" id="form-catastrofe">
+	  				<p:growl id="messages" showDetail="true" />
+	  				<div class="form-group">
+	  					<div class="col-sm-12">
+			  				<p:fileUpload fileUploadListener="#{catastrofeBean.handleFileUploadImagen}" mode="advanced" dragDropSupport="false"
+                  			multiple="false" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                  			label="Elegir Icono"
+                  			cancelLabel="Cancelar"
+                  			update="messages" />
+						</div>
+					</div>
+	  				<div class="form-group">
+			  			<div class="col-sm-12">	
+			                <p:inputText id="inputname" value="#{catastrofeBean.catastrofe.nombre}" required="true" label="Name" styleClass="form-control">
+			                    <f:validateLength minimum="2" />
+			                </p:inputText>
+			                <p:watermark for="inputname" value="Nombre de Evento" id="watermarkName" />
+			            </div>
+	                </div>
+	                <div class="form-group">
+			  			<div class="col-sm-12">	
+			                <p:inputText id="inputdescripcion" value="#{catastrofeBean.catastrofe.descripcion}" required="true" label="Name" styleClass="form-control"/>
+			                <p:watermark for="inputdescripcion" value="Descripcion" id="watermarkDesc" />
+			            </div>
+	                </div>
+	                <div class="form-group">
+			  			<div class="col-sm-12">
+			  				<div class="input-group">	
+			                	<p:inputText id="inputdireccion" value="#{catastrofeBean.catastrofe.direccion}" required="true" label="Name" styleClass="form-control"/>
+			                	<h:inputHidden value="#{catastrofeBean.latLng}" id='coord'/>
+			                	<span class="input-group-btn">
+						        	<button class="btn btn-default" type="button" onclick="codeAddress()">
+						        		<span class="glyphicon glyphicon-map-marker"/>
+						        	</button>
+						        </span>
+						        <p:watermark for="inputdireccion" value="Direccion" id="watermarkDireccion" />
+			                </div>
+			            </div>
+	                </div>
+					<div class="form-group">
+						<div class="col-sm-12">
+							<p:fileUpload fileUploadListener="#{catastrofes.handleFileUpload}" mode="advanced" dragDropSupport="false"
+	                  		multiple="true" allowTypes="/(\.|\/)(pdf)$/"
+	                  		label="Elegir Plan"
+	                  		cancelLabel="Cancelar"
+	                  		update="messages" />
+	                  	</div>
+	            	</div>    
+					
+                	<h:commandButton value="Ingresar Catástrofe" action="#{catastrofeBean.update}" class="pull-right btn btn-success"></h:commandButton>
+        		</h:form>
 			</div>
-		</h:form>
-	</ui:define>
+			<div class="col-xs-6" id="mapa" style="height: 300px;"></div>
+		</div>
+		<script type="text/javascript">
+			var map;
+			var geocoder;
+			var circle;
 
-</ui:composition>
+			function initialize(){
+				 geocoder = new google.maps.Geocoder();
+				 var mapOptions = {
+					 center: new google.maps.LatLng(-34.904375,-56.166414),
+					 zoom: 13,
+					 mapTypeId: google.maps.MapTypeId.ROADMAP,
+					 mapTypeControl: true,
+					 mapTypeControlOptions: {
+					 	style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+				 	 }
+				 };
+
+				 map = new google.maps.Map(document.getElementById('mapa'),mapOptions);
+			}
+
+			function codeAddress(){
+		          var address = document.getElementById('form-catastrofe:inputdireccion').value;
+		          var bounds = new google.maps.LatLngBounds();
+		          geocoder.geocode( { 'address': address}, function(results, status) {
+		            if (status == google.maps.GeocoderStatus.OK) {
+		              map.setCenter(results[0].geometry.location);
+		              var latLng = results[0].geometry.location;
+		              		              
+		              var circleOptions = {
+		            	strokeColor: '#FF0000',
+		            	strokeOpacity: 0.8,
+		            	strokeWeight: 2,
+		            	fillColor: '#FF0000',
+		            	fillOpacity: 0.35,
+		            	map: map,
+		            	center: results[0].geometry.location,
+		            	radius: Math.sqrt(10) * 100
+					  }
+					  
+		              bounds.extend(latLng);
+		              map.fitBounds(bounds);
+		              var zoom = map.getZoom();
+		              map.setZoom(zoom > 15 ? 15 : zoom);
+		              
+		              circle = new google.maps.Circle(circleOptions);
+		          
+		              document.getElementById('form-catastrofe:coord').value = circle.getCenter();
+		            } else {
+		              alert('Geocode was not successful for the following reason: ' + status);
+		            }
+		          });
+		        }
+
+			google.maps.event.addDomListener(window, 'load', initialize);
+			
+  		</script>
+	  </ui:define>
+  </ui:composition>
