@@ -1,8 +1,12 @@
 package com.catastrofe.view;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
@@ -24,8 +28,12 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.primefaces.event.FileUploadEvent;
+
 import com.catastrofe.dao.PerosnaDesapDao;
+import com.catastrofe.model.Imagen;
 import com.catastrofe.model.PerosnaDesap;
+import com.catastrofe.utiles.UtilesWeb;
 
 /**
  * Backing bean for PerosnaDesap entities.
@@ -44,8 +52,19 @@ public class PerosnaDesapBean implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
-   private static final String DESAPARECIDO = "Desaparecido";
+   
 
+   @Inject
+   private PerosnaDesapDao personaDesDao;
+   private static final String DESAPARECIDO = "Desaparecido";
+   private UtilesWeb utiles;
+   private Set<Imagen> imagenesPersonDes;
+   private List<PerosnaDesap> personasDesaparecidas;
+   
+   public PerosnaDesapBean() {
+	   utiles = new UtilesWeb();
+   }
+   
    /*
     * Support creating and retrieving PerosnaDesap entities
     */
@@ -72,9 +91,6 @@ public class PerosnaDesapBean implements Serializable
    @Inject
    private Conversation conversation;
    
-   @Inject
-   private PerosnaDesapDao personaDesDao;
-
    @PersistenceContext(type = PersistenceContextType.EXTENDED)
    private EntityManager entityManager;
 
@@ -126,6 +142,7 @@ public class PerosnaDesapBean implements Serializable
          if (this.id == null)
          {
         	this.perosnaDesap.setStatus(DESAPARECIDO);
+        	this.perosnaDesap.setImagenes(this.imagenesPersonDes);
         	this.personaDesDao.create(this.perosnaDesap); 
             FacesContext.getCurrentInstance().getExternalContext().redirect("search.xhtml");
             return null;
@@ -160,6 +177,23 @@ public class PerosnaDesapBean implements Serializable
          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
          return null;
       }
+   }
+   
+   public void handleFileUpload(FileUploadEvent event) {
+		try {
+			
+			Imagen imagen = new Imagen();
+			imagen.setImagen(utiles.fileUpload(event.getFile().getFileName(), event.getFile().getInputstream()));
+			
+			imagenesPersonDes.add(imagen);
+			
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succesful", event.getFile().getFileName() + " is uploaded.");
+	        FacesContext.getCurrentInstance().addMessage(null, message);
+	        
+		} catch (IOException e) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Fail!", "Failed to upload file: " + event.getFile().getFileName() + ", reason: " + e.getMessage());
+	        FacesContext.getCurrentInstance().addMessage(null, message);
+		}
    }
 
    /*

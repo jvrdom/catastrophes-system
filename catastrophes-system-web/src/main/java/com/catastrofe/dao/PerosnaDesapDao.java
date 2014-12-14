@@ -54,4 +54,11 @@ public class PerosnaDesapDao
       }
       return findAllQuery.getResultList();
    }
+   
+   public List<PerosnaDesap> getPersonasByCatastrofe(int idCatastrofe){
+	   List<PerosnaDesap> lista = null;
+       lista = em.createNamedQuery("PerosnaDesap.findByCatastrofe",PerosnaDesap.class).setParameter("idCatastrofe", idCatastrofe).getResultList();	        
+       return lista;
+   }
+  
 }

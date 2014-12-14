@@ -1,24 +1,38 @@
 package com.catastrofe.model;
 
 import javax.persistence.Entity;
+
 import java.io.Serializable;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Version;
+
 import java.lang.Override;
+
 import com.catastrofe.model.Catastrofe;
+
 import javax.persistence.ManyToOne;
+
 import com.catastrofe.model.Usuario;
 import com.catastrofe.model.Imagen;
+
 import java.util.Set;
 import java.util.HashSet;
+
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
+@NamedQueries({
+	@NamedQuery(name = "PerosnaDesap.findByCatastrofe", query = "SELECT p FROM PerosnaDesap p join p.catastrofe c WHERE c.id = :idCatastrofe"),
+	@NamedQuery(name = "PerosnaDesap.findByName", query = "SELECT p FROM PerosnaDesap p WHERE p.catastrofe.id = :idCatastrofe AND p.nombre like :nombre")})
 public class PerosnaDesap implements Serializable
 {
 
@@ -51,7 +65,7 @@ public class PerosnaDesap implements Serializable
    @ManyToOne
    private Usuario reportado;
 
-   @OneToMany
+   @OneToMany(cascade=CascadeType.ALL)
    private Set<Imagen> imagenes = new HashSet<Imagen>();
 
    public Long getId()
