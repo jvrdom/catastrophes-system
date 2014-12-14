@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.0" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 <display-name>catastrophes-system-web</display-name>
+  <servlet>
+    <servlet-name>Faces Servlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+   <servlet-name>Faces Servlet</servlet-name>
+   <url-pattern>/faces/*</url-pattern>
+  </servlet-mapping>
   <context-param>
   <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
     <param-value>true</param-value>
@@ -13,6 +22,14 @@
 	<param-name>primefaces.UPLOADER</param-name>
 	<param-value>auto</param-value>
   </context-param>
+  <filter>
+	<filter-name>PrimeFaces FileUpload Filter</filter-name>
+	<filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+  </filter>
+  <filter-mapping>
+	<filter-name>PrimeFaces FileUpload Filter</filter-name>
+	<servlet-name>Faces Servlet</servlet-name>
+  </filter-mapping>
   <session-config>
   <session-timeout>30</session-timeout>
   </session-config>
@@ -24,14 +41,6 @@
   <servlet-name>javax.ws.rs.core.Application</servlet-name>
     <url-pattern>/rest/*</url-pattern>
   </servlet-mapping>
-  <filter>
-	<filter-name>PrimeFaces FileUpload Filter</filter-name>
-	<filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
-  </filter>
-  <filter-mapping>
-	<filter-name>PrimeFaces FileUpload Filter</filter-name>
-	<servlet-name>javax.ws.rs.core.Application</servlet-name>
-  </filter-mapping>
   <error-page>
     <error-code>404</error-code>
     <location>/faces/error.xhtml</location>

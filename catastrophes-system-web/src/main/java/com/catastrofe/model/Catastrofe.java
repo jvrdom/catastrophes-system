@@ -65,7 +65,7 @@ public class Catastrofe implements Serializable
    @OneToMany
    private Set<Novedades> novedades = new HashSet<Novedades>();
 
-   @OneToMany
+   @OneToMany(cascade=CascadeType.ALL)
    private Set<Plan> planes = new HashSet<Plan>();
 
    @Column

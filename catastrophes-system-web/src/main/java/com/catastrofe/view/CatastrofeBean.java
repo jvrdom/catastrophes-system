@@ -3,7 +3,9 @@ package com.catastrofe.view;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
@@ -29,6 +31,9 @@ import org.primefaces.event.FileUploadEvent;
 
 import com.catastrofe.dao.CatastrofeDao;
 import com.catastrofe.model.Catastrofe;
+import com.catastrofe.model.Plan;
+import com.catastrofe.model.tipoPlan;
+import com.catastrofe.utiles.UtilesWeb;
 
 /**
  * Backing bean for Catastrofe entities.
@@ -54,6 +59,13 @@ public class CatastrofeBean implements Serializable
 
    private Long id;
    private String latLng;
+   private UtilesWeb utiles;
+   private Set<Plan> planes;
+   
+   public CatastrofeBean() {
+	   utiles = new UtilesWeb();
+	   planes = new HashSet<Plan>();
+   }
 
    public Long getId()
    {
@@ -83,7 +95,6 @@ public class CatastrofeBean implements Serializable
 
    public String create()
    {
-
       this.conversation.begin();
       return "create?faces-redirect=true";
    }
@@ -139,6 +150,7 @@ public class CatastrofeBean implements Serializable
      		
      		this.catastrofe.setLatitud(lat);
      		this.catastrofe.setLongitud(lng);
+     		this.catastrofe.setPlanes(this.planes);
      		
         	this.catastofeDao.create(this.catastrofe);
             return "search?faces-redirect=true";
@@ -178,15 +190,33 @@ public class CatastrofeBean implements Serializable
    
    
    public void handleFileUploadImagen(FileUploadEvent event) {       
-		//this.finalPathImg = utiles.fileUpload(event.getFile().getFileName(), nombre, event.getFile().getInputstream());
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succesful", event.getFile().getFileName() + " is uploaded.");
-        FacesContext.getCurrentInstance().addMessage(null, message);
+	   try {
+			this.catastrofe.setLogo(utiles.fileUpload(event.getFile().getFileName(), event.getFile().getInputstream()));
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succesful", event.getFile().getFileName() + " is uploaded.");
+	        FacesContext.getCurrentInstance().addMessage(null, message);
+		} catch (IOException e) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Fail!", "Failed to upload file: " + event.getFile().getFileName() + ", reason: " + e.getMessage());
+	        FacesContext.getCurrentInstance().addMessage(null, message);
+		}
    }
 	
    public void handleFileUpload(FileUploadEvent event) {
-    	//this.finalPath = utiles.fileUpload(event.getFile().getFileName(), nombre, event.getFile().getInputstream());
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succesful", event.getFile().getFileName() + " is uploaded.");
-	    FacesContext.getCurrentInstance().addMessage(null, message);
+	   try {
+		   	
+		   	Plan plan = new Plan();
+		   	plan.setUrl(utiles.fileUpload(event.getFile().getFileName(), event.getFile().getInputstream()));
+		   	plan.setDescripcion("Esta es una descripcion de prueba");
+		   	plan.setTipo(tipoPlan.Emergencia);
+		   	
+		   	planes.add(plan);
+		   	
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succesful", event.getFile().getFileName() + " is uploaded.");
+	        FacesContext.getCurrentInstance().addMessage(null, message);
+	        
+		} catch (IOException e) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Fail!", "Failed to upload file: " + event.getFile().getFileName() + ", reason: " + e.getMessage());
+	        FacesContext.getCurrentInstance().addMessage(null, message);
+		}
    }
    
    public String getLatLng() {
