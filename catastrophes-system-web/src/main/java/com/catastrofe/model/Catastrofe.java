@@ -1,34 +1,19 @@
 package com.catastrofe.model;
 
-import javax.persistence.Entity;
-
 import java.io.Serializable;
-
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
-import javax.persistence.ManyToOne;
-import javax.persistence.Version;
-
-import java.lang.Override;
-
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
-
-import com.catastrofe.model.Imagen;
-
-import java.util.Set;
 import java.util.HashSet;
-
-import javax.persistence.OneToMany;
-
-import com.catastrofe.model.Novedades;
-import com.catastrofe.model.Plan;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
-
-import com.catastrofe.model.tipoCatastrofe;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
@@ -58,6 +43,9 @@ public class Catastrofe implements Serializable
 
    @Column
    private double longitud;
+   
+   @Column
+   private double radio;
 
    @OneToMany
    private Set<Imagen> imagenes = new HashSet<Imagen>();
@@ -224,6 +212,14 @@ public class Catastrofe implements Serializable
    public void setTipoCatastrofe(final tipoCatastrofe tipoCatastrofe)
    {
       this.tipoCatastrofe = tipoCatastrofe;
+   }
+   
+   public double getRadio() {
+	   return radio;
+   }
+
+   public void setRadio(double radio) {
+	   this.radio = radio;
    }
 
    @Override

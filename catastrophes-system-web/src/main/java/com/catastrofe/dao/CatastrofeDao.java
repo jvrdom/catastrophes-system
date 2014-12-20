@@ -59,7 +59,6 @@ public class CatastrofeDao
    
    public List<Catastrofe> getAll()
    {
-
       CriteriaQuery<Catastrofe> criteria = em.getCriteriaBuilder().createQuery(Catastrofe.class);
       return em.createQuery(criteria.select(criteria.from(Catastrofe.class))).getResultList();
    }

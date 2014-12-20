@@ -35,7 +35,7 @@ public class UserIndex {
 		
 		for(int i = 0; i < catastrofes.size(); i++){
 			LatLng coordenadas = new LatLng(catastrofes.get(i).getLatitud(), catastrofes.get(i).getLongitud());
-			circle = new Circle(coordenadas, Math.sqrt(10) * 1000);
+			circle = new Circle(coordenadas, catastrofes.get(i).getRadio());
 			
 			/**	
 			 * Esto cambiará cuando se defina el tipo de catastrofe

@@ -59,6 +59,7 @@ public class CatastrofeBean implements Serializable
 
    private Long id;
    private String latLng;
+   private double radio;
    private UtilesWeb utiles;
    private Set<Plan> planes;
    
@@ -150,6 +151,7 @@ public class CatastrofeBean implements Serializable
      		
      		this.catastrofe.setLatitud(lat);
      		this.catastrofe.setLongitud(lng);
+     		this.catastrofe.setRadio(this.radio);
      		this.catastrofe.setPlanes(this.planes);
      		
         	this.catastofeDao.create(this.catastrofe);
@@ -226,12 +228,18 @@ public class CatastrofeBean implements Serializable
    public void setLatLng(String latLng) {
 	   this.latLng = latLng;
    }
-
+   
+   public double getRadio() {
+	   return radio;
+   }
+   
+   public void setRadio(double radio) {
+	   this.radio = radio;
+   }
+   
    /*
     * Support searching Catastrofe entities with pagination
     */
-
-
 
    private int page;
    private long count;
