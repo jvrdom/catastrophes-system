@@ -47,7 +47,11 @@ public class LoginBean {
 			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Invalid Login!","Please Try Again!"));
 			return "login?faces-redirect=false";
 		}
-		
+	}
+	
+	public String logout(){
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
+		return "login?faces-redirect=true";
 	}
 
 	public Usuario getUsuario() {

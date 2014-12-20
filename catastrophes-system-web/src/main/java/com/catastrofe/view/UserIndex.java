@@ -1,14 +1,13 @@
 package com.catastrofe.view;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Stateful;
-import javax.enterprise.context.ConversationScoped;
-import javax.faces.application.FacesMessage;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.Circle;
@@ -16,17 +15,18 @@ import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
 
+import com.catastrofe.dao.CatastrofeDao;
 import com.catastrofe.model.Catastrofe;
 
-@Named
-@Stateful
-@ConversationScoped
+@ViewScoped
+@ManagedBean
 public class UserIndex {
 	
-	@Inject private CatastrofeBean catastrofe;
+	@EJB private CatastrofeDao catastrofe;
 	private MapModel map;
 	private Circle circle;
 	private List<Catastrofe> catastrofes;
+	private Catastrofe catastrofeSelected;
 	
 	@PostConstruct
 	public void init(){
@@ -50,7 +50,17 @@ public class UserIndex {
 	}
 	
 	public void onCircleSelect(OverlaySelectEvent event) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Circle Selected", null));
+        
+		catastrofeSelected = (Catastrofe) event.getOverlay().getData();
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("catastrofe", catastrofeSelected); 
+		
+		if (catastrofeSelected != null) {
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/faces/catastrofe/view.xhtml?id=" + catastrofeSelected.getId());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
     }
 
 	public MapModel getMap() {

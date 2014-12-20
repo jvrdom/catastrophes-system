@@ -6,6 +6,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
+
 import com.catastrofe.model.Catastrofe;
 
 /**
@@ -53,5 +55,12 @@ public class CatastrofeDao
          findAllQuery.setMaxResults(maxResult);
       }
       return findAllQuery.getResultList();
+   }
+   
+   public List<Catastrofe> getAll()
+   {
+
+      CriteriaQuery<Catastrofe> criteria = em.getCriteriaBuilder().createQuery(Catastrofe.class);
+      return em.createQuery(criteria.select(criteria.from(Catastrofe.class))).getResultList();
    }
 }

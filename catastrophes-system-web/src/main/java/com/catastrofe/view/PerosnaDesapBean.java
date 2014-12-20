@@ -63,6 +63,7 @@ public class PerosnaDesapBean implements Serializable
    
    public PerosnaDesapBean() {
 	   utiles = new UtilesWeb();
+	   imagenesPersonDes = new HashSet<Imagen>();
    }
    
    /*
