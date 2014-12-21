@@ -35,12 +35,18 @@
 				                                       position.coords.longitude);
 
 				      var infowindow = new google.maps.InfoWindow({
-				        map: gmap,
-				        position: pos,
-				        content: 'Location found using HTML5.'
+				          content: "Usted esta aquí."
 				      });
 
+				      var marker = new google.maps.Marker({
+				          position: pos,
+				          map: gmap,
+				      });
+
+				      infowindow.open(gmap,marker);
+
 				      gmap.setCenter(pos);
+				      
 				    }, function() {
 				      handleNoGeolocation(true);
 				    });
