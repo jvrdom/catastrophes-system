@@ -22,6 +22,14 @@ import com.catastrofe.model.Catastrofe;
 @ManagedBean
 public class UserIndex {
 	
+	/***
+	 * Constantes de tipo de catástrofes.
+	 */
+	private final static String INCENDIO = "#FF0000";
+	private final static String TERREMOTO = "#FE9A2E";
+	private final static String INUNDACION = "#0101DF";
+	private final static String SUDESTADA = "#58D3F7";
+	
 	@EJB private CatastrofeDao catastrofe;
 	private MapModel map;
 	private Circle circle;
@@ -40,8 +48,8 @@ public class UserIndex {
 			/**	
 			 * Esto cambiará cuando se defina el tipo de catastrofe
 			 */
-			circle.setStrokeColor("#d93c3c");
-			circle.setFillColor("#d93c3c");
+			circle.setStrokeColor(this.getColorCatastrophe(catastrofes.get(i).getTipoCatastrofe().name()));
+			circle.setFillColor(this.getColorCatastrophe(catastrofes.get(i).getTipoCatastrofe().name()));
 			
 			circle.setData(catastrofes.get(i));
 			circle.setFillOpacity(0.5);
@@ -62,6 +70,31 @@ public class UserIndex {
 			}
 		}
     }
+	
+	private String getColorCatastrophe(String tipoCatastrofe) {
+		String retorno;
+		
+		switch (tipoCatastrofe) {
+		case "Incendio":
+			retorno = UserIndex.INCENDIO;
+			break;
+		case "Sudestada":
+			retorno = UserIndex.SUDESTADA;
+			break;
+		case "Terremoto":
+			retorno = UserIndex.TERREMOTO;
+			break;
+		case "Inundacion":
+			retorno = UserIndex.INUNDACION;
+			break;
+
+		default:
+			retorno = UserIndex.INCENDIO;
+			break;
+		}
+		
+		return retorno;
+	}
 
 	public MapModel getMap() {
 		return map;
