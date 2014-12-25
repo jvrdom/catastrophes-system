@@ -30,6 +30,14 @@
 	<filter-name>PrimeFaces FileUpload Filter</filter-name>
 	<servlet-name>Faces Servlet</servlet-name>
   </filter-mapping>
+  <filter>
+    <filter-name>CORS</filter-name>
+    <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+    <init-param>
+      <param-name>cors.allowOrigin</param-name>
+      <param-value>*</param-value>
+    </init-param>
+  </filter>
   <session-config>
   <session-timeout>30</session-timeout>
   </session-config>
