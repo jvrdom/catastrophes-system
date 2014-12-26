@@ -7,6 +7,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.catastrofe.dao.UsuarioDao;
 import com.catastrofe.model.Usuario;
 
 @Named
@@ -21,7 +22,7 @@ public class LoginBean {
 	private String user, password;
 	
 	@Inject
-	private UsuarioBean usuarioBean;
+	private UsuarioDao usuarioDao;
 
 	public LoginBean() {
 		
@@ -30,7 +31,7 @@ public class LoginBean {
 	public String login(){
 		
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
-		usuario = usuarioBean.findByUserAndPass(user, password);
+		usuario = usuarioDao.findByUserAndPass(user, password);
 		
 		if(usuario != null){
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", usuario);
@@ -46,7 +47,11 @@ public class LoginBean {
 			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Invalid Login!","Please Try Again!"));
 			return "login?faces-redirect=false";
 		}
-		
+	}
+	
+	public String logout(){
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
+		return "login?faces-redirect=true";
 	}
 
 	public Usuario getUsuario() {

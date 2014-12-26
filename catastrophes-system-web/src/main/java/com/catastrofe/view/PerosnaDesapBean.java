@@ -3,6 +3,7 @@ package com.catastrofe.view;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,16 +30,15 @@ import javax.persistence.criteria.Root;
 
 import org.primefaces.event.FileUploadEvent;
 
-import com.catastrofe.dao.CatastrofeDao;
-import com.catastrofe.model.Catastrofe;
-import com.catastrofe.model.Plan;
-import com.catastrofe.model.tipoPlan;
+import com.catastrofe.dao.PerosnaDesapDao;
+import com.catastrofe.model.Imagen;
+import com.catastrofe.model.PerosnaDesap;
 import com.catastrofe.utiles.UtilesWeb;
 
 /**
- * Backing bean for Catastrofe entities.
+ * Backing bean for PerosnaDesap entities.
  * <p>
- * This class provides CRUD functionality for all Catastrofe entities. It focuses
+ * This class provides CRUD functionality for all PerosnaDesap entities. It focuses
  * purely on Java EE 6 standards (e.g. <tt>&#64;ConversationScoped</tt> for
  * state management, <tt>PersistenceContext</tt> for persistence,
  * <tt>CriteriaBuilder</tt> for searches) rather than introducing a CRUD framework or
@@ -48,25 +48,29 @@ import com.catastrofe.utiles.UtilesWeb;
 @Named
 @Stateful
 @ConversationScoped
-public class CatastrofeBean implements Serializable
+public class PerosnaDesapBean implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
+   
 
+   @Inject
+   private PerosnaDesapDao personaDesDao;
+   private static final String DESAPARECIDO = "Desaparecido";
+   private UtilesWeb utiles;
+   private Set<Imagen> imagenesPersonDes;
+   private List<PerosnaDesap> personasDesaparecidas;
+   
+   public PerosnaDesapBean() {
+	   utiles = new UtilesWeb();
+	   imagenesPersonDes = new HashSet<Imagen>();
+   }
+   
    /*
-    * Support creating and retrieving Catastrofe entities
+    * Support creating and retrieving PerosnaDesap entities
     */
 
    private Long id;
-   private String latLng;
-   private double radio;
-   private UtilesWeb utiles;
-   private Set<Plan> planes;
-   
-   public CatastrofeBean() {
-	   utiles = new UtilesWeb();
-	   planes = new HashSet<Plan>();
-   }
 
    public Long getId()
    {
@@ -78,24 +82,22 @@ public class CatastrofeBean implements Serializable
       this.id = id;
    }
 
-   private Catastrofe catastrofe;
+   private PerosnaDesap perosnaDesap;
 
-   public Catastrofe getCatastrofe()
+   public PerosnaDesap getPerosnaDesap()
    {
-      return this.catastrofe;
+      return this.perosnaDesap;
    }
 
    @Inject
    private Conversation conversation;
    
-   @Inject
-   private CatastrofeDao catastofeDao;
-
    @PersistenceContext(type = PersistenceContextType.EXTENDED)
    private EntityManager entityManager;
 
    public String create()
    {
+
       this.conversation.begin();
       return "create?faces-redirect=true";
    }
@@ -115,22 +117,21 @@ public class CatastrofeBean implements Serializable
 
       if (this.id == null)
       {
-         this.catastrofe = this.example;
+         this.perosnaDesap = this.example;
       }
       else
       {
-         this.catastrofe = findById(getId());
+         this.perosnaDesap = findById(getId());
       }
    }
 
-   public Catastrofe findById(Long id)
+   public PerosnaDesap findById(Long id)
    {
-
-      return this.catastofeDao.findById(id);
+	  return this.personaDesDao.findById(id); 
    }
 
    /*
-    * Support updating and deleting Catastrofe entities
+    * Support updating and deleting PerosnaDesap entities
     */
 
    public String update()
@@ -141,26 +142,16 @@ public class CatastrofeBean implements Serializable
       {
          if (this.id == null)
          {
-
-     		latLng = latLng.replace("(", "");
-     		latLng = latLng.replace(")", "");
-     		
-     		String [] latlong = latLng.split(",");
-     		double lat = Double.parseDouble(latlong[0]);
-     		double lng = Double.parseDouble(latlong[1]);
-     		
-     		this.catastrofe.setLatitud(lat);
-     		this.catastrofe.setLongitud(lng);
-     		this.catastrofe.setRadio(this.radio);
-     		this.catastrofe.setPlanes(this.planes);
-     		
-        	this.catastofeDao.create(this.catastrofe);
-            return "search?faces-redirect=true";
+        	this.perosnaDesap.setStatus(DESAPARECIDO);
+        	this.perosnaDesap.setImagenes(this.imagenesPersonDes);
+        	this.personaDesDao.create(this.perosnaDesap); 
+            FacesContext.getCurrentInstance().getExternalContext().redirect("search.xhtml");
+            return null;
          }
          else
          {
-        	this.catastofeDao.update(this.catastrofe);
-            return "view?faces-redirect=true&id=" + this.catastrofe.getId();
+        	this.personaDesDao.update(this.perosnaDesap);
+            return "view?faces-redirect=true&id=" + this.perosnaDesap.getId();
          }
       }
       catch (Exception e)
@@ -176,10 +167,9 @@ public class CatastrofeBean implements Serializable
 
       try
       {
-         Catastrofe deletableEntity = findById(getId());
-         
-         this.catastofeDao.deleteById(deletableEntity.getId());
-         //this.entityManager.remove(deletableEntity);
+         PerosnaDesap deletableEntity = findById(getId());
+
+         this.entityManager.remove(deletableEntity);
          this.entityManager.flush();
          return "search?faces-redirect=true";
       }
@@ -190,28 +180,14 @@ public class CatastrofeBean implements Serializable
       }
    }
    
-   
-   public void handleFileUploadImagen(FileUploadEvent event) {       
-	   try {
-			this.catastrofe.setLogo(utiles.fileUpload(event.getFile().getFileName(), event.getFile().getInputstream()));
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succesful", event.getFile().getFileName() + " is uploaded.");
-	        FacesContext.getCurrentInstance().addMessage(null, message);
-		} catch (IOException e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Fail!", "Failed to upload file: " + event.getFile().getFileName() + ", reason: " + e.getMessage());
-	        FacesContext.getCurrentInstance().addMessage(null, message);
-		}
-   }
-	
    public void handleFileUpload(FileUploadEvent event) {
-	   try {
-		   	
-		   	Plan plan = new Plan();
-		   	plan.setUrl(utiles.fileUpload(event.getFile().getFileName(), event.getFile().getInputstream()));
-		   	plan.setDescripcion("Esta es una descripcion de prueba");
-		   	plan.setTipo(tipoPlan.Emergencia);
-		   	
-		   	planes.add(plan);
-		   	
+		try {
+			
+			Imagen imagen = new Imagen();
+			imagen.setImagen(utiles.fileUpload(event.getFile().getFileName(), event.getFile().getInputstream()));
+			
+			imagenesPersonDes.add(imagen);
+			
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succesful", event.getFile().getFileName() + " is uploaded.");
 	        FacesContext.getCurrentInstance().addMessage(null, message);
 	        
@@ -220,32 +196,16 @@ public class CatastrofeBean implements Serializable
 	        FacesContext.getCurrentInstance().addMessage(null, message);
 		}
    }
-   
-   public String getLatLng() {
-	   return latLng;
-   }
-	
-   public void setLatLng(String latLng) {
-	   this.latLng = latLng;
-   }
-   
-   public double getRadio() {
-	   return radio;
-   }
-   
-   public void setRadio(double radio) {
-	   this.radio = radio;
-   }
-   
+
    /*
-    * Support searching Catastrofe entities with pagination
+    * Support searching PerosnaDesap entities with pagination
     */
 
    private int page;
    private long count;
-   private List<Catastrofe> pageItems;
+   private List<PerosnaDesap> pageItems;
 
-   private Catastrofe example = new Catastrofe();
+   private PerosnaDesap example = new PerosnaDesap();
 
    public int getPage()
    {
@@ -262,12 +222,12 @@ public class CatastrofeBean implements Serializable
       return 10;
    }
 
-   public Catastrofe getExample()
+   public PerosnaDesap getExample()
    {
       return this.example;
    }
 
-   public void setExample(Catastrofe example)
+   public void setExample(PerosnaDesap example)
    {
       this.example = example;
    }
@@ -285,7 +245,7 @@ public class CatastrofeBean implements Serializable
       // Populate this.count
 
       CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-      Root<Catastrofe> root = countCriteria.from(Catastrofe.class);
+      Root<PerosnaDesap> root = countCriteria.from(PerosnaDesap.class);
       countCriteria = countCriteria.select(builder.count(root)).where(
             getSearchPredicates(root));
       this.count = this.entityManager.createQuery(countCriteria)
@@ -293,16 +253,16 @@ public class CatastrofeBean implements Serializable
 
       // Populate this.pageItems
 
-      CriteriaQuery<Catastrofe> criteria = builder.createQuery(Catastrofe.class);
-      root = criteria.from(Catastrofe.class);
-      TypedQuery<Catastrofe> query = this.entityManager.createQuery(criteria
+      CriteriaQuery<PerosnaDesap> criteria = builder.createQuery(PerosnaDesap.class);
+      root = criteria.from(PerosnaDesap.class);
+      TypedQuery<PerosnaDesap> query = this.entityManager.createQuery(criteria
             .select(root).where(getSearchPredicates(root)));
       query.setFirstResult(this.page * getPageSize()).setMaxResults(
             getPageSize());
       this.pageItems = query.getResultList();
    }
 
-   private Predicate[] getSearchPredicates(Root<Catastrofe> root)
+   private Predicate[] getSearchPredicates(Root<PerosnaDesap> root)
    {
 
       CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
@@ -313,21 +273,31 @@ public class CatastrofeBean implements Serializable
       {
          predicatesList.add(builder.like(root.<String> get("nombre"), '%' + nombre + '%'));
       }
+      String apellido = this.example.getApellido();
+      if (apellido != null && !"".equals(apellido))
+      {
+         predicatesList.add(builder.like(root.<String> get("apellido"), '%' + apellido + '%'));
+      }
+      String telDeContacto = this.example.getTelDeContacto();
+      if (telDeContacto != null && !"".equals(telDeContacto))
+      {
+         predicatesList.add(builder.like(root.<String> get("telDeContacto"), '%' + telDeContacto + '%'));
+      }
       String descripcion = this.example.getDescripcion();
       if (descripcion != null && !"".equals(descripcion))
       {
          predicatesList.add(builder.like(root.<String> get("descripcion"), '%' + descripcion + '%'));
       }
-      String logo = this.example.getLogo();
-      if (logo != null && !"".equals(logo))
+      String status = this.example.getStatus();
+      if (status != null && !"".equals(status))
       {
-         predicatesList.add(builder.like(root.<String> get("logo"), '%' + logo + '%'));
+         predicatesList.add(builder.like(root.<String> get("status"), '%' + status + '%'));
       }
 
       return predicatesList.toArray(new Predicate[predicatesList.size()]);
    }
 
-   public List<Catastrofe> getPageItems()
+   public List<PerosnaDesap> getPageItems()
    {
       return this.pageItems;
    }
@@ -338,17 +308,17 @@ public class CatastrofeBean implements Serializable
    }
 
    /*
-    * Support listing and POSTing back Catastrofe entities (e.g. from inside an
+    * Support listing and POSTing back PerosnaDesap entities (e.g. from inside an
     * HtmlSelectOneMenu)
     */
 
-   public List<Catastrofe> getAll()
+   public List<PerosnaDesap> getAll()
    {
 
-      CriteriaQuery<Catastrofe> criteria = this.entityManager
-            .getCriteriaBuilder().createQuery(Catastrofe.class);
+      CriteriaQuery<PerosnaDesap> criteria = this.entityManager
+            .getCriteriaBuilder().createQuery(PerosnaDesap.class);
       return this.entityManager.createQuery(
-            criteria.select(criteria.from(Catastrofe.class))).getResultList();
+            criteria.select(criteria.from(PerosnaDesap.class))).getResultList();
    }
 
    @Resource
@@ -357,7 +327,7 @@ public class CatastrofeBean implements Serializable
    public Converter getConverter()
    {
 
-      final CatastrofeBean ejbProxy = this.sessionContext.getBusinessObject(CatastrofeBean.class);
+      final PerosnaDesapBean ejbProxy = this.sessionContext.getBusinessObject(PerosnaDesapBean.class);
 
       return new Converter()
       {
@@ -380,7 +350,7 @@ public class CatastrofeBean implements Serializable
                return "";
             }
 
-            return String.valueOf(((Catastrofe) value).getId());
+            return String.valueOf(((PerosnaDesap) value).getId());
          }
       };
    }
@@ -389,17 +359,17 @@ public class CatastrofeBean implements Serializable
     * Support adding children to bidirectional, one-to-many tables
     */
 
-   private Catastrofe add = new Catastrofe();
+   private PerosnaDesap add = new PerosnaDesap();
 
-   public Catastrofe getAdd()
+   public PerosnaDesap getAdd()
    {
       return this.add;
    }
 
-   public Catastrofe getAdded()
+   public PerosnaDesap getAdded()
    {
-      Catastrofe added = this.add;
-      this.add = new Catastrofe();
+      PerosnaDesap added = this.add;
+      this.add = new PerosnaDesap();
       return added;
    }
 }

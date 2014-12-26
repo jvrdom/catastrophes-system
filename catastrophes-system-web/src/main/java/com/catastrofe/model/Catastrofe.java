@@ -1,13 +1,17 @@
 package com.catastrofe.model;
 
-import javax.persistence.Entity;
 import java.io.Serializable;
-import javax.persistence.Id;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
-import java.lang.Override;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -39,6 +43,24 @@ public class Catastrofe implements Serializable
 
    @Column
    private double longitud;
+   
+   @Column
+   private double radio;
+
+   @OneToMany
+   private Set<Imagen> imagenes = new HashSet<Imagen>();
+
+   @OneToMany
+   private Set<Novedades> novedades = new HashSet<Novedades>();
+
+   @OneToMany(cascade=CascadeType.ALL)
+   private Set<Plan> planes = new HashSet<Plan>();
+
+   @Column
+   private String direccion;
+
+   @Column
+   private tipoCatastrofe tipoCatastrofe;
 
    public Long getId()
    {
@@ -142,6 +164,64 @@ public class Catastrofe implements Serializable
       this.longitud = longitud;
    }
 
+   public Set<Imagen> getImagenes()
+   {
+      return this.imagenes;
+   }
+
+   public void setImagenes(final Set<Imagen> imagenes)
+   {
+      this.imagenes = imagenes;
+   }
+
+   public Set<Novedades> getNovedades()
+   {
+      return this.novedades;
+   }
+
+   public void setNovedades(final Set<Novedades> novedades)
+   {
+      this.novedades = novedades;
+   }
+
+   public Set<Plan> getPlanes()
+   {
+      return this.planes;
+   }
+
+   public void setPlanes(final Set<Plan> planes)
+   {
+      this.planes = planes;
+   }
+
+   public String getDireccion()
+   {
+      return this.direccion;
+   }
+
+   public void setDireccion(final String direccion)
+   {
+      this.direccion = direccion;
+   }
+
+   public tipoCatastrofe getTipoCatastrofe()
+   {
+      return this.tipoCatastrofe;
+   }
+
+   public void setTipoCatastrofe(final tipoCatastrofe tipoCatastrofe)
+   {
+      this.tipoCatastrofe = tipoCatastrofe;
+   }
+   
+   public double getRadio() {
+	   return radio;
+   }
+
+   public void setRadio(double radio) {
+	   this.radio = radio;
+   }
+
    @Override
    public String toString()
    {
@@ -154,6 +234,8 @@ public class Catastrofe implements Serializable
          result += ", logo: " + logo;
       result += ", latitud: " + latitud;
       result += ", longitud: " + longitud;
+      if (direccion != null && !direccion.trim().isEmpty())
+         result += ", direccion: " + direccion;
       return result;
    }
 }

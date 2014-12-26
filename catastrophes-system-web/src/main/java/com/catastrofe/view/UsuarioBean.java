@@ -4,15 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
 import javax.ejb.Stateful;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -24,8 +20,11 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import com.catastrofe.dao.RolDao;
+import com.catastrofe.dao.UsuarioDao;
 import com.catastrofe.model.Rol;
 import com.catastrofe.model.Usuario;
+import com.catastrofe.model.sexo;
 
 /**
  * Backing bean for Usuario entities.
@@ -50,6 +49,8 @@ public class UsuarioBean implements Serializable
     */
 
    private Long id;
+   private String rol, sexoAux;
+   private List<Rol> roles;
 
    public Long getId()
    {
@@ -70,10 +71,14 @@ public class UsuarioBean implements Serializable
 
    @Inject
    private Conversation conversation;
+   @Inject
+   private UsuarioDao usuarioDao;
+   @Inject
+   private RolDao rolDao;
 
    @PersistenceContext(type = PersistenceContextType.EXTENDED)
    private EntityManager entityManager;
-
+   
    public String create()
    {
 
@@ -106,16 +111,7 @@ public class UsuarioBean implements Serializable
 
    public Usuario findById(Long id)
    {
-
-      return this.entityManager.find(Usuario.class, id);
-   }
-   
-   public Usuario findByUserAndPass(String user, String password){
-	   if (this.entityManager.createNamedQuery("Usuario.findByLoginPass").setParameter("usuario", user).setParameter("password", password).getResultList().size() > 0) {
-           return (Usuario) this.entityManager.createNamedQuery("Usuario.findByLoginPass").setParameter("usuario", user).setParameter("password", password).getSingleResult();
-       } else {
-    	   return null;
-       }
+      return this.usuarioDao.findById(id);
    }
 
    /*
@@ -130,12 +126,22 @@ public class UsuarioBean implements Serializable
       {
          if (this.id == null)
          {
-            this.entityManager.persist(this.usuario);
+        	this.roles = rolDao.listAll(null, null);
+        	
+        	for(int i = 0; i < roles.size(); i++){
+        		if (roles.get(i).getName().equals(this.rol.toLowerCase())){
+        			this.usuario.setRol(roles.get(i));
+        		} 
+        	}
+        	
+        	this.usuario.setSexo(this.establecerSexo(sexoAux));
+        	
+            this.usuarioDao.create(this.usuario);
             return "search?faces-redirect=true";
          }
          else
          {
-            this.entityManager.merge(this.usuario);
+            this.usuarioDao.update(this.usuario);
             return "view?faces-redirect=true&id=" + this.usuario.getId();
          }
       }
@@ -166,7 +172,31 @@ public class UsuarioBean implements Serializable
          return null;
       }
    }
-
+   
+   private sexo establecerSexo (String sexoIn){
+	   if(sexoIn.equals("Masculino")) {
+		   return sexo.Masculino;
+	   } else {
+		   return sexo.Femenino;
+	   }
+   }
+   
+   public String getRol() {
+	   return rol;
+   }
+		
+   public void setRol(String rol) {
+	   this.rol = rol;
+   }
+   
+   public String getSexoAux() {
+	   return sexoAux;
+   }
+	
+   public void setSexoAux(String sexoAux) {
+		this.sexoAux = sexoAux;
+   }
+   
    /*
     * Support searching Usuario entities with pagination
     */
@@ -275,54 +305,6 @@ public class UsuarioBean implements Serializable
    public long getCount()
    {
       return this.count;
-   }
-
-   /*
-    * Support listing and POSTing back Usuario entities (e.g. from inside an
-    * HtmlSelectOneMenu)
-    */
-
-   public List<Usuario> getAll()
-   {
-
-      CriteriaQuery<Usuario> criteria = this.entityManager
-            .getCriteriaBuilder().createQuery(Usuario.class);
-      return this.entityManager.createQuery(
-            criteria.select(criteria.from(Usuario.class))).getResultList();
-   }
-
-   @Resource
-   private SessionContext sessionContext;
-
-   public Converter getConverter()
-   {
-
-      final UsuarioBean ejbProxy = this.sessionContext.getBusinessObject(UsuarioBean.class);
-
-      return new Converter()
-      {
-
-         @Override
-         public Object getAsObject(FacesContext context,
-               UIComponent component, String value)
-         {
-
-            return ejbProxy.findById(Long.valueOf(value));
-         }
-
-         @Override
-         public String getAsString(FacesContext context,
-               UIComponent component, Object value)
-         {
-
-            if (value == null)
-            {
-               return "";
-            }
-
-            return String.valueOf(((Usuario) value).getId());
-         }
-      };
    }
 
    /*

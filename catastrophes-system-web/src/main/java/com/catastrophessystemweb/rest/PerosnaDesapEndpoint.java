@@ -11,31 +11,31 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
-import com.catastrofe.model.Catastrofe;
+import com.catastrofe.model.PerosnaDesap;
 
 /**
  * 
  */
 @Stateless
-@Path("/catastrofes")
-public class CatastrofeEndpoint
+@Path("/perosnadesaps")
+public class PerosnaDesapEndpoint
 {
    @PersistenceContext(unitName = "forge-default")
    private EntityManager em;
 
    @POST
    @Consumes("application/json")
-   public Response create(Catastrofe entity)
+   public Response create(PerosnaDesap entity)
    {
       em.persist(entity);
-      return Response.created(UriBuilder.fromResource(CatastrofeEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
+      return Response.created(UriBuilder.fromResource(PerosnaDesapEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
    }
 
    @DELETE
    @Path("/{id:[0-9][0-9]*}")
    public Response deleteById(@PathParam("id") Long id)
    {
-      Catastrofe entity = em.find(Catastrofe.class, id);
+      PerosnaDesap entity = em.find(PerosnaDesap.class, id);
       if (entity == null)
       {
          return Response.status(Status.NOT_FOUND).build();
@@ -49,9 +49,9 @@ public class CatastrofeEndpoint
    @Produces("application/json")
    public Response findById(@PathParam("id") Long id)
    {
-      TypedQuery<Catastrofe> findByIdQuery = em.createQuery("SELECT DISTINCT c FROM Catastrofe c LEFT JOIN FETCH c.imagenes LEFT JOIN FETCH c.novedades LEFT JOIN FETCH c.planes WHERE c.id = :entityId ORDER BY c.id", Catastrofe.class);
+      TypedQuery<PerosnaDesap> findByIdQuery = em.createQuery("SELECT DISTINCT p FROM PerosnaDesap p LEFT JOIN FETCH p.catastrofe LEFT JOIN FETCH p.reportado LEFT JOIN FETCH p.imagenes WHERE p.id = :entityId ORDER BY p.id", PerosnaDesap.class);
       findByIdQuery.setParameter("entityId", id);
-      Catastrofe entity;
+      PerosnaDesap entity;
       try
       {
          entity = findByIdQuery.getSingleResult();
@@ -69,16 +69,16 @@ public class CatastrofeEndpoint
 
    @GET
    @Produces("application/json")
-   public List<Catastrofe> listAll()
+   public List<PerosnaDesap> listAll()
    {
-      final List<Catastrofe> results = em.createQuery("SELECT DISTINCT c FROM Catastrofe c LEFT JOIN FETCH c.imagenes LEFT JOIN FETCH c.novedades LEFT JOIN FETCH c.planes ORDER BY c.id", Catastrofe.class).getResultList();
+      final List<PerosnaDesap> results = em.createQuery("SELECT DISTINCT p FROM PerosnaDesap p LEFT JOIN FETCH p.catastrofe LEFT JOIN FETCH p.reportado LEFT JOIN FETCH p.imagenes ORDER BY p.id", PerosnaDesap.class).getResultList();
       return results;
    }
 
    @PUT
    @Path("/{id:[0-9][0-9]*}")
    @Consumes("application/json")
-   public Response update(Catastrofe entity)
+   public Response update(PerosnaDesap entity)
    {
       entity = em.merge(entity);
       return Response.noContent().build();

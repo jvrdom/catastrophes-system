@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{perosnaDesapBean.id}"/>
+		<f:event type="preRenderView" listener="#{perosnaDesapBean.retrieve}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="View Perosna Desap"/>
+
+	<ui:define name="header">
+		Perosna Desap
+	</ui:define>
+
+	<ui:define name="subheader">
+		View existing Perosna Desap
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="perosnaDesapBeanPerosnaDesapNombre" value="Nombre:"/>
+			<h:outputText id="perosnaDesapBeanPerosnaDesapNombre" value="#{perosnaDesapBean.perosnaDesap.nombre}"/>
+			<h:outputText/>
+			<h:outputLabel for="perosnaDesapBeanPerosnaDesapApellido" value="Apellido:"/>
+			<h:outputText id="perosnaDesapBeanPerosnaDesapApellido" value="#{perosnaDesapBean.perosnaDesap.apellido}"/>
+			<h:outputText/>
+			<h:outputLabel for="perosnaDesapBeanPerosnaDesapTelDeContacto" value="Tel De Contacto:"/>
+			<h:outputText id="perosnaDesapBeanPerosnaDesapTelDeContacto" value="#{perosnaDesapBean.perosnaDesap.telDeContacto}"/>
+			<h:outputText/>
+			<h:outputLabel for="perosnaDesapBeanPerosnaDesapDescripcion" value="Descripcion:"/>
+			<h:outputText id="perosnaDesapBeanPerosnaDesapDescripcion" value="#{perosnaDesapBean.perosnaDesap.descripcion}"/>
+			<h:outputText/>
+			<h:outputLabel for="perosnaDesapBeanPerosnaDesapStatus" value="Status:"/>
+			<h:outputText id="perosnaDesapBeanPerosnaDesapStatus" value="#{perosnaDesapBean.perosnaDesap.status}"/>
+			<h:outputText/>
+			<h:outputLabel for="perosnaDesapBeanPerosnaDesapCatastrofe" value="Catastrofe:"/>
+			<h:link id="perosnaDesapBeanPerosnaDesapCatastrofe" outcome="/catastrofe/view" value="#{perosnaDesapBean.perosnaDesap.catastrofe}">
+				<f:param name="id" value="#{perosnaDesapBean.perosnaDesap.catastrofe.id}"/>
+			</h:link>
+			<h:outputText/>
+			<h:outputLabel for="perosnaDesapBeanPerosnaDesapReportado" value="Reportado:"/>
+			<h:link id="perosnaDesapBeanPerosnaDesapReportado" outcome="/usuario/view" value="#{perosnaDesapBean.perosnaDesap.reportado}">
+				<f:param name="id" value="#{perosnaDesapBean.perosnaDesap.reportado.id}"/>
+			</h:link>
+			<h:outputText/>
+			<h:outputLabel for="perosnaDesapBeanPerosnaDesapImagenes" value="Imagenes:"/>
+			<h:dataTable id="perosnaDesapBeanPerosnaDesapImagenes" styleClass="data-table" value="#{forgeview:asList(perosnaDesapBean.perosnaDesap.imagenes)}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Imagen"/>
+					</f:facet>
+					<h:link outcome="/imagen/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="itemImagen" value="#{_item.imagen}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<h:outputText/>
+		</h:panelGrid>
+
+		<div class="buttons">
+			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
+			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
+			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+		</div>
+	</ui:define>
+
+</ui:composition>

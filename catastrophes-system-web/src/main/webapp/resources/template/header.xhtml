@@ -20,11 +20,10 @@
 			            <li><h:link value="Administracion de Ong's" outcome="/admin/ong/ong.xhtml" /></li>
 			            <li class="divider"></li>
 			            <li><h:link value="Administracion de Rescatista" outcome="/admin/rescatista/rescatista.xhtml" /></li>
-			            <li class="divider"></li>
-			            <li><a href="#">One more separated link</a></li>
 			          </ul>
 			        </li>
 		        	<li><a href="#about">Bienvenido #{usuario.user}</a></li>
+		        	<li role="presentation"><h:link value="Cerrar Sesión" onclick="#{loginBean.logout()}" /></li>
 		        	<li role="presentation"><h:link value="Gestión de Planes" outcome="/admin/planes/indexPlanes.xhtml" /></li>
 		        </c:if>
 		        <c:if test="#{empty usuario}">
