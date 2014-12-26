@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!-- 
+# push valores 
+PROJECT ID    
+    snappy-nature-754
+API key
+    AIzaSyCzvR53GGYrs_hGElCQewAcNSAaxOyo5JA
+
+para que lo tome phonegap build agregar al config.xml la siguiente linea
+<gap:plugin name="com.adobe.plugins.pushplugin" />
+
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" type="text/css" href="css/custom.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css" />
+        <link rel="stylesheet" type="text/css" href="leaflet/leaflet.css" />
+        <link href="styles/main.css" rel="stylesheet" type="text/css" />
+    
+        <title>Rescatista</title>
+        
+    </head>
+    <body>
+        <div id="contenedor"> 
+            <div id="map"> </div><!-- vista principal --> 
+            <div >
+                <button class="menu" ></button>
+            </div>
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">Device is Ready</p>
+            </div>
+            <div id="loading">
+                <img src="img/loading.gif">
+            </div>
+            
+
+            <!-- <div id="btn2">
+                <button class="menu1" ></button>
+            </div> -->
+            
+            <!-- <div id="loading">
+              <img src="img/loading.gif" class="ajax-loader">
+            </div>
+             -->
+            
+            <div id="viewrest">    
+                <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                      <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                    <div class="col-sm-10">
+                      <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox"> Remember me
+                        </label>
+                      </div>
+                    </div>  
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button type="submit" class="btn btn-default">Sign in</button>
+                    </div>
+                  </div>
+                </form>
+
+
+                <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                <button id="callrest" type="button" class="btn btn-primary">Primary</button>
+            </div>
+
+        
+        </div> 
+<!--
+        <div id="sqlite" class="content">
+            <div class="input-area ch30">
+                <input class="inputBox" type="text" id="todo" placeholder="Add New Item" />
+                <button class="button" id="addButton" onclick="addTodo(); return false;">Add</button>
+            </div>
+            <div class="result-area ch70">
+                <div class="results">
+                    <div class="desc">Todo List:</div>
+                    <ul id="todoItems"></ul>
+                </div>
+                <div class="separator"></div>
+            </div> 
+        </div>
+-->
+        
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="leaflet/leaflet.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="js/fastclick.js"></script>
+        <script type="text/javascript" src="js/PushNotification.js"></script>
+        
+        <script type="text/javascript">
+            app.initialize();
+            //agrego fastclick, se puede probar ponerlo antes de inicializar la app
+            window.addEventListener('load', function () {
+                FastClick.attach(document.body);
+            }, false);
+            
+         
+
+
+
+        </script>
+
+    </body>
+</html>

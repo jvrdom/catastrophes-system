@@ -1,0 +1,23 @@
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/classes.dex : \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/classes/org/pgsqlite/SQLitePlugin.class \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/classes/org/pgsqlite/SQLitePlugin$Action.class \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/classes/org/pgsqlite/SQLitePlugin$QueryType.class \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/classes/org/pgsqlite/SQLitePlugin$1.class \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/classes/org/pgsqlite/SQLitePlugin$DBRunner.class \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/classes/org/pgsqlite/SQLitePlugin$DBQuery.class \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/classes/com/plugin/gcm/PushHandlerActivity.class \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/classes/com/plugin/gcm/GCMIntentService.class \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/classes/com/plugin/gcm/CordovaGCMBroadcastReceiver.class \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/classes/com/plugin/gcm/PushPlugin.class \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/classes/com/phonegap/rescatista/Manifest.class \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/classes/com/phonegap/rescatista/R$xml.class \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/classes/com/phonegap/rescatista/Rescatista.class \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/classes/com/phonegap/rescatista/Manifest$permission.class \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/classes/com/phonegap/rescatista/R.class \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/classes/com/phonegap/rescatista/R$attr.class \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/classes/com/phonegap/rescatista/R$string.class \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/classes/com/phonegap/rescatista/BuildConfig.class \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/classes/com/phonegap/rescatista/R$drawable.class \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/dexedLibs/classes-0c4bea3e2ab14bbb5fc12dbd0f28f128.jar \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/dexedLibs/gcm-83330943439f7d568cc645e822427d0a.jar \
+/home/hernan/phonegap/projects/rescatista/platforms/android/ant-build/dexedLibs/android-support-v13-9378795613f7789d7d60377851d322f4.jar \
