@@ -4,121 +4,52 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/resources/scaffold/pageTemplate.xhtml">
-
-	<f:metadata>
-		<f:viewParam name="page" value="#{perosnaDesapBean.page}"/>
-		<f:event type="preRenderView" listener="#{perosnaDesapBean.paginate}"/>
-	</f:metadata>
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"	
+	template="/resources/template/layout.xhtml">
 
 	<ui:param name="pageTitle" value="Search Perosna Desap entities"/>
 
-	<ui:define name="header">
-		Perosna Desap
+	<ui:define name="content">
+			<div class="row">
+				<div>
+					<h:form>
+						<p:inputText id="inputbusqueda" value="#{busquedaPersonaDesaparecidaBean.search}" required="true" label="Búsqueda" styleClass="text-center form-control col-xs-12">
+                			<p:ajax event="keyup" update=":pers" listener="#{busquedaPersonaDesaparecidaBean.handleKeyEvent}"/>
+                		</p:inputText>
+			        	<p:watermark for="inputbusqueda" value="Ingrese el Nombre de la persona que desea buscar..." id="watermarkBusqueda" />
+					</h:form>
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				<p:dataGrid var="per" value="#{busquedaPersonaDesaparecidaBean.personasDesaparecidas}" columns="5" layout="grid" rows="12" paginator="true" id="pers" 
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="6,12,16" paginatorPosition="bottom">
+					
+					<f:facet name="header">
+						Personas Desaparecidas
+					</f:facet>
+					
+					<p:panel header="#{per.nombre} #{per.apellido}" style="text-align:center;">
+						<h:panelGrid columns="1" style="width:100%">
+							<f:facet name="header">
+							<p:imageSwitch effect="fade" id="fadeEffect">
+							    <ui:repeat value="#{of:setToList(per.imagenes)}" var="image" id="fadeEffectImages">
+									<div class="thumbnail">
+										<p:graphicImage url="#{image.imagen}" width="150" height="150"/>
+									</div>							    
+							    </ui:repeat>
+							</p:imageSwitch>
+							</f:facet>
+							
+							<h:outputText value="Estado:" style="font-weight:bold"/>
+							<h:outputText value="#{per.status}" />
+						</h:panelGrid>
+					</p:panel>
+					
+				</p:dataGrid>
+			</div>			
 	</ui:define>
-
-	<ui:define name="subheader">
-		Search Perosna Desap entities
-	</ui:define>
-
-	<ui:define name="footer"/>
-
-	<ui:define name="main">
-		<h:form id="search">
-			<f:validateBean disabled="true">
-				<h:panelGroup styleClass="search">
-
-					<h:panelGrid columnClasses="label,component,required" columns="3">
-						<h:outputLabel for="perosnaDesapBeanExampleNombre" value="Nombre:"/>
-						<h:panelGroup>
-							<h:inputText id="perosnaDesapBeanExampleNombre" value="#{perosnaDesapBean.example.nombre}"/>
-							<h:message for="perosnaDesapBeanExampleNombre" styleClass="error"/>
-						</h:panelGroup>
-						<h:outputText/>
-						<h:outputLabel for="perosnaDesapBeanExampleApellido" value="Apellido:"/>
-						<h:panelGroup>
-							<h:inputText id="perosnaDesapBeanExampleApellido" value="#{perosnaDesapBean.example.apellido}"/>
-							<h:message for="perosnaDesapBeanExampleApellido" styleClass="error"/>
-						</h:panelGroup>
-						<h:outputText/>
-						<h:outputLabel for="perosnaDesapBeanExampleTelDeContacto" value="Tel De Contacto:"/>
-						<h:panelGroup>
-							<h:inputText id="perosnaDesapBeanExampleTelDeContacto" value="#{perosnaDesapBean.example.telDeContacto}"/>
-							<h:message for="perosnaDesapBeanExampleTelDeContacto" styleClass="error"/>
-						</h:panelGroup>
-						<h:outputText/>
-						<h:outputLabel for="perosnaDesapBeanExampleDescripcion" value="Descripcion:"/>
-						<h:panelGroup>
-							<h:inputText id="perosnaDesapBeanExampleDescripcion" value="#{perosnaDesapBean.example.descripcion}"/>
-							<h:message for="perosnaDesapBeanExampleDescripcion" styleClass="error"/>
-						</h:panelGroup>
-						<h:outputText/>
-						<h:outputLabel for="perosnaDesapBeanExampleStatus" value="Status:"/>
-						<h:panelGroup>
-							<h:inputText id="perosnaDesapBeanExampleStatus" value="#{perosnaDesapBean.example.status}"/>
-							<h:message for="perosnaDesapBeanExampleStatus" styleClass="error"/>
-						</h:panelGroup>
-						<h:outputText/>
-					</h:panelGrid>
-					<h:panelGroup styleClass="buttons">
-						<h:commandLink value="Search" action="#{perosnaDesapBean.search}" styleClass="btn btn-primary"/>
-						<h:commandLink value="Create New" action="#{perosnaDesapBean.create}" styleClass="btn btn-primary"/>
-					</h:panelGroup>
-				</h:panelGroup>
-			</f:validateBean>
-			
-			<h:dataTable id="perosnaDesapBeanPageItems" styleClass="data-table" value="#{perosnaDesapBean.pageItems}" var="_item">
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Nombre"/>
-					</f:facet>
-					<h:link outcome="/perosnaDesap/view">
-						<f:param name="id" value="#{_item.id}"/>
-						<h:outputText id="itemNombre" value="#{_item.nombre}"/>
-					</h:link>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Apellido"/>
-					</f:facet>
-					<h:link outcome="/perosnaDesap/view">
-						<f:param name="id" value="#{_item.id}"/>
-						<h:outputText id="itemApellido" value="#{_item.apellido}"/>
-					</h:link>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Tel De Contacto"/>
-					</f:facet>
-					<h:link outcome="/perosnaDesap/view">
-						<f:param name="id" value="#{_item.id}"/>
-						<h:outputText id="itemTelDeContacto" value="#{_item.telDeContacto}"/>
-					</h:link>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Descripcion"/>
-					</f:facet>
-					<h:link outcome="/perosnaDesap/view">
-						<f:param name="id" value="#{_item.id}"/>
-						<h:outputText id="itemDescripcion" value="#{_item.descripcion}"/>
-					</h:link>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Status"/>
-					</f:facet>
-					<h:link outcome="/perosnaDesap/view">
-						<f:param name="id" value="#{_item.id}"/>
-						<h:outputText id="itemStatus" value="#{_item.status}"/>
-					</h:link>
-				</h:column>
-			</h:dataTable>
-			<ui:include src="/resources/scaffold/paginator.xhtml">
-				<ui:param name="paginatorBean" value="#{perosnaDesapBean}"/>
-			</ui:include>
-		</h:form>
-			
-	</ui:define>
-
 </ui:composition>

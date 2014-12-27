@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -65,7 +66,7 @@ public class PerosnaDesap implements Serializable
    @ManyToOne
    private Usuario reportado;
 
-   @OneToMany(cascade=CascadeType.ALL)
+   @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
    private Set<Imagen> imagenes = new HashSet<Imagen>();
 
    public Long getId()

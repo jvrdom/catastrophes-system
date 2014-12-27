@@ -18,15 +18,6 @@
   	<param-name>primefaces.THEME</param-name>
     <param-value>bootstrap</param-value>
   </context-param>
-<<<<<<< HEAD
-  <filter>
-	 <filter-name>CORS</filter-name>
-	 <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
-	 <init-param>
-	         <param-name>cors.allowOrigin</param-name>
-	         <param-value>*</param-value>
-     </init-param>
-=======
   <context-param>
 	<param-name>primefaces.UPLOADER</param-name>
 	<param-value>auto</param-value>
@@ -46,7 +37,6 @@
       <param-name>cors.allowOrigin</param-name>
       <param-value>*</param-value>
     </init-param>
->>>>>>> cbc530dafd1754ec8a8e752abc434ad73879200e
   </filter>
   <session-config>
   <session-timeout>30</session-timeout>

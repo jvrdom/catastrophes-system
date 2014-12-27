@@ -55,10 +55,16 @@ public class PerosnaDesapDao
       return findAllQuery.getResultList();
    }
    
-   public List<PerosnaDesap> getPersonasByCatastrofe(int idCatastrofe){
+   public List<PerosnaDesap> getPersonasByCatastrofe(long idCatastrofe){
 	   List<PerosnaDesap> lista = null;
        lista = em.createNamedQuery("PerosnaDesap.findByCatastrofe",PerosnaDesap.class).setParameter("idCatastrofe", idCatastrofe).getResultList();	        
        return lista;
    }
+   
+   public List<PerosnaDesap> getDesaparecidosByName(long idCatastrofe, String name){
+       List<PerosnaDesap> lista = null;
+       lista = em.createNamedQuery("PerosnaDesap.findByName",PerosnaDesap.class).setParameter("idCatastrofe", idCatastrofe).setParameter("nombre", name + "%").getResultList();
+       return lista;
+	}
   
 }

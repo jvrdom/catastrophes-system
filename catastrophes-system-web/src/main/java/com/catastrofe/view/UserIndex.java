@@ -45,14 +45,11 @@ public class UserIndex {
 			LatLng coordenadas = new LatLng(catastrofes.get(i).getLatitud(), catastrofes.get(i).getLongitud());
 			circle = new Circle(coordenadas, catastrofes.get(i).getRadio());
 			
-			/**	
-			 * Esto cambiará cuando se defina el tipo de catastrofe
-			 */
 			circle.setStrokeColor(this.getColorCatastrophe(catastrofes.get(i).getTipoCatastrofe().name()));
 			circle.setFillColor(this.getColorCatastrophe(catastrofes.get(i).getTipoCatastrofe().name()));
-			
 			circle.setData(catastrofes.get(i));
 			circle.setFillOpacity(0.5);
+			
 			map.addOverlay(circle);
 		}
 	}
