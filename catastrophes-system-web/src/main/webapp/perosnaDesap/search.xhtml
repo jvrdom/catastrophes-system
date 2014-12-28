@@ -6,7 +6,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:o="http://omnifaces.org/ui"
-	xmlns:of="http://omnifaces.org/functions"	
+	xmlns:of="http://omnifaces.org/functions"
 	template="/resources/template/layout.xhtml">
 
 	<ui:param name="pageTitle" value="Search Perosna Desap entities"/>
@@ -35,17 +35,26 @@
 					<p:panel header="#{per.nombre} #{per.apellido}" style="text-align:center;">
 						<h:panelGrid columns="1" style="width:100%">
 							<f:facet name="header">
-							<p:imageSwitch effect="fade" id="fadeEffect">
-							    <ui:repeat value="#{of:setToList(per.imagenes)}" var="image" id="fadeEffectImages">
-									<div class="thumbnail">
-										<p:graphicImage url="#{image.imagen}" width="150" height="150"/>
-									</div>							    
-							    </ui:repeat>
-							</p:imageSwitch>
+								<p:imageSwitch effect="fade" id="fadeEffect">
+								    <ui:repeat value="#{of:setToList(per.imagenes)}" var="image" id="fadeEffectImages">
+										<div class="thumbnail">
+											<p:graphicImage url="#{image.imagen}" width="150" height="150"/>
+										</div>							    
+								    </ui:repeat>
+								</p:imageSwitch>
 							</f:facet>
 							
-							<h:outputText value="Estado:" style="font-weight:bold"/>
-							<h:outputText value="#{per.status}" />
+							<!-- <h:outputText value="Estado:" style="font-weight:bold"/>
+							
+							<c:if test="#{per.status eq Desaparecido}">
+								<h:outputText value="#{per.status}" style="color:red; font-weight:bold;"/>
+							</c:if>
+							-->
+							
+							<h:link outcome="/perosnaDesap/view">
+								<f:param name="id" value="#{per.id}"/>
+								<h:outputText id="itemDescripcion" value="Ver más..."/>
+							</h:link>
 						</h:panelGrid>
 					</p:panel>
 					

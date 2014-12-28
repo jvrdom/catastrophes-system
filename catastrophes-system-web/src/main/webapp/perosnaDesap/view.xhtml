@@ -5,6 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:forgeview="http://jboss.org/forge/view"
+	xmlns:p="http://primefaces.org/ui"
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
@@ -41,6 +42,7 @@
 			<h:outputLabel for="perosnaDesapBeanPerosnaDesapStatus" value="Status:"/>
 			<h:outputText id="perosnaDesapBeanPerosnaDesapStatus" value="#{perosnaDesapBean.perosnaDesap.status}"/>
 			<h:outputText/>
+			
 			<h:outputLabel for="perosnaDesapBeanPerosnaDesapCatastrofe" value="Catastrofe:"/>
 			<h:link id="perosnaDesapBeanPerosnaDesapCatastrofe" outcome="/catastrofe/view" value="#{perosnaDesapBean.perosnaDesap.catastrofe}">
 				<f:param name="id" value="#{perosnaDesapBean.perosnaDesap.catastrofe.id}"/>

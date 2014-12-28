@@ -59,7 +59,6 @@ public class PerosnaDesapBean implements Serializable
    private static final String DESAPARECIDO = "Desaparecido";
    private UtilesWeb utiles;
    private Set<Imagen> imagenesPersonDes;
-   private List<PerosnaDesap> personasDesaparecidas;
    
    public PerosnaDesapBean() {
 	   utiles = new UtilesWeb();
@@ -195,6 +194,10 @@ public class PerosnaDesapBean implements Serializable
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Fail!", "Failed to upload file: " + event.getFile().getFileName() + ", reason: " + e.getMessage());
 	        FacesContext.getCurrentInstance().addMessage(null, message);
 		}
+   }
+   
+   public void handleSave() {
+	   System.out.print("Entre al metodo");
    }
 
    /*
