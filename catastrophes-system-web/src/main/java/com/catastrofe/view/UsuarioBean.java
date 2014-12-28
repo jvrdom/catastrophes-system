@@ -81,7 +81,6 @@ public class UsuarioBean implements Serializable
    
    public String create()
    {
-
       this.conversation.begin();
       return "create?faces-redirect=true";
    }
@@ -137,7 +136,8 @@ public class UsuarioBean implements Serializable
         	this.usuario.setSexo(this.establecerSexo(sexoAux));
         	
             this.usuarioDao.create(this.usuario);
-            return "search?faces-redirect=true";
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/catastrophes-system-web");
+            return null;
          }
          else
          {
