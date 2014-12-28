@@ -240,6 +240,10 @@ body {
     font-weight: normal
 }
 
+#panelDesaparecidos > tbody > tr > td > label{
+	padding: 5px;
+}
+
 	
 
 	
