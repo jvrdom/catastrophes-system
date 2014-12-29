@@ -54,7 +54,7 @@
 			<div class="col-xs-6">
 				<p:imageSwitch effect="fade" id="fadeEffect">
 				    <ui:repeat value="#{of:setToList(perosnaDesapBean.perosnaDesap.imagenes)}" var="image" id="fadeEffectImages">
-						<p:graphicImage url="http://cache.graphicslib.viator.com/graphicslib/media/cd/kings-landing-and-blackwater-bay-photo_7146701-fit468x296.jpg" />
+						<p:graphicImage url="#{image.imagen}" />
 				    </ui:repeat>
 				</p:imageSwitch>
 			</div>
