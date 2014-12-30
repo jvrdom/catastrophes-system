@@ -110,7 +110,14 @@ public class UsuarioBean implements Serializable
 
    public Usuario findById(Long id)
    {
-      return this.usuarioDao.findById(id);
+	   try{
+		   return this.usuarioDao.findById(id);
+	   }catch(Exception ex){
+		   ex.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",ex.getMessage()));
+			return null;
+	   }
+      
    }
 
    /*
@@ -119,7 +126,7 @@ public class UsuarioBean implements Serializable
 
    public String update()
    {
-      this.conversation.end();
+      
 
       try
       {
@@ -134,13 +141,20 @@ public class UsuarioBean implements Serializable
         	}
         	
         	this.usuario.setSexo(this.establecerSexo(sexoAux));
-        	
-            this.usuarioDao.create(this.usuario);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/catastrophes-system-web");
-            return null;
+        	if(!this.usuarioDao.existeUsuario(this.usuario.getUser())){
+        		this.conversation.end();
+        		this.usuarioDao.create(this.usuario);
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/catastrophes-system-web");
+                return null;
+        	}else{
+        		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Nombre de usuario ya existe en el sistema","Por favor ingrese otro valor valor"));
+        		return "";
+        	}
+            
          }
          else
          {
+        	this.conversation.end(); 
             this.usuarioDao.update(this.usuario);
             return "view?faces-redirect=true&id=" + this.usuario.getId();
          }
@@ -299,7 +313,14 @@ public class UsuarioBean implements Serializable
 
    public List<Usuario> getPageItems()
    {
-      return this.pageItems;
+	   try{
+		   return this.pageItems;
+	   }catch(Exception ex){
+		   ex.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",ex.getMessage()));
+			return null;
+	   }
+      
    }
 
    public long getCount()

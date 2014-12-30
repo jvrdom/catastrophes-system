@@ -38,368 +38,345 @@ import com.catastrofe.utiles.UtilesWeb;
 /**
  * Backing bean for Catastrofe entities.
  * <p>
- * This class provides CRUD functionality for all Catastrofe entities. It focuses
- * purely on Java EE 6 standards (e.g. <tt>&#64;ConversationScoped</tt> for
- * state management, <tt>PersistenceContext</tt> for persistence,
- * <tt>CriteriaBuilder</tt> for searches) rather than introducing a CRUD framework or
- * custom base class.
+ * This class provides CRUD functionality for all Catastrofe entities. It
+ * focuses purely on Java EE 6 standards (e.g. <tt>&#64;ConversationScoped</tt>
+ * for state management, <tt>PersistenceContext</tt> for persistence,
+ * <tt>CriteriaBuilder</tt> for searches) rather than introducing a CRUD
+ * framework or custom base class.
  */
 
 @Named
 @Stateful
 @ConversationScoped
-public class CatastrofeBean implements Serializable
-{
+public class CatastrofeBean implements Serializable {
 
-   private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-   /*
-    * Support creating and retrieving Catastrofe entities
-    */
+	/*
+	 * Support creating and retrieving Catastrofe entities
+	 */
 
-   private Long id;
-   private String latLng;
-   private double radio;
-   private UtilesWeb utiles;
-   private Set<Plan> planes;
-   
-   public CatastrofeBean() {
-	   utiles = new UtilesWeb();
-	   planes = new HashSet<Plan>();
-   }
+	private Long id;
+	private String latLng;
+	private double radio;
+	private UtilesWeb utiles;
+	private Set<Plan> planes;
 
-   public Long getId()
-   {
-      return this.id;
-   }
+	public CatastrofeBean() {
+		utiles = new UtilesWeb();
+		planes = new HashSet<Plan>();
+	}
 
-   public void setId(Long id)
-   {
-      this.id = id;
-   }
+	public Long getId() {
+		return this.id;
+	}
 
-   private Catastrofe catastrofe;
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-   public Catastrofe getCatastrofe()
-   {
-      return this.catastrofe;
-   }
+	private Catastrofe catastrofe;
 
-   @Inject
-   private Conversation conversation;
-   
-   @Inject
-   private CatastrofeDao catastofeDao;
+	public Catastrofe getCatastrofe() {
+		return this.catastrofe;
+	}
 
-   @PersistenceContext(type = PersistenceContextType.EXTENDED)
-   private EntityManager entityManager;
+	@Inject
+	private Conversation conversation;
 
-   public String create()
-   {
-      this.conversation.begin();
-      return "create?faces-redirect=true";
-   }
+	@Inject
+	private CatastrofeDao catastofeDao;
 
-   public void retrieve()
-   {
+	@PersistenceContext(type = PersistenceContextType.EXTENDED)
+	private EntityManager entityManager;
 
-      if (FacesContext.getCurrentInstance().isPostback())
-      {
-         return;
-      }
+	public String create() {
+		this.conversation.begin();
+		return "create?faces-redirect=true";
+	}
 
-      if (this.conversation.isTransient())
-      {
-         this.conversation.begin();
-      }
+	public void retrieve() {
 
-      if (this.id == null)
-      {
-         this.catastrofe = this.example;
-      }
-      else
-      {
-         this.catastrofe = findById(getId());
-      }
-   }
-
-   public Catastrofe findById(Long id)
-   {
-
-      return this.catastofeDao.findById(id);
-   }
-
-   /*
-    * Support updating and deleting Catastrofe entities
-    */
-
-   public String update()
-   {
-      this.conversation.end();
-
-      try
-      {
-         if (this.id == null)
-         {
-
-     		latLng = latLng.replace("(", "");
-     		latLng = latLng.replace(")", "");
-     		
-     		String [] latlong = latLng.split(",");
-     		double lat = Double.parseDouble(latlong[0]);
-     		double lng = Double.parseDouble(latlong[1]);
-     		
-     		this.catastrofe.setLatitud(lat);
-     		this.catastrofe.setLongitud(lng);
-     		this.catastrofe.setRadio(this.radio);
-     		this.catastrofe.setPlanes(this.planes);
-     		
-        	this.catastofeDao.create(this.catastrofe);
-            return "search?faces-redirect=true";
-         }
-         else
-         {
-        	this.catastofeDao.update(this.catastrofe);
-            return "view?faces-redirect=true&id=" + this.catastrofe.getId();
-         }
-      }
-      catch (Exception e)
-      {
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
-         return null;
-      }
-   }
-
-   public String delete()
-   {
-      this.conversation.end();
-
-      try
-      {
-         Catastrofe deletableEntity = findById(getId());
-         
-         this.catastofeDao.deleteById(deletableEntity.getId());
-         //this.entityManager.remove(deletableEntity);
-         this.entityManager.flush();
-         return "search?faces-redirect=true";
-      }
-      catch (Exception e)
-      {
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
-         return null;
-      }
-   }
-   
-   
-   public void handleFileUploadImagen(FileUploadEvent event) {       
-	   try {
-			this.catastrofe.setLogo(utiles.fileUpload(event.getFile().getFileName(), event.getFile().getInputstream()));
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succesful", event.getFile().getFileName() + " is uploaded.");
-	        FacesContext.getCurrentInstance().addMessage(null, message);
-		} catch (IOException e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Fail!", "Failed to upload file: " + event.getFile().getFileName() + ", reason: " + e.getMessage());
-	        FacesContext.getCurrentInstance().addMessage(null, message);
+		if (FacesContext.getCurrentInstance().isPostback()) {
+			return;
 		}
-   }
-	
-   public void handleFileUpload(FileUploadEvent event) {
-	   try {
-		   	
-		   	Plan plan = new Plan();
-		   	plan.setUrl(utiles.fileUpload(event.getFile().getFileName(), event.getFile().getInputstream()));
-		   	plan.setDescripcion("Esta es una descripcion de prueba");
-		   	plan.setTipo(tipoPlan.Emergencia);
-		   	
-		   	planes.add(plan);
-		   	
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succesful", event.getFile().getFileName() + " is uploaded.");
-	        FacesContext.getCurrentInstance().addMessage(null, message);
-	        
-		} catch (IOException e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Fail!", "Failed to upload file: " + event.getFile().getFileName() + ", reason: " + e.getMessage());
-	        FacesContext.getCurrentInstance().addMessage(null, message);
+
+		if (this.conversation.isTransient()) {
+			this.conversation.begin();
 		}
-   }
-   
-   public String getLatLng() {
-	   return latLng;
-   }
-	
-   public void setLatLng(String latLng) {
-	   this.latLng = latLng;
-   }
-   
-   public double getRadio() {
-	   return radio;
-   }
-   
-   public void setRadio(double radio) {
-	   this.radio = radio;
-   }
-   
-   /*
-    * Support searching Catastrofe entities with pagination
-    */
 
-   private int page;
-   private long count;
-   private List<Catastrofe> pageItems;
+		if (this.id == null) {
+			this.catastrofe = this.example;
+		} else {
+			this.catastrofe = findById(getId());
+		}
+	}
 
-   private Catastrofe example = new Catastrofe();
+	public Catastrofe findById(Long id) {
 
-   public int getPage()
-   {
-      return this.page;
-   }
+		return this.catastofeDao.findById(id);
+	}
 
-   public void setPage(int page)
-   {
-      this.page = page;
-   }
+	/*
+	 * Support updating and deleting Catastrofe entities
+	 */
 
-   public int getPageSize()
-   {
-      return 10;
-   }
+	public String update() {
+		this.conversation.end();
 
-   public Catastrofe getExample()
-   {
-      return this.example;
-   }
+		try {
+			if (this.id == null) {
 
-   public void setExample(Catastrofe example)
-   {
-      this.example = example;
-   }
+				latLng = latLng.replace("(", "");
+				latLng = latLng.replace(")", "");
 
-   public void search()
-   {
-      this.page = 0;
-   }
+				String[] latlong = latLng.split(",");
+				double lat = Double.parseDouble(latlong[0]);
+				double lng = Double.parseDouble(latlong[1]);
 
-   public void paginate()
-   {
+				this.catastrofe.setLatitud(lat);
+				this.catastrofe.setLongitud(lng);
+				this.catastrofe.setRadio(this.radio);
+				this.catastrofe.setPlanes(this.planes);
 
-      CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+				this.catastofeDao.create(this.catastrofe);
+				return "search?faces-redirect=true";
+			} else {
+				this.catastofeDao.update(this.catastrofe);
+				return "view?faces-redirect=true&id=" + this.catastrofe.getId();
+			}
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(e.getMessage()));
+			return null;
+		}
+	}
 
-      // Populate this.count
+	public String delete() {
+		this.conversation.end();
 
-      CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-      Root<Catastrofe> root = countCriteria.from(Catastrofe.class);
-      countCriteria = countCriteria.select(builder.count(root)).where(
-            getSearchPredicates(root));
-      this.count = this.entityManager.createQuery(countCriteria)
-            .getSingleResult();
+		try {
+			Catastrofe deletableEntity = findById(getId());
 
-      // Populate this.pageItems
+			this.catastofeDao.deleteById(deletableEntity.getId());
+			// this.entityManager.remove(deletableEntity);
+			this.entityManager.flush();
+			return "search?faces-redirect=true";
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(e.getMessage()));
+			return null;
+		}
+	}
 
-      CriteriaQuery<Catastrofe> criteria = builder.createQuery(Catastrofe.class);
-      root = criteria.from(Catastrofe.class);
-      TypedQuery<Catastrofe> query = this.entityManager.createQuery(criteria
-            .select(root).where(getSearchPredicates(root)));
-      query.setFirstResult(this.page * getPageSize()).setMaxResults(
-            getPageSize());
-      this.pageItems = query.getResultList();
-   }
+	public void handleFileUploadImagen(FileUploadEvent event) {
+		try {
+			this.catastrofe.setLogo(utiles.fileUpload(event.getFile()
+					.getFileName(), event.getFile().getInputstream()));
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Succesful", event.getFile().getFileName()
+							+ " is uploaded.");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		} catch (IOException e) {
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, "Fail!",
+					"Failed to upload file: " + event.getFile().getFileName()
+							+ ", reason: " + e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+	}
 
-   private Predicate[] getSearchPredicates(Root<Catastrofe> root)
-   {
+	public void handleFileUpload(FileUploadEvent event) {
+		try {
 
-      CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-      List<Predicate> predicatesList = new ArrayList<Predicate>();
+			Plan plan = new Plan();
+			plan.setUrl(utiles.fileUpload(event.getFile().getFileName(), event
+					.getFile().getInputstream()));
+			plan.setDescripcion("Esta es una descripcion de prueba");
+			plan.setTipo(tipoPlan.Emergencia);
 
-      String nombre = this.example.getNombre();
-      if (nombre != null && !"".equals(nombre))
-      {
-         predicatesList.add(builder.like(root.<String> get("nombre"), '%' + nombre + '%'));
-      }
-      String descripcion = this.example.getDescripcion();
-      if (descripcion != null && !"".equals(descripcion))
-      {
-         predicatesList.add(builder.like(root.<String> get("descripcion"), '%' + descripcion + '%'));
-      }
-      String logo = this.example.getLogo();
-      if (logo != null && !"".equals(logo))
-      {
-         predicatesList.add(builder.like(root.<String> get("logo"), '%' + logo + '%'));
-      }
+			planes.add(plan);
 
-      return predicatesList.toArray(new Predicate[predicatesList.size()]);
-   }
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Succesful", event.getFile().getFileName()
+							+ " is uploaded.");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 
-   public List<Catastrofe> getPageItems()
-   {
-      return this.pageItems;
-   }
+		} catch (IOException e) {
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, "Fail!",
+					"Failed to upload file: " + event.getFile().getFileName()
+							+ ", reason: " + e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+	}
 
-   public long getCount()
-   {
-      return this.count;
-   }
+	public String getLatLng() {
+		return latLng;
+	}
 
-   /*
-    * Support listing and POSTing back Catastrofe entities (e.g. from inside an
-    * HtmlSelectOneMenu)
-    */
+	public void setLatLng(String latLng) {
+		this.latLng = latLng;
+	}
 
-   public List<Catastrofe> getAll()
-   {
+	public double getRadio() {
+		return radio;
+	}
 
-      CriteriaQuery<Catastrofe> criteria = this.entityManager
-            .getCriteriaBuilder().createQuery(Catastrofe.class);
-      return this.entityManager.createQuery(
-            criteria.select(criteria.from(Catastrofe.class))).getResultList();
-   }
+	public void setRadio(double radio) {
+		this.radio = radio;
+	}
 
-   @Resource
-   private SessionContext sessionContext;
+	/*
+	 * Support searching Catastrofe entities with pagination
+	 */
 
-   public Converter getConverter()
-   {
+	private int page;
+	private long count;
+	private List<Catastrofe> pageItems;
 
-      final CatastrofeBean ejbProxy = this.sessionContext.getBusinessObject(CatastrofeBean.class);
+	private Catastrofe example = new Catastrofe();
 
-      return new Converter()
-      {
+	public int getPage() {
+		return this.page;
+	}
 
-         @Override
-         public Object getAsObject(FacesContext context,
-               UIComponent component, String value)
-         {
+	public void setPage(int page) {
+		this.page = page;
+	}
 
-            return ejbProxy.findById(Long.valueOf(value));
-         }
+	public int getPageSize() {
+		return 10;
+	}
 
-         @Override
-         public String getAsString(FacesContext context,
-               UIComponent component, Object value)
-         {
+	public Catastrofe getExample() {
+		return this.example;
+	}
 
-            if (value == null)
-            {
-               return "";
-            }
+	public void setExample(Catastrofe example) {
+		this.example = example;
+	}
 
-            return String.valueOf(((Catastrofe) value).getId());
-         }
-      };
-   }
+	public void search() {
+		this.page = 0;
+	}
 
-   /*
-    * Support adding children to bidirectional, one-to-many tables
-    */
+	public void paginate() {
 
-   private Catastrofe add = new Catastrofe();
+		CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
 
-   public Catastrofe getAdd()
-   {
-      return this.add;
-   }
+		// Populate this.count
 
-   public Catastrofe getAdded()
-   {
-      Catastrofe added = this.add;
-      this.add = new Catastrofe();
-      return added;
-   }
+		CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
+		Root<Catastrofe> root = countCriteria.from(Catastrofe.class);
+		countCriteria = countCriteria.select(builder.count(root)).where(
+				getSearchPredicates(root));
+		this.count = this.entityManager.createQuery(countCriteria)
+				.getSingleResult();
+
+		// Populate this.pageItems
+
+		CriteriaQuery<Catastrofe> criteria = builder
+				.createQuery(Catastrofe.class);
+		root = criteria.from(Catastrofe.class);
+		TypedQuery<Catastrofe> query = this.entityManager.createQuery(criteria
+				.select(root).where(getSearchPredicates(root)));
+		query.setFirstResult(this.page * getPageSize()).setMaxResults(
+				getPageSize());
+		this.pageItems = query.getResultList();
+	}
+
+	private Predicate[] getSearchPredicates(Root<Catastrofe> root) {
+
+		CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+		List<Predicate> predicatesList = new ArrayList<Predicate>();
+
+		String nombre = this.example.getNombre();
+		if (nombre != null && !"".equals(nombre)) {
+			predicatesList.add(builder.like(root.<String> get("nombre"),
+					'%' + nombre + '%'));
+		}
+		String descripcion = this.example.getDescripcion();
+		if (descripcion != null && !"".equals(descripcion)) {
+			predicatesList.add(builder.like(root.<String> get("descripcion"),
+					'%' + descripcion + '%'));
+		}
+		String logo = this.example.getLogo();
+		if (logo != null && !"".equals(logo)) {
+			predicatesList.add(builder.like(root.<String> get("logo"),
+					'%' + logo + '%'));
+		}
+
+		return predicatesList.toArray(new Predicate[predicatesList.size()]);
+	}
+
+	public List<Catastrofe> getPageItems() {
+		return this.pageItems;
+	}
+
+	public long getCount() {
+		return this.count;
+	}
+
+	/*
+	 * Support listing and POSTing back Catastrofe entities (e.g. from inside an
+	 * HtmlSelectOneMenu)
+	 */
+
+	public List<Catastrofe> getAll() {
+		try {
+			CriteriaQuery<Catastrofe> criteria = this.entityManager.getCriteriaBuilder().createQuery(Catastrofe.class);
+			return this.entityManager.createQuery(criteria.select(criteria.from(Catastrofe.class))).getResultList();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
+			return null;
+		}
+	}
+
+	@Resource
+	private SessionContext sessionContext;
+
+	public Converter getConverter() {
+
+		final CatastrofeBean ejbProxy = this.sessionContext
+				.getBusinessObject(CatastrofeBean.class);
+
+		return new Converter() {
+
+			@Override
+			public Object getAsObject(FacesContext context,
+					UIComponent component, String value) {
+
+				return ejbProxy.findById(Long.valueOf(value));
+			}
+
+			@Override
+			public String getAsString(FacesContext context,
+					UIComponent component, Object value) {
+
+				if (value == null) {
+					return "";
+				}
+
+				return String.valueOf(((Catastrofe) value).getId());
+			}
+		};
+	}
+
+	/*
+	 * Support adding children to bidirectional, one-to-many tables
+	 */
+
+	private Catastrofe add = new Catastrofe();
+
+	public Catastrofe getAdd() {
+		return this.add;
+	}
+
+	public Catastrofe getAdded() {
+		Catastrofe added = this.add;
+		this.add = new Catastrofe();
+		return added;
+	}
 }

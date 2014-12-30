@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
       @NamedQuery(name = "Usuario.findByLoginPass", query = "SELECT u FROM Usuario u WHERE u.user = :usuario AND u.password=:password"),
       @NamedQuery(name= "Usuario.findAll", query="SELECT u FROM Usuario u"),
+      @NamedQuery(name="Usuario.existeUsuario", query= "SELECT u FROM Usuario u WHERE u.user = :usuario")
 })
 @XmlRootElement
 public class Usuario implements Serializable
@@ -47,7 +48,7 @@ public class Usuario implements Serializable
    @Column(name = "version")
    private int version = 0;
 
-   @Column
+   @Column(unique= true)
    private String user;
 
    @Column
