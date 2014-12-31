@@ -29,29 +29,43 @@ public class LoginBean {
 	}
 	
 	public String login(){
-		
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
-		usuario = usuarioDao.findByUserAndPass(user, password);
-		
-		if(usuario != null){
-			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", usuario);
-			if(usuario.getRol().getName().equals("administrador")){
-				return "usuario/create?faces-redirect=true";
-			} else if (usuario.getRol().getName().equals("usuario")) {
-				return "usuario/index?faces-redirect=true";
+		try{
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
+			usuario = usuarioDao.findByUserAndPass(user, password);
+			
+			if(usuario != null){
+				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", usuario);
+				if(usuario.getRol().getName().equals("administrador")){
+					return "usuario/create?faces-redirect=true";
+				} else if (usuario.getRol().getName().equals("usuario")) {
+					return "usuario/index?faces-redirect=true";
+				} else {
+					return "usuario/view?faces-redirect=true";
+				}
+				
 			} else {
-				return "usuario/view?faces-redirect=true";
+				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Invalid Login!","Please Try Again!"));
+				return "login?faces-redirect=false";
 			}
 			
-		} else {
-			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Invalid Login!","Please Try Again!"));
+		}catch(Exception ex){
+			ex.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",ex.getMessage()));
 			return "login?faces-redirect=false";
 		}
+		
 	}
 	
 	public String logout(){
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
-		return "login?faces-redirect=true";
+		try{
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
+			return "login?faces-redirect=true";
+		}catch(Exception ex){
+			ex.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",ex.getMessage()));
+			return "";
+		}
+		
 	}
 
 	public Usuario getUsuario() {

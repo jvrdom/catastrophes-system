@@ -317,11 +317,17 @@ public class PerosnaDesapBean implements Serializable
 
    public List<PerosnaDesap> getAll()
    {
-
-      CriteriaQuery<PerosnaDesap> criteria = this.entityManager
-            .getCriteriaBuilder().createQuery(PerosnaDesap.class);
-      return this.entityManager.createQuery(
-            criteria.select(criteria.from(PerosnaDesap.class))).getResultList();
+	   try{
+		   CriteriaQuery<PerosnaDesap> criteria = this.entityManager
+		            .getCriteriaBuilder().createQuery(PerosnaDesap.class);
+		      return this.entityManager.createQuery(
+		            criteria.select(criteria.from(PerosnaDesap.class))).getResultList();
+	   }catch(Exception ex){
+		   ex.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",ex.getMessage()));
+			return null;
+	   }
+      
    }
 
    @Resource

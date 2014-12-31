@@ -63,4 +63,12 @@ public class UsuarioDao
     	   return null;
        }
    }
+   
+   public boolean existeUsuario(String user){
+	   if (em.createNamedQuery("Usuario.existeUsuario").setParameter("usuario", user).getResultList().size() > 0) {
+           return true;
+       } else {
+    	   return false;
+       }
+   }
 }

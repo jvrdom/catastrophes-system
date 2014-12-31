@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -21,7 +22,7 @@ import com.catastrofe.model.Catastrofe;
 @ViewScoped
 @ManagedBean
 public class UserIndex {
-	
+
 	/***
 	 * Constantes de tipo de catástrofes.
 	 */
@@ -29,48 +30,69 @@ public class UserIndex {
 	private final static String TERREMOTO = "#FE9A2E";
 	private final static String INUNDACION = "#0101DF";
 	private final static String SUDESTADA = "#58D3F7";
-	
-	@EJB private CatastrofeDao catastrofe;
+
+	@EJB
+	private CatastrofeDao catastrofe;
 	private MapModel map;
 	private Circle circle;
 	private List<Catastrofe> catastrofes;
 	private Catastrofe catastrofeSelected;
-	
+
 	@PostConstruct
-	public void init(){
-		map = new DefaultMapModel();
-		catastrofes = catastrofe.getAll();
-		
-		for(int i = 0; i < catastrofes.size(); i++){
-			LatLng coordenadas = new LatLng(catastrofes.get(i).getLatitud(), catastrofes.get(i).getLongitud());
-			circle = new Circle(coordenadas, catastrofes.get(i).getRadio());
-			
-			circle.setStrokeColor(this.getColorCatastrophe(catastrofes.get(i).getTipoCatastrofe().name()));
-			circle.setFillColor(this.getColorCatastrophe(catastrofes.get(i).getTipoCatastrofe().name()));
-			circle.setData(catastrofes.get(i));
-			circle.setFillOpacity(0.5);
-			
-			map.addOverlay(circle);
+	public void init() {
+		try {
+			map = new DefaultMapModel();
+			catastrofes = catastrofe.getAll();
+
+			for (int i = 0; i < catastrofes.size(); i++) {
+				LatLng coordenadas = new LatLng(
+						catastrofes.get(i).getLatitud(), catastrofes.get(i)
+								.getLongitud());
+				circle = new Circle(coordenadas, catastrofes.get(i).getRadio());
+
+				circle.setStrokeColor(this.getColorCatastrophe(catastrofes
+						.get(i).getTipoCatastrofe().name()));
+				circle.setFillColor(this.getColorCatastrophe(catastrofes.get(i)
+						.getTipoCatastrofe().name()));
+				circle.setData(catastrofes.get(i));
+				circle.setFillOpacity(0.5);
+
+				map.addOverlay(circle);
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
 		}
+
 	}
-	
+
 	public void onCircleSelect(OverlaySelectEvent event) {
-        
+
 		catastrofeSelected = (Catastrofe) event.getOverlay().getData();
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("catastrofe", catastrofeSelected); 
-		
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+				.put("catastrofe", catastrofeSelected);
+
 		if (catastrofeSelected != null) {
 			try {
-				FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/faces/catastrofe/view.xhtml?id=" + catastrofeSelected.getId());
+				FacesContext
+						.getCurrentInstance()
+						.getExternalContext()
+						.redirect(
+								FacesContext.getCurrentInstance()
+										.getExternalContext()
+										.getRequestContextPath()
+										+ "/faces/catastrofe/view.xhtml?id="
+										+ catastrofeSelected.getId());
 			} catch (IOException e) {
-				e.printStackTrace();
+				e.printStackTrace();				
 			}
 		}
-    }
-	
+	}
+
 	private String getColorCatastrophe(String tipoCatastrofe) {
 		String retorno;
-		
+
 		switch (tipoCatastrofe) {
 		case "Incendio":
 			retorno = UserIndex.INCENDIO;
@@ -89,7 +111,7 @@ public class UserIndex {
 			retorno = UserIndex.INCENDIO;
 			break;
 		}
-		
+
 		return retorno;
 	}
 

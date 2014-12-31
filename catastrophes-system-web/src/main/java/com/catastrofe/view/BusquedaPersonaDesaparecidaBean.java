@@ -3,8 +3,10 @@ package com.catastrofe.view;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import com.catastrofe.dao.PerosnaDesapDao;
@@ -21,11 +23,22 @@ public class BusquedaPersonaDesaparecidaBean {
 	
 	@PostConstruct
 	public void init(){
+		try{
 		personasDesaparecidas = personDesDao.getPersonasByCatastrofe(4);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",ex.getMessage()));
+		   
+		}
 	}
 	
 	public void handleKeyEvent(){
+		try{
 		personasDesaparecidas = personDesDao.getDesaparecidosByName(4, search);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",ex.getMessage()));
+		}
 	}
 
 	public String getSearch() {
