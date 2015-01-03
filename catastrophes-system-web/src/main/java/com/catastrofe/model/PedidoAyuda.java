@@ -13,8 +13,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import com.catastrofe.model.Usuario;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
 public class PedidoAyuda implements Serializable
 {
 
