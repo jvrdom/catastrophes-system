@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	xmlns:p="http://primefaces.org/ui"	
+	template="/resources/template/layout.xhtml">
+
+	<ui:param name="pageTitle" value="Inicio Usuario"/>
+
+	<ui:define name="content">
+  		<div class="row">
+	  		<div class="col-xs-12 text-center">
+				<h:form>
+					<p:growl id="growl" life="3000" />
+					<p:gmap center="-34.904375,-56.166414" zoom="10" type="HYBRID" style="height:400px;" widgetVar="map">
+						 <p:ajax event="stateChange" listener="#{pedidoAyudaIndexBean.onStateChange}" update="growl" />
+        				 <p:ajax event="pointSelect" listener="#{pedidoAyudaIndexBean.onPointSelect}" update="growl" />
+					</p:gmap>
+				</h:form>
+			</div>
+	    </div>
+	    <script type="text/javascript">
+	  		function initialize() {
+	  			var gmap = PF('map').getMap();
+	  			  
+	  			  // Try HTML5 geolocation
+  			  	if(navigator.geolocation) {
+				    navigator.geolocation.getCurrentPosition(function(position) {
+				      var pos = new google.maps.LatLng(position.coords.latitude,
+				                                       position.coords.longitude);
+
+				      var infowindow = new google.maps.InfoWindow({
+				          content: "Usted esta aquí."
+				      });
+
+				      var marker = new google.maps.Marker({
+				          position: pos,
+				          map: gmap,
+				      });
+
+				      infowindow.open(gmap,marker);
+
+				      gmap.setCenter(pos);
+				      
+				    }, function() {
+				      handleNoGeolocation(true);
+				    });
+	            } else {
+	  			    // Browser doesn't support Geolocation
+	  			    handleNoGeolocation(false);
+  			  }
+  			}
+	
+  			function handleNoGeolocation(errorFlag) {
+  			  if (errorFlag) {
+  			    var content = 'Error: The Geolocation service failed.';
+  			  } else {
+  			    var content = 'Error: Your browser doesn\'t support geolocation.';
+  			  }
+
+  			  var options = {
+  			    map: gmap,
+  			    position: new google.maps.LatLng(60, 105),
+  			    content: content
+  			  };
+
+  			  var infowindow = new google.maps.InfoWindow(options);
+  			  gmap.setCenter(options.position);
+  			}
+
+  			google.maps.event.addDomListener(window, 'load', initialize);
+	    </script>
+  	</ui:define>
+
+</ui:composition>

@@ -37,10 +37,10 @@ public class PedidoAyuda implements Serializable
    private Usuario usuario;
 
    @Column
-   private float longitud;
+   private double longitud;
 
    @Column
-   private float latitud;
+   private double latitud;
 
    public Long getId()
    {
@@ -123,22 +123,22 @@ public class PedidoAyuda implements Serializable
       this.usuario = usuario;
    }
 
-   public float getLongitud()
+   public double getLongitud()
    {
       return longitud;
    }
 
-   public void setLongitud(float longitud)
+   public void setLongitud(double longitud)
    {
       this.longitud = longitud;
    }
 
-   public float getLatitud()
+   public double getLatitud()
    {
       return latitud;
    }
 
-   public void setLatitud(float latitud)
+   public void setLatitud(double latitud)
    {
       this.latitud = latitud;
    }
