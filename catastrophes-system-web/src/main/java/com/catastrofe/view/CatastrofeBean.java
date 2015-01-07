@@ -31,6 +31,7 @@ import org.primefaces.event.FileUploadEvent;
 
 import com.catastrofe.dao.CatastrofeDao;
 import com.catastrofe.model.Catastrofe;
+import com.catastrofe.model.Imagen;
 import com.catastrofe.model.Plan;
 import com.catastrofe.model.tipoPlan;
 import com.catastrofe.utiles.UtilesWeb;
@@ -61,10 +62,12 @@ public class CatastrofeBean implements Serializable {
 	private double radio;
 	private UtilesWeb utiles;
 	private Set<Plan> planes;
+	private Set<Imagen> imagenesCatastrofe;
 
 	public CatastrofeBean() {
 		utiles = new UtilesWeb();
 		planes = new HashSet<Plan>();
+		imagenesCatastrofe = new HashSet<Imagen>();
 	}
 
 	public Long getId() {
@@ -142,6 +145,9 @@ public class CatastrofeBean implements Serializable {
 				this.catastofeDao.create(this.catastrofe);
 				return "search?faces-redirect=true";
 			} else {
+				
+				this.catastrofe.setImagenes(this.imagenesCatastrofe);
+				
 				this.catastofeDao.update(this.catastrofe);
 				return "view?faces-redirect=true&id=" + this.catastrofe.getId();
 			}
@@ -209,6 +215,29 @@ public class CatastrofeBean implements Serializable {
 							+ ", reason: " + e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
+	}
+	
+	public void handleGalleria(FileUploadEvent event) {
+		
+		Imagen imagen = new Imagen();
+		
+		try {
+			imagen.setImagen(utiles.fileUpload(event.getFile().getFileName(), event.getFile().getInputstream()));
+		} catch (IOException e) {
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, "Fail!",
+					"Failed to upload file: " + event.getFile().getFileName()
+							+ ", reason: " + e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+		
+		imagenesCatastrofe.add(imagen);
+		this.update();
+		
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"Succesful", event.getFile().getFileName()
+						+ " is uploaded.");
+		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
 	public String getLatLng() {

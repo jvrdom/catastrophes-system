@@ -6,7 +6,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"	
-	template="/resources/template/layout.xhtml">
+	template="/resources/templateUser/layout.xhtml">
 	
 	<f:metadata>
 		<f:viewParam name="id" value="#{pedidoAyudaBean.id}"/>
@@ -24,7 +24,7 @@
 	    </div>
 	    <p:dialog id="ayudaDialog" widgetVar="dlg" showEffect="fade" header="Nuevo Pedido de Ayuda." styleClass="uix-dialog-fluid" position="left">  
 	    	<h:form prependId="false" id="form-pedidoAyuda" class="form-horizontal">
-	    		<p:growl id="growl" life="3000" />
+	    		<p:growl id="growl" life="3000" showDetail="true" />
 	    		<div class="form-group">
 	  				<div class="col-sm-12">
 			            <p:inputTextarea id="descripcion" rows="10" cols="50" value="#{pedidoAyudaBean.pedidoAyuda.descripcion}" styleClass="form-control" placeholder="Ingrese su descripción..."/>

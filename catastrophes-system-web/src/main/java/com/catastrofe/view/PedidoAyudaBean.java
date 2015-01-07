@@ -141,8 +141,7 @@ public class PedidoAyudaBean implements Serializable
 			this.pedidoAyuda.setLatitud(lat);
 			this.pedidoAyuda.setLongitud(lng);
 			this.pedidoAyuda.setFechaHora(new Date());
-						
-			//this.pedidoAyuda.setUsuario((Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario"));
+			this.pedidoAyuda.setUsuario((Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario"));
 			
 			this.pedidoAyudaDao.create(this.pedidoAyuda);
             FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Su pedido de ayuda ha sido ingresado correctamente",""));
