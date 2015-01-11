@@ -3,7 +3,6 @@ package com.catastrofe.view;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,8 +30,10 @@ import javax.persistence.criteria.Root;
 import org.primefaces.event.FileUploadEvent;
 
 import com.catastrofe.dao.PerosnaDesapDao;
+import com.catastrofe.model.Catastrofe;
 import com.catastrofe.model.Imagen;
 import com.catastrofe.model.PerosnaDesap;
+import com.catastrofe.model.Usuario;
 import com.catastrofe.utiles.UtilesWeb;
 
 /**
@@ -59,6 +60,7 @@ public class PerosnaDesapBean implements Serializable
    private static final String DESAPARECIDO = "Desaparecido";
    private UtilesWeb utiles;
    private Set<Imagen> imagenesPersonDes;
+   private String coordenadas;
    
    public PerosnaDesapBean() {
 	   utiles = new UtilesWeb();
@@ -141,8 +143,17 @@ public class PerosnaDesapBean implements Serializable
       {
          if (this.id == null)
          {
-        	this.perosnaDesap.setStatus(DESAPARECIDO);
+        	coordenadas = coordenadas.replace("(", "").replace(")", "");
+     		String[] latlong = coordenadas.split(",");
+			double lat = Double.parseDouble(latlong[0]);
+			double lng = Double.parseDouble(latlong[1]);
+
+			this.perosnaDesap.setStatus(DESAPARECIDO);
         	this.perosnaDesap.setImagenes(this.imagenesPersonDes);
+        	this.perosnaDesap.setLatitud(lat);
+        	this.perosnaDesap.setLongitud(lng);
+        	this.perosnaDesap.setCatastrofe((Catastrofe) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("catastrofe"));
+        	this.perosnaDesap.setReportado((Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario"));
         	this.personaDesDao.create(this.perosnaDesap); 
             FacesContext.getCurrentInstance().getExternalContext().redirect("search.xhtml");
             return null;
@@ -196,10 +207,15 @@ public class PerosnaDesapBean implements Serializable
 		}
    }
    
-   public void handleSave() {
-	   System.out.print("Entre al metodo");
+   public String getCoordenadas() {
+	   return coordenadas;
    }
 
+   public void setCoordenadas(String coordenadas) {
+	   this.coordenadas = coordenadas;
+   }
+   
+   
    /*
     * Support searching PerosnaDesap entities with pagination
     */

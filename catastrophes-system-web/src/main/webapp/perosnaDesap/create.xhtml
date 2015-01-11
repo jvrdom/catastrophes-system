@@ -20,12 +20,18 @@
 	<ui:define name="content">
   		<div class="row">
   			<div class="col-xs-6">
-  				<h:form>
- 				   <p:fileUpload fileUploadListener="#{perosnaDesapBean.handleFileUpload}" mode="advanced" dragDropSupport="false"
-                  	multiple="true" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-                  	label="Elegir Icono"
-                  	cancelLabel="Cancelar" />
-				</h:form>
+  				<div class="row">
+	  				<h:form enctype="multipart/form-data">
+	 				   <p:fileUpload fileUploadListener="#{perosnaDesapBean.handleFileUpload}" mode="advanced" dragDropSupport="false"
+	                  	multiple="true" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+	                  	label="Elegir Imágenes"
+	                  	cancelLabel="Cancelar" />
+					</h:form>
+				</div>
+				<br />
+  				<div class="row">
+					<div id="mapa" style="height: 400px;"></div>
+  				</div>
   			</div>
   			<div class="col-xs-6">
 	  			<h:form id="formIngreso" class="form-horizontal">
@@ -55,9 +61,60 @@
 			                <p:inputTextarea id="inputdescricpion" rows="10" cols="50" value="#{perosnaDesapBean.perosnaDesap.descripcion}" required="true" label="Descripcion" styleClass="form-control" placeholder="Descripción"/>
 			            </div>
 	                </div>
+	                <h:inputHidden id="coords" value="#{perosnaDesapBean.coordenadas}" />
+        			
 	                <h:commandButton value="Ingresar Persona Desaparecida" action="#{perosnaDesapBean.update}" class="pull-right btn btn-success"/>
 		        </h:form>
         	</div>        
   		</div>
+  		<script type="text/javascript">
+
+	  	  function initialize(){
+			 var center = new google.maps.LatLng(#{catastrofe.latitud},#{catastrofe.longitud});
+			 var circle;
+		  	  
+			 var mapOptions = {
+				 center: center,
+				 zoom: 13,
+				 mapTypeId: google.maps.MapTypeId.ROADMAP,
+				 mapTypeControl: true,
+				 mapTypeControlOptions: {
+				 	style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+			 	 }
+			 };
+
+			 map = new google.maps.Map(document.getElementById('mapa'),mapOptions);
+
+			 var circleOptions = {
+	           	strokeColor: '#FF0000',
+	           	strokeOpacity: 0.8,
+	           	strokeWeight: 2,
+	           	fillColor: '#FF0000',
+	           	fillOpacity: 0.35,
+	           	map: map,
+	           	center: center,
+	           	radius: #{catastrofe.radio}
+			 }
+
+			 circle = new google.maps.Circle(circleOptions);
+			 map.fitBounds(circle.getBounds());
+
+			 google.maps.event.addListener(circle, 'click', function(event) {
+		  	   		addmarker(event.latLng);
+		  	 });
+		   }
+		   
+	  	   google.maps.event.addDomListener(window, 'load', initialize);
+
+	  	   function addmarker(position){
+				marker = new google.maps.Marker({
+					position: position,
+					map: map
+				})
+
+				document.getElementById('formIngreso:coords').value = marker.getPosition();
+	 	   }
+		   
+  		</script>
   		</ui:define>
 </ui:composition>
