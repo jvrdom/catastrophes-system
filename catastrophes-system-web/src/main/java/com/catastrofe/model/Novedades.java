@@ -26,6 +26,9 @@ public class Novedades implements Serializable
 
    @Column
    private String origenDato;
+   
+   @Column
+   private String thumbnail;
 
    public Long getId()
    {
@@ -45,6 +48,16 @@ public class Novedades implements Serializable
    public void setVersion(final int version)
    {
       this.version = version;
+   }
+   
+   public String getThumbnail()
+   {
+	   return this.thumbnail;
+   }
+   
+   public void setThumbnail(String thumbnail)
+   {
+	   this.thumbnail = thumbnail;
    }
 
    @Override

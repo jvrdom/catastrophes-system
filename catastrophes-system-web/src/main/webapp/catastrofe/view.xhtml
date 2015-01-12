@@ -7,6 +7,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:o="http://omnifaces.org/ui"
 	xmlns:of="http://omnifaces.org/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="/resources/templateUser/layout.xhtml">
 
 	<f:metadata>
@@ -21,13 +22,40 @@
 	  		<div class="row row-offcanvas row-offcanvas-right">
 		  		<div class="col-xs-12 col-sm-9">
 		          <p class="pull-right visible-xs">
-		            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+		            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Más Opciones</button>
 		          </p>
-		          <div class="jumbotron">
-		            <h1>Hello, #{catastrofeBean.catastrofe.nombre}</h1>
-		          </div>
-		          <div class="row">
-		          </div>
+		          	<h:form>
+			          	<p:inputText id="inputUrl" value="#{catastrofeBean.url}" required="true" label="Name" styleClass="form-control" >
+			          		<p:ajax event="valueChange" update=":display,:displayFeed" listener="#{catastrofeBean.handleKeyEvent()}"/>
+			          	</p:inputText>
+			          	<p:watermark for="inputUrl" value="Ingrese la url del video que desea publicar" id="watermarkUrl" />
+		          	</h:form>
+		          <br />
+		          
+		          <h3 class="page-header" id="hidden-elements">Videos</h3>
+		          <h:panelGrid id="display">
+	                    <div class="row">
+	                        <div class="col-md-offset-1 col-md-10">
+	                            <div class="row">
+	                            	<ui:repeat value="#{of:setToList(catastrofeBean.catastrofe.novedades)}" var="novedad">
+							           <a href="#{novedad.origenDato}" data-toggle="lightbox" data-gallery="youtubevideos" class="col-sm-4">
+	                                   		<img src="#{novedad.thumbnail}" class="img-responsive" />
+	                                   </a>
+							        </ui:repeat>
+	                            </div>
+	                        </div>
+	                    </div>
+	              </h:panelGrid>
+	              
+	              <h3 class="page-header" id="hidden-elements">Feed De Noticias</h3>
+	              <h:panelGrid id="displayFeed">
+		              <p:feedReader value="http://feeds.bbci.co.uk/news/science_and_environment/rss.xml" var="feed" size="10">
+						<h:outputText value="#{feed.title}" style="font-weight: bold;display:block"/>
+						<h:outputText value="#{feed.description.value}" escape="false"/>
+						<p:separator />
+					  </p:feedReader>
+				  </h:panelGrid>
+	              
 		        </div>
 
 		        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
@@ -49,11 +77,12 @@
 		        <h4 class="modal-title" id="myModalLabel">Galería de Imágenes</h4>
 		      </div>
 		      <div class="modal-body text-center">
-		        <p:imageSwitch effect="fade" id="fadeEffect">
+		        <!-- <p:imageSwitch effect="fade" id="fadeEffect">
 				    <ui:repeat value="#{of:setToList(catastrofeBean.catastrofe.imagenes)}" var="image" id="fadeEffectImages">
 						<p:graphicImage url="#{image.imagen}" width="500" height="400"/>
 				    </ui:repeat>
 				</p:imageSwitch>
+				 -->
 			  </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#modalImagenes">Ingresar Imágenes</button>
@@ -92,11 +121,18 @@
 		</div>
 
 		<script type="text/javascript">
-		    $(document).ready(function () {
+		    $(document).ready(function ($) {
 		    	  $('[data-toggle="offcanvas"]').click(function () {
 		    	    $('.row-offcanvas').toggleClass('active')
 		    	  });
+
+		    	  $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
+		    		    event.preventDefault();
+		    		    $(this).ekkoLightbox();
+		    		}); 
 		    });
+
+		    
 	    </script>
 
 	</ui:define>
