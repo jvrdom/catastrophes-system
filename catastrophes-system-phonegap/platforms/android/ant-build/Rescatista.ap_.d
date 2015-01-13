@@ -128,8 +128,10 @@
 /home/hernan/phonegap/projects/rescatista/platforms/android/assets/www/js/jasny-bootstrap.min.js \
 /home/hernan/phonegap/projects/rescatista/platforms/android/assets/www/js/fastclick.js \
 /home/hernan/phonegap/projects/rescatista/platforms/android/assets/www/js/md5.min.js \
+/home/hernan/phonegap/projects/rescatista/platforms/android/assets/www/js/bootstrap.min.js \
 /home/hernan/phonegap/projects/rescatista/platforms/android/assets/www/js/index.js \
 /home/hernan/phonegap/projects/rescatista/platforms/android/assets/www/js/node_modules \
+/home/hernan/phonegap/projects/rescatista/platforms/android/assets/www/js/bootbox.min.js \
 /home/hernan/phonegap/projects/rescatista/platforms/android/assets/www/js/npm-debug.log \
 /home/hernan/phonegap/projects/rescatista/platforms/android/assets/www/js/jquery-2.1.1.min.js \
 /home/hernan/phonegap/projects/rescatista/platforms/android/assets/www/js/PushNotification.js \
