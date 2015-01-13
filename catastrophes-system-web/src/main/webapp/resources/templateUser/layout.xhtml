@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+ 
+    <h:head>
+		<f:facet name="first">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1"/>
+		<title>Sistema de Catástrofes-Web</title>
+		</f:facet>
+		
+		<f:facet name="middle">
+			<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+			<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+			<h:outputScript name="js/bootstrap-select.js" />
+			<h:outputScript name="bootstrap-lightbox/ekko-lightbox.min.js" />
+			<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB9AU_fnWkr5BxBSYzRBqEt38w11vDy_o0&amp;sensor=true&amp;libraries=geometry"></script>
+		</f:facet>
+    </h:head>
+ 
+    <h:body>
+    	<f:facet name="last">
+    		<h:outputStylesheet name="bootstrap.css" />
+			<h:outputStylesheet name="bootstrap-select.css" />
+			<h:outputStylesheet name="bootstrap-lightbox/ekko-lightbox.min.css" />
+			<h:outputStylesheet name="style.css" />
+			<h:outputStylesheet name="styleUser.css" />
+		</f:facet>
+		
+    	<div id="header" class="header">
+				<ui:insert name="header" >
+				  <ui:include src="header.xhtml" />
+				</ui:insert>
+		</div>
+		
+		<div class = "container">
+		 	<div id="page">
+			    <div id="content" class="row marketing">
+				  	<ui:insert name="content" >
+				 	  <ui:include src="content.xhtml" />
+				   	</ui:insert>
+			    </div>
+			</div>
+			
+			<div class="footer">
+	    	<div class="container">
+		    	<ui:insert name="footer" >
+		    	  <ui:include src="footer.xhtml" />
+		    	</ui:insert>
+	    	</div>
+    	</div>
+		 
+    	</div>
+    </h:body>
+</html>

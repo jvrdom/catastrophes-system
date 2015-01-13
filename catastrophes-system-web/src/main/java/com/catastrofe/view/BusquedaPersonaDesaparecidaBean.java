@@ -10,6 +10,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import com.catastrofe.dao.PerosnaDesapDao;
+import com.catastrofe.model.Catastrofe;
 import com.catastrofe.model.PerosnaDesap;
 
 @ViewScoped
@@ -20,11 +21,18 @@ public class BusquedaPersonaDesaparecidaBean {
 	private PerosnaDesapDao personDesDao;
 	private String search;
 	private List<PerosnaDesap> personasDesaparecidas;
+	private Catastrofe catastrofe;
+	private long idCatastrofe;
 	
 	@PostConstruct
 	public void init(){
+		
+		catastrofe = (Catastrofe) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("catastrofe");
+		idCatastrofe =  catastrofe.getId();
+		
 		try{
-		personasDesaparecidas = personDesDao.getPersonasByCatastrofe(4);
+		personasDesaparecidas = personDesDao.getPersonasByCatastrofe(idCatastrofe);
+		
 		}catch(Exception ex){
 			ex.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",ex.getMessage()));
@@ -34,7 +42,7 @@ public class BusquedaPersonaDesaparecidaBean {
 	
 	public void handleKeyEvent(){
 		try{
-		personasDesaparecidas = personDesDao.getDesaparecidosByName(4, search);
+		personasDesaparecidas = personDesDao.getDesaparecidosByName(idCatastrofe, search);
 		}catch(Exception ex){
 			ex.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",ex.getMessage()));

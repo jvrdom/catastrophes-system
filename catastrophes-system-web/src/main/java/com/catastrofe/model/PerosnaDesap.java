@@ -59,6 +59,12 @@ public class PerosnaDesap implements Serializable
 
    @Column
    private String status;
+   
+   @Column
+   private double latitud;
+
+   @Column
+   private double longitud;
 
    @ManyToOne
    private Catastrofe catastrofe;
@@ -169,7 +175,23 @@ public class PerosnaDesap implements Serializable
    {
       this.status = status;
    }
+   
+   public double getLatitud() {
+	  return latitud;
+   }	
 
+   public void setLatitud(double latitud) {
+	  this.latitud = latitud;
+   }
+	
+   public double getLongitud() {
+	  return longitud;
+   }
+	
+   public void setLongitud(double longitud) {
+	  this.longitud = longitud;
+   }
+	
    @Override
    public String toString()
    {

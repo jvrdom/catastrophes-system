@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{pedidoAyudaBean.id}"/>
+		<f:event type="preRenderView" listener="#{pedidoAyudaBean.retrieve}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="View Pedido Ayuda"/>
+
+	<ui:define name="header">
+		Pedido Ayuda
+	</ui:define>
+
+	<ui:define name="subheader">
+		View existing Pedido Ayuda
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="pedidoAyudaBeanPedidoAyudaDescripcion" value="Descripcion:"/>
+			<h:outputText id="pedidoAyudaBeanPedidoAyudaDescripcion" value="#{pedidoAyudaBean.pedidoAyuda.descripcion}"/>
+			<h:outputText/>
+			<h:outputLabel for="pedidoAyudaBeanPedidoAyudaFechaHora" value="Fecha Hora:"/>
+			<h:outputText id="pedidoAyudaBeanPedidoAyudaFechaHora" value="#{pedidoAyudaBean.pedidoAyuda.fechaHora}">
+				<f:convertDateTime type="date"/>
+			</h:outputText>
+			<h:outputText/>
+			<h:outputLabel for="pedidoAyudaBeanPedidoAyudaUsuario" value="Usuario:"/>
+			<h:link id="pedidoAyudaBeanPedidoAyudaUsuario" outcome="/usuario/view" value="#{pedidoAyudaBean.pedidoAyuda.usuario}">
+				<f:param name="id" value="#{pedidoAyudaBean.pedidoAyuda.usuario.id}"/>
+			</h:link>
+			<h:outputText/>
+			<h:outputLabel for="pedidoAyudaBeanPedidoAyudaLongitud" value="Longitud:"/>
+			<h:outputText id="pedidoAyudaBeanPedidoAyudaLongitud" value="#{pedidoAyudaBean.pedidoAyuda.longitud}"/>
+			<h:outputText/>
+			<h:outputLabel for="pedidoAyudaBeanPedidoAyudaLatitud" value="Latitud:"/>
+			<h:outputText id="pedidoAyudaBeanPedidoAyudaLatitud" value="#{pedidoAyudaBean.pedidoAyuda.latitud}"/>
+			<h:outputText/>
+		</h:panelGrid>
+
+		<div class="buttons">
+			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
+			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
+			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+		</div>
+	</ui:define>
+
+</ui:composition>

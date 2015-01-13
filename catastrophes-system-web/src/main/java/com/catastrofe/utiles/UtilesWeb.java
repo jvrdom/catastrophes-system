@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
@@ -19,6 +20,7 @@ import javax.imageio.ImageIO;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.json.JSONObject;
 
 public class UtilesWeb {
 	
@@ -147,6 +149,42 @@ public class UtilesWeb {
         } else {
         	return false;
         }
+	}
+	
+	public String getThumbUrl(String videoUrl) throws MalformedURLException{
+		
+		URL url = new URL(videoUrl);
+		String idVideo = "";
+		String jsonData = "";
+				
+		if(videoUrl.contains("youtube") || videoUrl.contains("youtu.be")){
+			return "http://img.youtube.com/vi/" + url.getFile().replace("/", "") + "/mqdefault.jpg";
+		} else {
+			
+			try {
+				
+				idVideo = videoUrl.contains("channels") ? url.getFile().split("/")[3] : url.getFile().replace("/", ""); 
+				
+				URL urlVimeo = new URL("http://vimeo.com/api/v2/video/" + idVideo + ".json");
+				BufferedReader br = new BufferedReader(new InputStreamReader(urlVimeo.openStream()));
+				String strTemp = "";
+				
+				while (null != (strTemp = br.readLine())) {
+					jsonData += strTemp + "\n";
+				}
+				
+				jsonData = jsonData.replace("[", "").replace("]", "");
+				JSONObject obj = new JSONObject(jsonData);
+				
+				return obj.getString("thumbnail_medium");
+				
+			} catch (Exception ex) {
+				return ex.getMessage();
+			}
+			
+		}
+		
+		
 	}
 	
 }

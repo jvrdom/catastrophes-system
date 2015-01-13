@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,13 +48,13 @@ public class Catastrofe implements Serializable
    @Column
    private double radio;
 
-   @OneToMany
+   @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
    private Set<Imagen> imagenes = new HashSet<Imagen>();
 
-   @OneToMany
+   @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
    private Set<Novedades> novedades = new HashSet<Novedades>();
 
-   @OneToMany(cascade=CascadeType.ALL)
+   @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
    private Set<Plan> planes = new HashSet<Plan>();
 
    @Column

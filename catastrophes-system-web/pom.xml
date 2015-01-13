@@ -108,6 +108,16 @@
     	<artifactId>java-property-utils</artifactId>
     	<version>1.9.1</version>
     </dependency>
+    <dependency>
+    	<groupId>org.json</groupId>
+    	<artifactId>json</artifactId>
+    	<version>20090211</version>
+    </dependency>
+    <dependency>
+		<groupId>rome</groupId>
+		<artifactId>rome</artifactId>
+		<version>1.0</version>
+	</dependency>
   </dependencies>
   <repositories>
     <repository>

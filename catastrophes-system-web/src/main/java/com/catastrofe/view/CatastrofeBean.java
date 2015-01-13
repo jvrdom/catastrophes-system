@@ -2,6 +2,7 @@ package com.catastrofe.view;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -31,6 +32,8 @@ import org.primefaces.event.FileUploadEvent;
 
 import com.catastrofe.dao.CatastrofeDao;
 import com.catastrofe.model.Catastrofe;
+import com.catastrofe.model.Imagen;
+import com.catastrofe.model.Novedades;
 import com.catastrofe.model.Plan;
 import com.catastrofe.model.tipoPlan;
 import com.catastrofe.utiles.UtilesWeb;
@@ -57,14 +60,17 @@ public class CatastrofeBean implements Serializable {
 	 */
 
 	private Long id;
-	private String latLng;
+	private String latLng, url;
 	private double radio;
 	private UtilesWeb utiles;
 	private Set<Plan> planes;
+	private Set<Imagen> imagenesCatastrofe;
+	private Set<Novedades> novedadesCatastrofe;
 
 	public CatastrofeBean() {
 		utiles = new UtilesWeb();
 		planes = new HashSet<Plan>();
+		imagenesCatastrofe = new HashSet<Imagen>();
 	}
 
 	public Long getId() {
@@ -142,12 +148,31 @@ public class CatastrofeBean implements Serializable {
 				this.catastofeDao.create(this.catastrofe);
 				return "search?faces-redirect=true";
 			} else {
+				
+				if(!this.imagenesCatastrofe.isEmpty()) {
+					this.catastrofe.setImagenes(this.imagenesCatastrofe);
+				}
+				
+				if(!this.url.isEmpty()){
+					Novedades novedad = new Novedades();
+					novedad.setDescripcion("chuco");
+					
+					
+					//novedad.setThumbnail(utiles.getThumbUrl(this.url));
+					
+					novedad.setOrigenDato(this.url);
+					
+					novedadesCatastrofe = this.catastrofe.getNovedades();
+					novedadesCatastrofe.add(novedad);
+					
+					this.catastrofe.setNovedades(this.novedadesCatastrofe);
+				}
+				
 				this.catastofeDao.update(this.catastrofe);
 				return "view?faces-redirect=true&id=" + this.catastrofe.getId();
 			}
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(e.getMessage()));
 			return null;
 		}
 	}
@@ -210,6 +235,40 @@ public class CatastrofeBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
+	
+	public void handleGalleria(FileUploadEvent event) {
+		
+		Imagen imagen = new Imagen();
+		
+		try {
+			imagen.setImagen(utiles.fileUpload(event.getFile().getFileName(), event.getFile().getInputstream()));
+		} catch (IOException e) {
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, "Fail!",
+					"Failed to upload file: " + event.getFile().getFileName()
+							+ ", reason: " + e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+		
+		imagenesCatastrofe = this.catastrofe.getImagenes();
+		imagenesCatastrofe.add(imagen);
+		
+		this.update();
+		
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"Succesful", event.getFile().getFileName()
+						+ " is uploaded.");
+		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
+	
+	public void handleKeyEvent(){
+		try{
+			this.update();
+		}catch(Exception ex){
+			ex.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",ex.getMessage()));
+		}
+	}
 
 	public String getLatLng() {
 		return latLng;
@@ -225,6 +284,14 @@ public class CatastrofeBean implements Serializable {
 
 	public void setRadio(double radio) {
 		this.radio = radio;
+	}
+	
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	/*
