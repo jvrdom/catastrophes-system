@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<!-- 
+# push valores 
+PROJECT ID    
+    snappy-nature-754
+API key
+    AIzaSyCzvR53GGYrs_hGElCQewAcNSAaxOyo5JA
+
+para que lo tome phonegap build agregar al config.xml la siguiente linea
+<gap:plugin name="com.adobe.plugins.pushplugin" />
+
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <!-- <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" /> -->
+        <!-- <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+         -->
+        <link rel="stylesheet" type="text/css" href="../resources/css/index.css" />
+        <link rel="stylesheet" type="text/css" href="../resources/css/custom.css" />
+        <link rel="stylesheet" type="text/css" href="../resources/css/bootstrap.css" />
+        <!-- <link  href="../resources/css/bootstrap.css.map" /> -->
+        <link rel="stylesheet" type="text/css" href="../resources/css/bootstrap-theme.css" />
+        <link rel="stylesheet" type="text/css" href="../resources/css/jasny-bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="../resources/css/navmenu-push.css" />
+        <link rel="stylesheet" type="text/css" href="../resources/css/signin.css" />
+        <link rel="stylesheet" type="text/css" href="../resources/leaflet/leaflet.css" /> 
+        <link href="../resources/styles/main.css" rel="stylesheet" type="text/css" />
+    
+        <title>Rescatista</title>
+        
+    </head>
+    <body>
+       <!-- menu -->
+        <div id="menuoffcanvas" style="left: 0px; right: 1001px;" class="navmenu navmenu-default navmenu-fixed-left offcanvas canvas-slid">
+          <a class="navmenu-brand" href="#">Rescatista </a>
+          <ul class="nav navmenu-nav">
+            <li class="amenu"><a href="http://localhost:8080/catastrophes-system-web/faces/login.xhtml" id="aSalir">Salir </a></li>
+            <li class="amenu"><a id="aRetorno">Test llamada </a></li>
+            <!-- <li class="active"><a id="aCatastrofes">Catástrofes</a></li> -->
+            <li class="amenu"><a id="aCatastrofes">Catástrofes</a></li>
+          </ul>
+          <ul class="nav navmenu-nav">
+            <li class="amenu" onclick='mensaje();'><a >Catastrofe en mapa</a></li>
+            <li class="amenu" ><a href="" id="planriesgo" >Plan de Gestion de Riesgo</a></li>
+            <!-- https://docs.google.com/viewer -->
+            <li class="amenu" ><a href="" id="planemergencia" target="_blank" >Plan de Emergencia </a></li>
+            <li class="amenu" ><a >Enviar Foto </a></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+              <ul class="dropdown-menu navmenu-nav">
+                <li><a >Action</a></li>
+                <li><a >Another action</a></li>
+                <li><a >Something else here</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a >Separated link</a></li>
+                <li><a >One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+        <!-- <div id="menuboton" class="canvas novisible" style="">     -->
+        <div id="menuboton" class="canvas" style="">    
+                <div class="navbar navbar-default navbar-fixed-top">
+                  <button class="navbar-toggle" data-canvas="body" data-target=".navmenu" data-toggle="offcanvas" type="button">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                </div>
+        </div>
+        
+        <div id="contenedor"> 
+        	<div id="map" ></div><!-- vista principal --> 
+        	
+        	<div id="deviceready" class="blink novisible">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">Device is Ready</p>
+            </div>
+            
+            <!-- 
+            explota porque da 404 al cargar bootstrap.css.map
+            <div id="loading">
+                <img src="../resources/img/loading.gif">
+            </div> -->
+         
+        </div>
+        
+            
+		<div id="listCatastrofe" class="content novisible" style="z-index: 10;">
+            <!-- <div class="input-area ch30">
+            <input class="inputBox" type="text" id="todo" placeholder="Add New Item" />
+            <button class="button" id="addButton" onclick="addTodo(); return false;">Add</button>
+            </div> -->
+            <div class="result-area ch70">
+                <div class="results">
+                <!-- <div class="desc">Todo List:</div> -->
+                    <ul id="catastrofeItems"></ul>
+                </div>
+                <!-- <div class="separator"></div> -->
+            </div>
+        </div>
+        
+        
+        <script type="text/javascript" src="../resources/leaflet/leaflet.js"></script>
+        <script type="text/javascript" src="../resources/js/index.js"></script>
+        <script type="text/javascript" src="../resources/js/PushNotification.js"></script>
+        <script type="text/javascript" src="../resources/js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="../resources/js/jasny-bootstrap.min.js"></script>
+        <script type="text/javascript" src="../resources/js/bootstrap.min.js"></script>
+		
+		<script type="text/javascript">
+            app.initialize();
+
+            function mensaje(){
+                app.addCatastrofeLocation();
+            }
+        </script>
+    </body>
+</html>
