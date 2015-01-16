@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html" 
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/resources/template/templateReportes.xhtml"
+                xmlns:p="http://primefaces.org/ui">
+
+
+
+    <ui:define name="adminContent">
+		<h:outputLabel value="Reporte de Donaciones"  styleClass="labelForm"/>
+        <h:panelGrid width="95%" columns="1" styleClass="cen cen" columnClasses="izq izq" cellspacing="5">
+            <h:outputLabel value="Seleccionar rango de tiempo a buscar:" />
+            <p:spacer width="10px" />
+            <h:panelGroup>
+            <h:outputLabel value="Desde" style="font-weight: 400;"/>
+            <p:calendar id="mask1" value="#{reporteDonacionMB.fechaDonacionInicial}" pattern="dd/MM/yyyy" mask="true" style="margin-left:5px;margin-right:5px"/>
+            <h:outputLabel value="hasta" style="font-weight: 400;"/>
+            <p:calendar id="mask2" value="#{reporteDonacionMB.fechaDonacionFinal}" pattern="dd/MM/yyyy" mask="true" style="margin-left:5px;margin-right:5px"/>         
+           	<p:commandButton value="Buscar" actionListener="#{reporteDonacionMB.buscarDonaciones}" update="tableDonaciones"/>
+            </h:panelGroup>
+            
+             <p:dataTable id="tableDonaciones"  value="#{reporteDonacionMB.donaciones}" selectionMode="single" var="donacion" 
+                             rowKey="#{donacion.id}" widgetVar="donacionTable"
+                             scrollable="true" scrollHeight="300"
+                             styleClass="table2" style="margin-top:10px" >  
+       
+                    
+                    <p:column headerText="Id" styleClass="izq" style="width:50px" >
+                        <h:outputText value="#{donacion.id}"  />
+                    </p:column>
+
+                    <p:column   headerText="Usuario"  styleClass="cen" >
+                        <h:outputText value="#{donacion.usuario.nombre} #{donacion.usuario.apellido}"  />
+                    </p:column>
+                    <p:column   headerText="Tipo" style="width: 110px" styleClass="cen">
+                        <h:outputText value="#{donacion.tipo}"  />
+                    </p:column>
+                    <p:column   headerText="Fecha" style="width: 110px" styleClass="cen">
+                        <h:outputText value="#{donacion.fecha}" >
+                        	<f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                     <p:column   headerText="Monto" style="width: 110px" styleClass="cen">
+                        <h:outputText value="#{donacion.monto}"  />
+                    </p:column>
+                     <p:column   headerText="Tipo de Servicio" style="width: 110px" styleClass="cen">
+                        <h:outputText value="#{donacion.tipoDeServicio}"  />
+                    </p:column>
+                    <p:column   headerText="Horas" style="width: 110px" styleClass="cen">
+                        <h:outputText value="#{donacion.horasDedicadas}"  />
+                    </p:column>
+                    <p:column   headerText="Descripción" style="width: 110px" styleClass="cen">
+                        <h:outputText value="#{donacion.descripcion}"  />
+                    </p:column>
+                </p:dataTable>
+                
+            	<p:panel header="Exportar Datos">
+            		<h:commandLink>
+                		<p:graphicImage value="/resources/img/excel.png" />
+                		<p:dataExporter type="xls" postProcessor="#{reporteDonacionMB.postProcessXLS}"
+                    		target="tableDonaciones" fileName="myexcel" />
+            		</h:commandLink>
+            		<h:commandLink>
+                		<p:graphicImage value="/resources/img/pdf.png" />
+                		<p:dataExporter type="pdf" target="tableDonaciones" fileName="mypdf" />
+            		</h:commandLink>
+        		</p:panel>
+            
+        </h:panelGrid>
+
+        
+    </ui:define>
+
+</ui:composition>

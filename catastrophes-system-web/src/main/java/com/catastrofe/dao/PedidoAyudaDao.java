@@ -1,11 +1,14 @@
 package com.catastrofe.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+
+import com.catastrofe.model.Donacion;
 import com.catastrofe.model.PedidoAyuda;
 
 /**
@@ -54,4 +57,14 @@ public class PedidoAyudaDao
       }
       return findAllQuery.getResultList();
    }
+
+public List<PedidoAyuda> findByDate(Date date) {
+	TypedQuery<PedidoAyuda> findQuery = em.createQuery("SELECT DISTINCT p FROM PedidoAyuda p LEFT JOIN FETCH p.usuario WHERE p.fechaHora=:fecha ORDER BY p.id", PedidoAyuda.class).setParameter("fecha", date);
+	 return findQuery.getResultList();
+}
+
+public List<PedidoAyuda> findbetweenDate(Date dateInicial, Date dateFinal) {
+	TypedQuery<PedidoAyuda> findQuery = em.createQuery("SELECT DISTINCT p FROM PedidoAyuda p LEFT JOIN FETCH p.usuario WHERE p.fecha>=:fechaInicial AND p.fecha>=:fechaFinal ORDER BY p.id", PedidoAyuda.class).setParameter("fechaInicial", dateInicial).setParameter("fechaFinal", dateFinal);
+	return findQuery.getResultList();
+}
 }

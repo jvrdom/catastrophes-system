@@ -32,6 +32,9 @@ public class Ong implements Serializable
 
    @Column
    private String descripcion;
+   
+   @Column
+   private String paypalMail;
 
    @OneToMany(mappedBy = "ong", cascade = CascadeType.ALL, orphanRemoval = true)
    private Set<Donacion> donaciones = new HashSet<Donacion>();
@@ -80,8 +83,18 @@ public class Ong implements Serializable
       }
       return true;
    }
+   
+   
 
-   @Override
+   public String getPaypalMail() {
+	return paypalMail;
+}
+
+public void setPaypalMail(String paypalMail) {
+	this.paypalMail = paypalMail;
+}
+
+@Override
    public int hashCode()
    {
       final int prime = 31;
@@ -113,12 +126,7 @@ public class Ong implements Serializable
    @Override
    public String toString()
    {
-      String result = getClass().getSimpleName() + " ";
-      if (nombre != null && !nombre.trim().isEmpty())
-         result += "nombre: " + nombre;
-      if (descripcion != null && !descripcion.trim().isEmpty())
-         result += ", descripcion: " + descripcion;
-      return result;
+      return nombre;
    }
 
    public Set<Donacion> getDonaciones()

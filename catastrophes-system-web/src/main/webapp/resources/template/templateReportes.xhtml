@@ -1,0 +1,40 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/resources/template/layout.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+
+
+    <ui:define name="content">
+    <h:form>
+        <p:spacer height="10"/>
+
+
+        <h:panelGroup styleClass="formulario" layout="block" id="panelAdmin">
+            <h:panelGrid columns="3" columnClasses="izq top w200, w10, top izq" 
+                         style="width: 100%;" >
+
+                <h:panelGrid columns="1" columnClasses="izq top" width="210" >
+                    <p:menu style="height: 100%; width: 100%; " styleClass="menu" >
+                       
+                        <p:submenu label="Reportes" styleClass="subMenuAdmin">  
+                            <p:menuitem value="Donaciones"  action="reporteDonacion.xhtml" ajax="false" styleClass="menuItem" icon="ui-icon-star" immediate="true"/>
+                            <p:menuitem value="Pedidos de Ayuda"  action="reportePedidoAyuda.xhtml" ajax="false" styleClass="menuItem" icon="ui-icon-star" immediate="true"/> 
+                            <p:menuitem value="Uso del sitio"  action="reporteUso.xhtml" ajax="false" styleClass="menuItem" icon="ui-icon-star" immediate="true"/> 
+                        </p:submenu>
+                       
+                    </p:menu>
+                </h:panelGrid>
+
+                <p:spacer width="10" />
+
+                <h:panelGroup id="data"  >
+                        <ui:insert name="adminContent">Content</ui:insert>
+                </h:panelGroup>
+            </h:panelGrid>
+        </h:panelGroup>
+        </h:form>
+    </ui:define>
+</ui:composition>
