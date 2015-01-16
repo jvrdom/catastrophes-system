@@ -6,7 +6,10 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
 
+import com.catastrofe.model.Catastrofe;
+import com.catastrofe.model.Rol;
 import com.catastrofe.model.Usuario;
 
 /**
@@ -70,5 +73,10 @@ public class UsuarioDao
        } else {
     	   return false;
        }
+   }
+   
+   public List<String> getRegIDs(String rolUsuario){
+	   List<String> resultList = em.createNamedQuery("Usuario.getRegIdsRescatista").setParameter("nombre", rolUsuario).getResultList();
+	   return resultList;
    }
 }

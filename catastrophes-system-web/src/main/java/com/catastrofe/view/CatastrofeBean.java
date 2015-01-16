@@ -157,9 +157,7 @@ public class CatastrofeBean implements Serializable {
 					Novedades novedad = new Novedades();
 					novedad.setDescripcion("chuco");
 					
-					
-					//novedad.setThumbnail(utiles.getThumbUrl(this.url));
-					
+					novedad.setThumbnail(utiles.getThumbUrl(this.url));
 					novedad.setOrigenDato(this.url);
 					
 					novedadesCatastrofe = this.catastrofe.getNovedades();

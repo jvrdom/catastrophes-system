@@ -27,13 +27,17 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.json.JSONException;
 import org.primefaces.event.FileUploadEvent;
 
 import com.catastrofe.dao.PerosnaDesapDao;
+import com.catastrofe.dao.UsuarioDao;
 import com.catastrofe.model.Catastrofe;
 import com.catastrofe.model.Imagen;
 import com.catastrofe.model.PerosnaDesap;
+import com.catastrofe.model.Rol;
 import com.catastrofe.model.Usuario;
+import com.catastrofe.utiles.AndroidGCMPushNotification;
 import com.catastrofe.utiles.UtilesWeb;
 
 /**
@@ -57,7 +61,10 @@ public class PerosnaDesapBean implements Serializable
 
    @Inject
    private PerosnaDesapDao personaDesDao;
+   @Inject
+   private UsuarioDao usuarioDao;
    private static final String DESAPARECIDO = "Desaparecido";
+   private static final String RESCATISTA = "Rescatista";
    private UtilesWeb utiles;
    private Set<Imagen> imagenesPersonDes;
    private String coordenadas;
@@ -154,7 +161,11 @@ public class PerosnaDesapBean implements Serializable
         	this.perosnaDesap.setLongitud(lng);
         	this.perosnaDesap.setCatastrofe((Catastrofe) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("catastrofe"));
         	this.perosnaDesap.setReportado((Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario"));
-        	this.personaDesDao.create(this.perosnaDesap); 
+        	this.personaDesDao.create(this.perosnaDesap);
+        	
+        	//Envio la notificacion a los rescatistas
+        	this.sendNotification(RESCATISTA);
+        	
             FacesContext.getCurrentInstance().getExternalContext().redirect("search.xhtml");
             return null;
          }
@@ -204,6 +215,14 @@ public class PerosnaDesapBean implements Serializable
 		} catch (IOException e) {
 			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Fail!", "Failed to upload file: " + event.getFile().getFileName() + ", reason: " + e.getMessage());
 	        FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+   }
+   
+   private void sendNotification(String rolUsuario){
+	    try {
+	    	AndroidGCMPushNotification.enviarNotificaciones("10", usuarioDao.getRegIDs(rolUsuario));
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
    }
    

@@ -20,51 +20,45 @@
 				class="alert alert-danger" style="display: inline-block;" />
 		</div>
 		<div class="row">
-			<div class="col-xs-6">
-				<h:form id="formRegistrer" class="form-horizontal">
-					<div class="form-group">
-						<label for="inputname" class="col-sm-2 control-label">Usuario</label>
-						<div class="col-sm-10">
-							<p:inputText id="inputuser" value="#{usuarioBean.usuario.user}"
-								required="true" label="Name" styleClass="form-control">
-								<f:validateLength minimum="2" />
+			<div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+				<h:form id="formRegistrer">
+					<div class="row">
+						<div class="col-xs-6 col-sm-6 col-md-6">
+						<div class="form-group">
+							<p:inputText id="inputuser" value="#{usuarioBean.usuario.user}" required="true" label="Name" styleClass="form-control input-lg" placeholder="Usuario" tabindex="1">
+	                        	<f:validateLength minimum="2" />
 							</p:inputText>
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="inputname" class="col-sm-2 control-label">Nombre</label>
-						<div class="col-sm-10">
-							<p:inputText id="inputname" value="#{usuarioBean.usuario.nombre}"
-								required="true" label="Name" styleClass="form-control">
+						<div class="row">
+							<div class="col-xs-6 col-sm-6 col-md-6">
+								<div class="form-group">
+			                        <p:inputText id="inputname" value="#{usuarioBean.usuario.nombre}"
+								required="true" label="Name" styleClass="form-control input-lg" placeholder="Nombre" tabindex="1">
 								<f:validateLength minimum="2" />
-							</p:inputText>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="inputlastname" class="col-sm-2 control-label">Apellido</label>
-						<div class="col-sm-10">
-							<p:inputText id="inputlastname"
+								</p:inputText>
+								</div>
+							</div>
+							<div class="col-xs-6 col-sm-6 col-md-6">
+								<div class="form-group">
+									<p:inputText id="inputlastname"
 								value="#{usuarioBean.usuario.apellido}" required="true"
-								label="Lastname" styleClass="form-control">
+								label="Lastname" styleClass="form-control input-lg" placeholder="Apellido" tabindex="1">
 								<f:validateLength minimum="2" />
-							</p:inputText>
+							</p:inputText>	
+								
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="inputmail" class="col-sm-2 control-label">E-Mail</label>
-						<div class="col-sm-10">
+						<div class="form-group">
 							<p:inputText id="inputmail" value="#{usuarioBean.usuario.email}"
-								required="true" label="User" styleClass="form-control">
+								required="true" label="User" styleClass="form-control input-lg" placeholder="E-Mail" tabindex="1">
 								<f:validateLength minimum="2" />
 							</p:inputText>
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="inputpassword" class="col-sm-2 control-label">Password</label>
-						<div class="col-sm-10">
+						<div class="form-group">
 							<p:password id="inputpassword"
 								value="#{usuarioBean.usuario.password}" required="true"
-								label="Password" styleClass="form-control"
+								label="Password" styleClass="form-control input-lg" placeholder="Password" tabindex="1"
 								requiredMessage="Por favor ingrese un password"
 								validatorMessage="Formato de Password Invalido">
 								<f:validateLength minimum="8" />
@@ -73,51 +67,35 @@
 								<p:ajax update=":msgPassword" event="keyup" />
 							</p:password>
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="inputelefono" class="col-sm-2 control-label">Teléfono:</label>
-						<div class="col-sm-10">
-							<p:inputText id="inputelefono"
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="row">
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<p:inputText id="inputelefono"
 								value="#{usuarioBean.usuario.telefono}" required="true"
-								label="Telefono" styleClass="form-control" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="inputdate" class="col-sm-2 control-label">Fecha
-							de Nacimiento:</label>
-						<div class="col-sm-10">
-							<p:calendar id="inputdate"
-								value="#{usuarioBean.usuario.nacimiento}" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="inputsexo" class="col-sm-2 control-label">Sexo:</label>
-						<div class="col-sm-10">
-							<h:selectOneRadio id="inputsexo" value="#{usuarioBean.sexoAux}">
-								<f:selectItem itemLabel="Masculino" itemValue="Masculino" />
-								<f:selectItem itemLabel="Femenino" itemValue="Femenino" />
-							</h:selectOneRadio>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="inputtipo" class="col-sm-2 control-label">Tipo
-							de Usuario:</label>
-						<div class="col-sm-10">
-							<h:selectOneMenu id="inputtipo" value="#{usuarioBean.rol}"
-								styleClass="selectpicker">
+								label="Telefono" styleClass="form-control input-lg" placeholder="Teléfono" tabindex="1" />
+								</div>
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<p:calendar id="inputdate"
+								value="#{usuarioBean.usuario.nacimiento}" inputStyleClass="form-control input-lg" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<h:selectOneMenu id="inputtipo" value="#{usuarioBean.rol}"
+								styleClass="selectpicker form-control input-lg">
 								<f:selectItem itemValue="Usuario" />
 								<f:selectItem itemValue="Administrador" />
 								<f:selectItem itemValue="Rescatista" />
 							</h:selectOneMenu>
+							</div>
 						</div>
 					</div>
-					<p:growl id="messages" showDetail="true" />
-					<p:commandButton value="Ingresar"
-						actionListener="#{usuarioBean.update}"
-						styleClass="pull-right btn btn-success" update="messages" />			
-							
+					<div class="row">
+						<input type="submit" value="Register" class="btn btn-primary btn-block btn-lg" tabindex="7"></input>
+					</div>
 				</h:form>
-			</div>
+		</div>
 		</div>
 	</ui:define>
 </ui:composition>
