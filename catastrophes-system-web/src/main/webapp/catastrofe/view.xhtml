@@ -4,137 +4,144 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:o="http://omnifaces.org/ui"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
 	xmlns:of="http://omnifaces.org/functions"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="/resources/templateUser/layout.xhtml">
-
 	<f:metadata>
-		<f:viewParam name="id" value="#{catastrofeBean.id}"/>
-		<f:event type="preRenderView" listener="#{catastrofeBean.retrieve}"/>
+		<f:viewParam name="id" value="#{catastrofeBean.id}" />
+		<f:event type="preRenderView" listener="#{catastrofeBean.retrieve}" />
 	</f:metadata>
-
-	<ui:param name="pageTitle" value="View Catastrofe"/>
-
+	<ui:param name="pageTitle" value="View Catastrofe" />
 	<ui:define name="content">
 		<div class="row">
-	  		<div class="row row-offcanvas row-offcanvas-right">
-		  		<div class="col-xs-12 col-sm-9">
-		          <p class="pull-right visible-xs">
-		            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Más Opciones</button>
-		          </p>
-		          	<h:form>
-			          	<p:inputText id="inputUrl" value="#{catastrofeBean.url}" required="true" label="Name" styleClass="form-control" >
-			          		<p:ajax event="valueChange" update=":display,:displayFeed" listener="#{catastrofeBean.handleKeyEvent()}"/>
-			          	</p:inputText>
-			          	<p:watermark for="inputUrl" value="Ingrese la url del video que desea publicar" id="watermarkUrl" />
-		          	</h:form>
-		          <br />
-		          
-		          <h3 class="page-header" id="hidden-elements">Videos</h3>
-		          <h:panelGrid id="display">
-	                    <div class="row">
-	                        <div class="col-md-offset-1 col-md-10">
-	                            <div class="row">
-	                            	<ui:repeat value="#{of:setToList(catastrofeBean.catastrofe.novedades)}" var="novedad">
-							           <a href="#{novedad.origenDato}" data-toggle="lightbox" data-gallery="youtubevideos" class="col-sm-4">
-	                                   		<img src="#{novedad.thumbnail}" class="img-responsive" />
-	                                   </a>
-							        </ui:repeat>
-	                            </div>
-	                        </div>
-	                    </div>
-	              </h:panelGrid>
-	              
-	              <h3 class="page-header" id="hidden-elements">Feed De Noticias</h3>
-	              <h:panelGrid id="displayFeed">
-		              <p:feedReader value="http://feeds.bbci.co.uk/news/science_and_environment/rss.xml" var="feed" size="10">
-						<h:outputText value="#{feed.title}" style="font-weight: bold;display:block"/>
-						<h:outputText value="#{feed.description.value}" escape="false"/>
-						<p:separator />
-					  </p:feedReader>
-				  </h:panelGrid>
-	              
-		        </div>
-
-		        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
-		          <div class="list-group">
-		          	<a href="/catastrophes-system-web/faces/perosnaDesap/create.xhtml" class="list-group-item">Ingreso de Persona Desaparecida</a>
-		            <a href="/catastrophes-system-web/faces/perosnaDesap/search.xhtml" class="list-group-item">Búsqueda de Personas Desaparecidas</a>
-		            <a href="#" class="list-group-item">Realizar Donación</a>
-		            <a href="#" class="list-group-item" data-toggle="modal" data-target="#myModal">Ver Galería</a>
-		          </div>
-			    </div>
+			<div class="row row-offcanvas row-offcanvas-right">
+				<div class="col-xs-12 col-sm-9">
+					<p class="pull-right visible-xs">
+						<button type="button" class="btn btn-primary btn-xs"
+							data-toggle="offcanvas">Más Opciones</button>
+					</p>
+					<h:form>
+						<p:inputText id="inputUrl" value="#{catastrofeBean.url}"
+							required="true" label="Name" styleClass="form-control">
+							<p:ajax event="valueChange" update=":display,:displayFeed"
+								listener="#{catastrofeBean.handleKeyEvent()}" />
+						</p:inputText>
+						<p:watermark for="inputUrl"
+							value="Ingrese la url del video que desea publicar"
+							id="watermarkUrl" />
+					</h:form>
+					<br />
+					<h3 class="page-header" id="hidden-elements">Videos</h3>
+					<h:panelGrid id="display">
+						<div class="row">
+							<div class="col-md-offset-1 col-md-10">
+								<div class="row">
+									<ui:repeat
+										value="#{of:setToList(catastrofeBean.catastrofe.novedades)}"
+										var="novedad">
+										<a href="#{novedad.origenDato}" data-toggle="lightbox"
+											data-gallery="youtubevideos" class="col-sm-4"> <img
+											src="#{novedad.thumbnail}" class="img-responsive" />
+										</a>
+									</ui:repeat>
+								</div>
+							</div>
+						</div>
+					</h:panelGrid>
+					<h3 class="page-header" id="hidden-elements">Feed De Noticias</h3>
+					<h:panelGrid id="displayFeed">
+						<p:feedReader
+							value="http://feeds.bbci.co.uk/news/science_and_environment/rss.xml"
+							var="feed" size="10">
+							<h:outputText value="#{feed.title}"
+								style="font-weight: bold;display:block" />
+							<h:outputText value="#{feed.description.value}" escape="false" />
+							<p:separator />
+						</p:feedReader>
+					</h:panelGrid>
+				</div>
+				<div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar"
+					role="navigation">
+					<div class="list-group">
+						<a href="/catastrophes-system-web/faces/perosnaDesap/create.xhtml"
+							class="list-group-item">Ingreso de Persona Desaparecida</a> <a
+							href="/catastrophes-system-web/faces/perosnaDesap/search.xhtml"
+							class="list-group-item">Búsqueda de Personas Desaparecidas</a> <a
+							href="/catastrophes-system-web/faces/donaciones/donaciones.xhtml" class="list-group-item">Realizar Donación</a> <a
+							href="#" class="list-group-item" data-toggle="modal"
+							data-target="#myModal">Ver Galería</a>
+					</div>
+				</div>
 			</div>
 		</div>
-		
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Galería de Imágenes</h4>
-		      </div>
-		      <div class="modal-body text-center">
-		        <!-- <p:imageSwitch effect="fade" id="fadeEffect">
-				    <ui:repeat value="#{of:setToList(catastrofeBean.catastrofe.imagenes)}" var="image" id="fadeEffectImages">
-						<p:graphicImage url="#{image.imagen}" width="500" height="400"/>
-				    </ui:repeat>
-				</p:imageSwitch>
-				 -->
-			  </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#modalImagenes">Ingresar Imágenes</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-		
-		<div class="modal fade" id="modalImagenes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Ingresar Imágenes</h4>
-		      </div>
-		      <div class="modal-body">
-		        <h:form enctype="multipart/form-data" class="form-horizontal" id="form-catastrofe">
-	  				<p:growl id="messages" showDetail="true" />
-	  				<div class="form-group">
-	  					<div class="col-sm-12">
-			  				<p:fileUpload fileUploadListener="#{catastrofeBean.handleGalleria}" mode="advanced" dragDropSupport="false"
-                  			multiple="false" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-                  			label="Elegir Imágenes"
-                  			cancelLabel="Cancelar"
-                  			update="messages"
-                  			 />
-						</div>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel">Galería de Imágenes</h4>
 					</div>
-				</h:form>
-		      </div>
-		      <div class="modal-footer">
-		        
-		      </div>
-		    </div>
-		  </div>
+					<div class="modal-body text-center">
+						<!-- <p:imageSwitch effect="fade" id="fadeEffect">
+<ui:repeat value="#{of:setToList(catastrofeBean.catastrofe.imagenes)}" var="image" id="fadeEffectImages">
+<p:graphicImage url="#{image.imagen}" width="500" height="400"/>
+</ui:repeat>
+</p:imageSwitch>
+-->
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success" data-dismiss="modal"
+							data-toggle="modal" data-target="#modalImagenes">Ingresar
+							Imágenes</button>
+					</div>
+				</div>
+			</div>
 		</div>
-
+		<div class="modal fade" id="modalImagenes" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel">Ingresar Imágenes</h4>
+					</div>
+					<div class="modal-body">
+						<h:form enctype="multipart/form-data" class="form-horizontal"
+							id="form-catastrofe">
+							<p:growl id="messages" showDetail="true" />
+							<div class="form-group">
+								<div class="col-sm-12">
+									<p:fileUpload
+										fileUploadListener="#{catastrofeBean.handleGalleria}"
+										mode="advanced" dragDropSupport="false" multiple="false"
+										allowTypes="/(\.|\/)(gif|jpe?g|png)$/" label="Elegir Imágenes"
+										cancelLabel="Cancelar" update="messages" />
+								</div>
+							</div>
+						</h:form>
+					</div>
+					<div class="modal-footer"></div>
+				</div>
+			</div>
+		</div>
 		<script type="text/javascript">
-		    $(document).ready(function ($) {
-		    	  $('[data-toggle="offcanvas"]').click(function () {
-		    	    $('.row-offcanvas').toggleClass('active')
-		    	  });
-
-		    	  $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
-		    		    event.preventDefault();
-		    		    $(this).ekkoLightbox();
-		    		}); 
-		    });
-
-		    
-	    </script>
-
+$(document).ready(function ($) {
+$('[data-toggle="offcanvas"]').click(function () {
+$('.row-offcanvas').toggleClass('active')
+});
+$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
+event.preventDefault();
+$(this).ekkoLightbox();
+});
+});
+</script>
 	</ui:define>
-
 </ui:composition>

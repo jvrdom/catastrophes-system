@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html" 
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/resources/template/templateReportes.xhtml"
+                xmlns:p="http://primefaces.org/ui">
+
+
+
+    <ui:define name="adminContent">
+		<h:outputLabel value="Reporte de pedidos de ayuda"  styleClass="labelForm"/>
+        <h:panelGrid width="95%" columns="1" styleClass="cen cen" columnClasses="izq izq" cellspacing="5">
+            <h:outputLabel value="Seleccionar rango de tiempo a buscar:" />
+            <p:spacer width="10px" />
+            <h:panelGroup>
+            <h:outputLabel value="Desde" style="font-weight: 400;"/>
+            <p:calendar id="mask1" value="#{reportePedidoAyudaMB.fechaPedidoInicial}" pattern="dd/MM/yyyy" mask="true" style="margin-left:5px;margin-right:5px"/>
+            <h:outputLabel value="hasta" style="font-weight: 400;"/>
+            <p:calendar id="mask2" value="#{reportePedidoAyudaMB.fechaPedidoFinal}" pattern="dd/MM/yyyy" mask="true" style="margin-left:5px;margin-right:5px"/>         
+           	<p:commandButton value="Buscar" actionListener="#{reportePedidoAyudaMB.buscarSolicitudes}" update="tablePedidos"/>
+            </h:panelGroup>
+            
+             <p:dataTable id="tablePedidos"  value="#{reportePedidoAyudaMB.pedidos}" selectionMode="single" var="pedido" 
+                             rowKey="#{pedido.id}" widgetVar="pedidoTable"
+                             scrollable="true" scrollHeight="300"
+                             styleClass="table2" style="margin-top:10px" >  
+       
+                    
+                    <p:column headerText="Id" styleClass="izq" style="width:50px" >
+                        <h:outputText value="#{pedido.id}"  />
+                    </p:column>
+
+                    <p:column   headerText="Usuario"  styleClass="cen" style="width: 250px" >
+                        <h:outputText value="#{pedido.usuario.nombre} #{pedido.usuario.apellido}"  />
+                    </p:column>                   
+                    <p:column   headerText="Fecha" style="width: 110px" styleClass="cen">
+                        <h:outputText value="#{pedido.fechaHora}" >
+                        	<f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column   headerText="Descripcion"  styleClass="cen">
+                        <h:outputText value="#{pedido.descripcion}" />
+                        	
+                    </p:column>                     
+                </p:dataTable>
+                
+            	<p:panel header="Exportar Datos">
+            		<h:commandLink>
+                		<p:graphicImage value="/resources/img/excel.png" />
+                		<p:dataExporter type="xls" postProcessor="#{reportePedidoAyudaMB.postProcessXLS}"
+                    		target="tablePedidos" fileName="myexcel" />
+            		</h:commandLink>
+            		<h:commandLink>
+                		<p:graphicImage value="/resources/img/pdf.png" />
+                		<p:dataExporter type="pdf" target="tablePedidos" fileName="mypdf" />
+            		</h:commandLink>
+        		</p:panel>
+            
+        </h:panelGrid>
+
+        
+    </ui:define>
+
+</ui:composition>

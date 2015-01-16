@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/resources/templateUser/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<ui:define name="content">
+	<script>
+		function myFunction(){
+			document.getElementById("idInput1").click();
+			}
+	</script>
+	<div>
+		<h2 class="form-signin-heading text-center">Redireccionando. Espere por favor...</h2>
+	</div>
+	 <body onload="myFunction()">
+	 	<form id="myFormId" action="https://www.paypal.com/cgi-bin/webscr" method="post"
+			target="_top">
+			<input type="hidden" name="cmd" value="_donations" /> 
+			<input type="hidden" name="business" value="#{donacionesMB.selectedOngMail}" /> 
+			<input
+				type="hidden" name="lc" value="ES" /> <input type="hidden"
+				name="item_name" value="catastrophes-system-web" /> 
+				<input type="hidden" name="no_note" value="0" /> 
+				<input type="hidden" name="currency_code" value="USD" /> 
+				<input type="hidden" name="bn"
+				value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest" /> 
+				<input id="idInput1" type="image" 
+				border="0" name="submit"
+				 /> 
+				<img  alt="" border="0" src="https://www.paypalobjects.com/es_ES/i/scr/pixel.gif" width="1"
+				height="1" />
+		</form>
+	 
+	 </body>
+		
+
+	</ui:define>
+
+</ui:composition>

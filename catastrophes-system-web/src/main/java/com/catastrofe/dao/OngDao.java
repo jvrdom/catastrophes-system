@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+
 import com.catastrofe.model.Ong;
 
 /**
@@ -54,4 +55,10 @@ public class OngDao
       }
       return findAllQuery.getResultList();
    }
+   
+   public List<Ong> findOngByCatastrofe(Long id) {
+	TypedQuery<Ong> findAllQuery = em.createQuery("SELECT DISTINCT o FROM Ong o LEFT JOIN FETCH o.donaciones LEFT JOIN FETCH o.catastrofes WHERE catastrofes_id=:idCatastrofe ORDER BY o.id", Ong.class).setParameter("idCatastrofe", id);
+	return findAllQuery.getResultList();
+   }
+   
 }

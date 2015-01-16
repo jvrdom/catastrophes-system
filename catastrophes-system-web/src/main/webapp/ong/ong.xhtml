@@ -16,13 +16,13 @@
 			<p:growl id="messages" showDetail="true" showSummary="false"
 				life="12000" autoUpdate="true" />
 
-			<h:panelGrid id="panelId" columns="3" columnClasses="izq top, cen top, top"  style="height: 200px; max-height: 300px  ">
+			<h:panelGrid id="panelId" columns="3" columnClasses="izq top, cen top w700,izq top"  style="height: 200px; max-height: 300px  ">
 
 				<p:dataTable id="ongTbl" var="ong" value="#{ongMB.ongs}"
 					selectionMode="single" selection="#{ongMB.selectedOng}"
 					rowKey="#{ong.id}" style="width: 180px;">
 					<p:ajax event="rowSelect" listener="#{ongMB.onRowSelect}"
-						update=":form:inputname :form:inputdesc :form:btnEditId :form:btnRemoveId :form:catastrofesTbl"
+						update=":form:inputname :form:inputdesc :form:inputmail :form:btnEditId :form:btnRemoveId :form:catastrofesTbl"
 						process="ongTbl" />
 					<p:column headerText="ONG">
 						<h:outputText value="#{ong.nombre}" />
@@ -34,14 +34,18 @@
 					<label for="inputname" class="col-sm-2 control-label">Nombre</label>
 					<div class="col-sm-10">
 						<p:inputText id="inputname" value="#{ongMB.name}"
-							styleClass="form-control" disabled="#{ongMB.readOnly}" style="margin-bottom:5px"/>
+							styleClass="form-control" disabled="#{ongMB.readOnly}" style="margin-bottom:5px;"/>
 					</div>
-					
-					<label for="inputdesc" class="col-sm-2 control-label">Descripcion</label>
+					<label for="inputmail" class="col-sm-2 control-label">Email</label>
+					<div class="col-sm-10">
+						<p:inputText id="inputmail" value="#{ongMB.mail}"
+							styleClass="form-control" disabled="#{ongMB.readOnly}" style="margin-bottom:5px;"/>
+					</div>
+					<label for="inputdesc" class="col-sm-2 control-label" >Descripcion</label>
 					<div class="col-sm-10">
 						<p:inputTextarea id="inputdesc"
 							value="#{ongMB.desc}"
-							styleClass="form-control" disabled="#{ongMB.readOnly}"/>
+							styleClass="form-control"  disabled="#{ongMB.readOnly}"/>
 					</div>
 
 				</h:panelGroup>
@@ -55,10 +59,10 @@
 			</h:panelGrid>
 			
 			<h:panelGrid id="panel2Id" columns="3" columnClasses="izq top, cen top, top" >
-				<p:spacer width="200px"/>
+				<p:spacer width="10px"/>
 				<p:dataTable id="catastrofesTbl" var="cat" value="#{ongMB.catsOng}"
 				 selection="#{ongMB.selectedCat}"
-			    style=" width:650px" rowKey="#{cat.id}">
+			    style=" width:650px; margin-left:30%" rowKey="#{cat.id}">
 			    
 			    <p:column selectionMode="multiple" style="width:30px;text-align:center"/>	
 			    
@@ -70,7 +74,7 @@
 						</p:column>						
 				</p:dataTable>
 				<h:panelGrid columns="1">
-					<p:commandButton  value="+" onclick="PF('catastrofesDlg').show();" disabled="#{ongMB.readOnly}" styleClass="button2" />
+					<p:commandButton  value="+" onclick="PF('catastrofesDlg').show();" disabled="#{ongMB.readOnly}" styleClass="button2"  />
 					<p:commandButton  value="-" actionListener="#{ongMB.removeCat}" update=":form:catastrofesTbl" disabled="#{ongMB.readOnly}" styleClass="button2" style="width:38px"/>
 				</h:panelGrid>
 				

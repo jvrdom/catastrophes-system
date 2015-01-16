@@ -1,5 +1,7 @@
 package com.catastrofe.view;
 
+import java.util.Date;
+
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -7,7 +9,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.catastrofe.dao.Audit_LoginDao;
 import com.catastrofe.dao.UsuarioDao;
+import com.catastrofe.model.Audit_Login;
 import com.catastrofe.model.Usuario;
 
 @Named
@@ -24,6 +28,9 @@ public class LoginBean {
 	@Inject
 	private UsuarioDao usuarioDao;
 
+	@Inject
+	private Audit_LoginDao auditDao;
+	
 	public LoginBean() {
 		
 	}
@@ -35,8 +42,13 @@ public class LoginBean {
 			
 			if(usuario != null){
 				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", usuario);
-				if(usuario.getRol().getName().equals("administrador")){
-					return "usuario/create?faces-redirect=true";
+				Audit_Login audit=new Audit_Login();
+				audit.setFecha(new Date());
+				audit.setUsuario_id(usuario.getId());
+				audit.setUsuario_rol(usuario.getRol().getName());
+				auditDao.create(audit);
+				if(usuario.getRol().getName().equals("administrador")){							
+					return "catastrofe/create?faces-redirect=true";
 				} else if (usuario.getRol().getName().equals("usuario")) {
 					return "usuario/index?faces-redirect=true";
 				} else {

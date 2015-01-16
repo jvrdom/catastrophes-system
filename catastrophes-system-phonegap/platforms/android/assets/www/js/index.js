@@ -17,7 +17,9 @@ var app = {
 
     },
     menu: function(){
-        alert('apreto el menu');
+        bootbox.alert('Apreto el menu', function() {
+                            console.log('lgh Apreto el menu');
+        });
     },
     // deviceready Event Handler
     //
@@ -57,8 +59,6 @@ var app = {
     },
 
     lanzarSesion: function(){
-        //quito la imagen de load
-        //alert('en lanzar'); 
         $('#load').addClass("delete");
         $('#menuboton').addClass("novisible");
 
@@ -313,7 +313,10 @@ var app = {
         console.log('lgh en successHandler(registrando para push): Callback Success! Result = '+result )
     },
     errorHandler: function(error) {
-        alert(error);
+        //alert(error);
+        bootbox.alert(error, function() {
+                            console.log('lgh error: ' + error);
+        });
     },
     onNotificationGCM: function(e) {
         switch( e.event )
@@ -324,23 +327,36 @@ var app = {
                     //asigno a la app el regid obtenido
                     app.regid = e.regid;
                     console.log("lgh Regid " + e.regid);
+                    // HACER LLAMA AL SERVICIO DE UPDATE DE USUARIO 
+                    // PARA SETEARLE EL REGID
                 }
             break;
  
             case 'message':
-              // this is the actual push notification. its format depends on the data model from the push server
-              alert('message = '+e.message+' msgcnt = '+e.msgcnt);
-              app.persistirLocal();
+                // this is the actual push notification. its format depends on the data model from the push server
+                //alert('message = '+e.message+' msgcnt = '+e.msgcnt);
+                bootbox.alert('message = '+e.message+' msgcnt = '+e.msgcnt, function() {
+                            console.log('lgh message = '+e.message+' msgcnt = '+e.msgcnt);
+                });
+                app.persistirLocal();
 
             break;
  
             case 'error':
-              alert('GCM error = '+e.msg);
+                //alert('GCM error = '+e.msg);
+                bootbox.alert('GCM error = '+e.msg, function() {
+                            console.log('lgh GCM error = '+e.msg);
+                });
+
             break;
  
             default:
-              alert('An unknown GCM event has occurred');
-              break;
+                //alert('An unknown GCM event has occurred');
+                bootbox.alert('Un error desconocido de GCM Google Cloud Message ha ocurrido ', function() {
+                            console.log('lgh Un error desconocido de GCM Google Cloud Message ha ocurrido');
+                });
+
+                break;
         }
     },
 
@@ -510,7 +526,7 @@ var app = {
 
         if(evento==="addCatastrofeLocation"){
             $('#menuoffcanvas').removeClass("in canvas-slid");
-            $('#listCatastrofe').removeClass("visible");
+            $('#listCatastrofe').removeClass("visible");                
             //document.addEventListener("backbutton", function(){$('#listCatastrofe').removeClass("visible");}, false);
         }
 
@@ -546,9 +562,19 @@ var app = {
                 idUsuario = response.id;
                 console.log('lgh login success ' + JSON.stringify(response)) ;
 
-                if(idUsuario==0) alert('Credenciales invalidas, intente de nuevo');
+                if(idUsuario==0) {
+                    //alert('Credenciales invalidas, intente de nuevo');
+                    bootbox.alert('Credenciales invalidas, intente de nuevo', function() {
+                            console.log('lgh En login. Se produjo un error: if(idUsuario==0) ');
+                    });
+                }
                 else{
-                    if(idUsuario<0) alert('Se produjo un error, intente de nuevo');
+                    if(idUsuario<0){
+                        //alert('Se produjo un error, intente de nuevo');
+                        bootbox.alert('Se produjo un error, intente de nuevo', function() {
+                            console.log('lgh En login. Se produjo un error: if(idUsuario<0){ ');
+                        });
+                    }
                     else{
                         app.noCerrar(noCerrarSesion,email);
                         window.localStorage.setItem("idUsuario", idUsuario);
@@ -562,13 +588,17 @@ var app = {
                 //     onlineFunction();
                 // }
             },
-             error: function(xhr, textStatus, errorThrown) {
-                alert('Se produjo un error: ' + errorThrown );
-                  //  + ( errorThrown ? errorThrown : 
+            error: function(xhr, textStatus, errorThrown) {
+                bootbox.alert('Se produjo un error: ' + errorThrown, function() {
+                            console.log('lgh En Login, se produjo error: ' + errorThrown);
+                });
+                //alert('Se produjo un error: ' + errorThrown );
+                //  + ( errorThrown ? errorThrown : 
                 //xhr.status );
             }
         });
 
+ 
     },
 
     fabrica: function(){ //data puedo pasarlo por parametro
@@ -584,8 +614,7 @@ var app = {
                 sino alertar */
         }
 
-        //var url = "http://192.168.1.41:8080/catastrophes-system-web/rest/ServicesRescatista/catastrofes";
-        var url = "http://"+app.hostservidor+":8080/catastrophes-system-web/rest/ServicesRescatista/catastrofes";
+        var url = "http://"+app.hostservidor+":8080/catastrophes-system-web/rest/catastrofes/";
         $.ajax({ 
             type: "GET",
             //data: form,
@@ -619,7 +648,10 @@ var app = {
                 //app.setAppCatastrofe(seleccionada); 
                 app.setAppCatastrofe(1); 
                 app.refreshCatastrofe();
-                alert('Se produjo un error al actualizar catastrofes: ' + errorThrown );
+                //alert('Se produjo un error al actualizar catastrofes: ' + errorThrown );
+                //bootbox.alert('Se produjo un error al actualizar catastrofes: ' + errorThrown, function() {
+                //     console.log("lgh error al actualizar catastrofes ");
+                //});
             }
         });
 
@@ -643,6 +675,9 @@ var app = {
             // $("#planriesgo").click(function(){
             //     alert(app.planRiesgo);
             // });
+            //alert('ready');
+            
+            
 
             $("#aCatastrofes").click(function(){
                 app.dom('catastrofes');
@@ -815,7 +850,8 @@ var app = {
 
 //app.hostservidor = "192.168.1.42";
 //app.hostservidor = "172.16.102.205";
-app.hostservidor = "192.168.1.41";
+//app.hostservidor = "192.168.1.41";
+app.hostservidor = "172.16.100.4";
 //app.hostservidor = "172.16.100.4";
 app.map = null; 
 

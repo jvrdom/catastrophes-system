@@ -2,6 +2,7 @@ package com.catastrofe.view;
 
 
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -46,6 +47,7 @@ public class OngMB implements Serializable{
 	private boolean created;
 	private String name;
 	private String desc;
+	private String mail;
 
 	 
 	@PostConstruct
@@ -61,12 +63,28 @@ public class OngMB implements Serializable{
 			catastrofes=catastrofeDao.getAll();
 			readOnly=true;
 
-			Usuario usuario=(Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
-			System.out.println("****usuario:"+usuario.getNombre());
 
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
+	}
+
+
+
+	
+
+
+	public String getMail() {
+		return mail;
+	}
+
+
+
+
+
+
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 
 
@@ -200,6 +218,7 @@ public class OngMB implements Serializable{
 		catsOng=new ArrayList<Catastrofe>(selectedOng.getCatastrofes());
 		name=selectedOng.getNombre();
 		desc=selectedOng.getDescripcion();
+		mail=selectedOng.getPaypalMail();
 	}
 	
 	
@@ -225,6 +244,7 @@ public class OngMB implements Serializable{
 		created=true;
 		name="";
 		desc="";
+		mail="";
 		
 	}
 	public void edit(){
@@ -236,6 +256,7 @@ public class OngMB implements Serializable{
 		Ong ong=new Ong();
 		ong.setNombre(name);
 		ong.setDescripcion(desc);
+		ong.setPaypalMail(mail);
 		Set<Catastrofe> set = new HashSet<Catastrofe>(catsOng);
 		ong.setCatastrofes(set);
 		//ong.setCatastrofes((Set<Catastrofe>) catsOng);
@@ -269,6 +290,7 @@ public class OngMB implements Serializable{
 		created=true;
 		name="";
 		desc="";
+		mail="";
 	}
 	
 	public void deleteOng(){
