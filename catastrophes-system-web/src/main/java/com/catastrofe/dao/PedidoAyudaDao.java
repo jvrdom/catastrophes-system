@@ -64,7 +64,7 @@ public List<PedidoAyuda> findByDate(Date date) {
 }
 
 public List<PedidoAyuda> findbetweenDate(Date dateInicial, Date dateFinal) {
-	TypedQuery<PedidoAyuda> findQuery = em.createQuery("SELECT DISTINCT p FROM PedidoAyuda p LEFT JOIN FETCH p.usuario WHERE p.fecha>=:fechaInicial AND p.fecha>=:fechaFinal ORDER BY p.id", PedidoAyuda.class).setParameter("fechaInicial", dateInicial).setParameter("fechaFinal", dateFinal);
+	TypedQuery<PedidoAyuda> findQuery = em.createQuery("SELECT DISTINCT p FROM PedidoAyuda p LEFT JOIN FETCH p.usuario WHERE p.fechaHora BETWEEN :fechaInicial AND :fechaFinal ORDER BY p.id", PedidoAyuda.class).setParameter("fechaInicial", dateInicial).setParameter("fechaFinal", dateFinal);
 	return findQuery.getResultList();
 }
 }
