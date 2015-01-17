@@ -139,8 +139,7 @@ public class UsuarioBean implements Serializable
         			this.usuario.setRol(roles.get(i));
         		} 
         	}
-        	
-        	//this.usuario.setSexo(this.establecerSexo(sexoAux));
+        
         	if(!this.usuarioDao.existeUsuario(this.usuario.getUser())){
         		this.conversation.end();
         		this.usuarioDao.create(this.usuario);

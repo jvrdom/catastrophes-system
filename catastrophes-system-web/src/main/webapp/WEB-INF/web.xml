@@ -34,6 +34,7 @@
   <filter-name>SecurityFilter</filter-name>
   <url-pattern>/faces/catastrofe/*</url-pattern>
   <url-pattern>/faces/perosnaDesap/*</url-pattern>
+  <url-pattern>/faces/ong/*</url-pattern>
  </filter-mapping>
  <filter-mapping>
   <filter-name>PrimeFaces FileUpload Filter</filter-name>
