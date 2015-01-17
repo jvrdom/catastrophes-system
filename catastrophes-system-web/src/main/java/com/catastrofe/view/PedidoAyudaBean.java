@@ -28,9 +28,13 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.json.JSONException;
+
 import com.catastrofe.dao.PedidoAyudaDao;
+import com.catastrofe.dao.UsuarioDao;
 import com.catastrofe.model.PedidoAyuda;
 import com.catastrofe.model.Usuario;
+import com.catastrofe.utiles.AndroidGCMPushNotification;
 
 /**
  * Backing bean for PedidoAyuda entities.
@@ -50,6 +54,7 @@ public class PedidoAyudaBean implements Serializable
 
    private static final long serialVersionUID = 1L;
    private String latLong;
+   private static final String RESCATISTA = "Rescatista";
 
    /*
     * Support creating and retrieving PedidoAyuda entities
@@ -78,6 +83,8 @@ public class PedidoAyudaBean implements Serializable
    private Conversation conversation;
    @Inject
    private PedidoAyudaDao pedidoAyudaDao;
+   @Inject
+   private UsuarioDao usuarioDao;
 
    @PersistenceContext(type = PersistenceContextType.EXTENDED)
    private EntityManager entityManager;
@@ -144,6 +151,8 @@ public class PedidoAyudaBean implements Serializable
 			this.pedidoAyuda.setUsuario((Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario"));
 			
 			this.pedidoAyudaDao.create(this.pedidoAyuda);
+			this.sendNotification(RESCATISTA);
+			
             FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Su pedido de ayuda ha sido ingresado correctamente",""));
             
             return "search?faces-redirect=true";
@@ -160,6 +169,14 @@ public class PedidoAyudaBean implements Serializable
          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
          return null;
       }
+   }
+   
+   private void sendNotification(String rolUsuario){
+	    try {
+	    	AndroidGCMPushNotification.enviarNotificaciones("10", usuarioDao.getRegIDs(rolUsuario));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
    }
 
    public String delete()

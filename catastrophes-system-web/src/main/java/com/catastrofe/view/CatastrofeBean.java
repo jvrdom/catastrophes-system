@@ -28,14 +28,17 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.json.JSONException;
 import org.primefaces.event.FileUploadEvent;
 
 import com.catastrofe.dao.CatastrofeDao;
+import com.catastrofe.dao.UsuarioDao;
 import com.catastrofe.model.Catastrofe;
 import com.catastrofe.model.Imagen;
 import com.catastrofe.model.Novedades;
 import com.catastrofe.model.Plan;
 import com.catastrofe.model.tipoPlan;
+import com.catastrofe.utiles.AndroidGCMPushNotification;
 import com.catastrofe.utiles.UtilesWeb;
 
 /**
@@ -54,6 +57,7 @@ import com.catastrofe.utiles.UtilesWeb;
 public class CatastrofeBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private static final String RESCATISTA = "Rescatista";
 
 	/*
 	 * Support creating and retrieving Catastrofe entities
@@ -92,6 +96,9 @@ public class CatastrofeBean implements Serializable {
 
 	@Inject
 	private CatastrofeDao catastofeDao;
+	
+	@Inject
+	private UsuarioDao usuarioDao;
 
 	@PersistenceContext(type = PersistenceContextType.EXTENDED)
 	private EntityManager entityManager;
@@ -146,6 +153,9 @@ public class CatastrofeBean implements Serializable {
 				this.catastrofe.setPlanes(this.planes);
 
 				this.catastofeDao.create(this.catastrofe);
+				
+				this.sendNotification(RESCATISTA);
+				
 				return "search?faces-redirect=true";
 			} else {
 				
@@ -267,6 +277,14 @@ public class CatastrofeBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",ex.getMessage()));
 		}
 	}
+	
+	private void sendNotification(String rolUsuario){
+	    try {
+	    	AndroidGCMPushNotification.enviarNotificaciones("10", usuarioDao.getRegIDs(rolUsuario));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+   }
 
 	public String getLatLng() {
 		return latLng;
