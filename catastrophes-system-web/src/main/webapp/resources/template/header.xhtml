@@ -11,24 +11,27 @@
 	    <ui:composition>
 			<ul class="nav nav-pills pull-right" role="tablist">
 				<c:if test="#{not empty usuario}">
+					<li>
+			        	<h:link outcome="/usuario/view" value="Bienvenido #{usuario.user}">
+							<f:param name="id" value="#{usuario.id}"/>
+						</h:link>
+		        	</li>
+					
+					<li><h:link value="Pedido de Ayuda" outcome="/pedidoAyuda/create.xhtml" /></li>
+					
 					<li class="dropdown">
 			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Opciones <span class="caret"></span></a>
 			          <ul class="dropdown-menu" role="menu">
 			            <li><h:link value="Alta de Catastrofes" outcome="/catastrofe/create.xhtml" /></li>
 			            <li><h:link value="Administracion de Ong's" outcome="/ong/ong.xhtml" /></li>
 			            <li><h:link value="Reportes" outcome="/reportes/reporteDonacion.xhtml" /></li>
-			            <li class="divider"></li>
-			            <li><h:link value="Administracion de Rescatista" outcome="/admin/rescatista/rescatista.xhtml" /></li>
 			          </ul>
 			        </li>
-		        	<li><a href="#about">Bienvenido #{usuario.user}</a></li>
-		        	<li role="presentation"><h:link value="Gestión de Planes" outcome="/admin/planes/indexPlanes.xhtml" /></li>
-		        	<li><h:link value="Pedido de Ayuda" outcome="/pedidoAyuda/create.xhtml" /></li>
+		        	
 		        </c:if>
 		        <c:if test="#{empty usuario}">
 		        	<li role="presentation"><h:link value="Registrarse" outcome="/usuario/create.xhtml" /></li>
 		        </c:if>
-				<li role="presentation"><a href="#">Contacto</a></li>
 			</ul>
 			<h3 class="text-muted"> <h:link outcome="/user/userIndex.xhtml" ><h:graphicImage name="images/img1.png" /></h:link></h3>
 			
