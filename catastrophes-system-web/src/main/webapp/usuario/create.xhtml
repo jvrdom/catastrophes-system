@@ -20,7 +20,7 @@
 				class="alert alert-danger" style="display: inline-block;" />
 		</div>
 		<div class="row">
-			<div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+			<div class="col-xs-12 col-sm-6 col-md-8 col-sm-offset-4 col-md-offset-2">
 				<h:form id="formRegistrer">
 					<div class="row">
 						<div class="col-xs-6 col-sm-6 col-md-6">
@@ -69,30 +69,37 @@
 						</div>
 						</div>
 						<div class="col-xs-6 col-sm-6 col-md-6">
-							<div class="row">
-								<div class="col-xs-6 col-sm-6 col-md-6">
-									<p:inputText id="inputelefono"
+							<div class="form-group">
+								<p:inputText id="inputelefono"
 								value="#{usuarioBean.usuario.telefono}" required="true"
 								label="Telefono" styleClass="form-control input-lg" placeholder="Teléfono" tabindex="1" />
-								</div>
-								<div class="col-xs-6 col-sm-6 col-md-6">
-									<p:calendar id="inputdate"
-								value="#{usuarioBean.usuario.nacimiento}" inputStyleClass="form-control input-lg" />
-								</div>
 							</div>
-
+							
 							<div class="form-group">
-								<h:selectOneMenu id="inputtipo" value="#{usuarioBean.rol}"
-								styleClass="selectpicker form-control input-lg">
-								<f:selectItem itemValue="Usuario" />
-								<f:selectItem itemValue="Administrador" />
-								<f:selectItem itemValue="Rescatista" />
-							</h:selectOneMenu>
+								<h:selectOneMenu id="inputtipo" value="#{usuarioBean.rol}" styleClass="selectpicker form-control input-lg">
+									<f:selectItem itemValue="Usuario" />
+									<f:selectItem itemValue="Administrador" />
+									<f:selectItem itemValue="Rescatista" />
+								</h:selectOneMenu>
 							</div>
+							
+							<div class="form-group">
+								<p:calendar id="inputdate" value="#{usuarioBean.usuario.nacimiento}" inputStyleClass="form-control input-lg" />
+							</div>
+							
+							<div class="form-group">   
+								<h:selectOneRadio id="sexo" value="#{usuarioBean.usuario.sexo}">
+									<f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+									<f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+								</h:selectOneRadio>	   
+							</div> 
+
 						</div>
 					</div>
 					<div class="row">
-						<input type="submit" value="Register" class="btn btn-primary btn-block btn-lg" tabindex="7"></input>
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<h:commandButton value="Registrar Usuario" action="#{usuarioBean.update()}" class="btn btn-success btn-block btn-lg"></h:commandButton>
+						</div>
 					</div>
 				</h:form>
 		</div>
