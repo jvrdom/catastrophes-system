@@ -249,6 +249,7 @@ public class OngMB implements Serializable{
 	}
 	public void edit(){
 		created=false;
+		readOnly=false;
 	}
 	public void createOng()
 	{	

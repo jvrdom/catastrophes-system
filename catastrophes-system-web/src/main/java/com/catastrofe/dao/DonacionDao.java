@@ -63,7 +63,7 @@ public List<Donacion> findByDate(Date date) {
 }
 
 public List<Donacion> findbetweenDate(Date dateInicial, Date dateFinal) {
-	TypedQuery<Donacion> findQuery = em.createQuery("SELECT DISTINCT d FROM Donacion d LEFT JOIN FETCH d.usuario LEFT JOIN FETCH d.ong WHERE d.fecha>=:fechaInicial AND d.fecha>=:fechaFinal ORDER BY d.id", Donacion.class).setParameter("fechaInicial", dateInicial).setParameter("fechaFinal", dateFinal);
+	TypedQuery<Donacion> findQuery = em.createQuery("SELECT DISTINCT d FROM Donacion d LEFT JOIN FETCH d.usuario LEFT JOIN FETCH d.ong WHERE d.fecha BETWEEN :fechaInicial AND :fechaFinal  ORDER BY d.id", Donacion.class).setParameter("fechaInicial", dateInicial).setParameter("fechaFinal", dateFinal);
 	 return findQuery.getResultList();
 }
 }
