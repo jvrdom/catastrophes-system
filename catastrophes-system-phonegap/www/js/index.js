@@ -329,6 +329,7 @@ var app = {
                 {
                     //asigno a la app el regid obtenido
                     app.regid = e.regid;
+                    
                     console.log("lgh Regid " + e.regid);
                     console.log('lgh en registered app.email: ' + app.email);
                     console.log('lgh en registered app.regid: ' + app.regid);
