@@ -87,12 +87,11 @@
 						<h4 class="modal-title" id="myModalLabel">Galería de Imágenes</h4>
 					</div>
 					<div class="modal-body text-center">
-						<!-- <p:imageSwitch effect="fade" id="fadeEffect">
-<ui:repeat value="#{of:setToList(catastrofeBean.catastrofe.imagenes)}" var="image" id="fadeEffectImages">
-<p:graphicImage url="#{image.imagen}" width="500" height="400"/>
-</ui:repeat>
-</p:imageSwitch>
--->
+						<p:imageSwitch effect="fade" id="fadeEffect">
+							<ui:repeat value="#{of:setToList(catastrofeBean.catastrofe.imagenes)}" var="image" id="fadeEffectImages">
+								<p:graphicImage url="#{image.imagen}" width="500" height="400"/>
+							</ui:repeat>
+						</p:imageSwitch>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-success" data-dismiss="modal"
@@ -123,7 +122,7 @@
 										fileUploadListener="#{catastrofeBean.handleGalleria}"
 										mode="advanced" dragDropSupport="false" multiple="false"
 										allowTypes="/(\.|\/)(gif|jpe?g|png)$/" label="Elegir Imágenes"
-										cancelLabel="Cancelar" update="messages" />
+										cancelLabel="Cancelar" uploadLabel="Subir" update="messages" />
 								</div>
 							</div>
 						</h:form>
