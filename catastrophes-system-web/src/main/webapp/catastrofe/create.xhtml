@@ -28,6 +28,7 @@
                   			multiple="false" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
                   			label="Elegir Icono"
                   			cancelLabel="Cancelar"
+                  			uploadLabel="Subir"
                   			update="messages" />
 						</div>
 					</div>
@@ -76,6 +77,7 @@
 	                  		multiple="true" allowTypes="/(\.|\/)(pdf)$/"
 	                  		label="Elegir Plan"
 	                  		cancelLabel="Cancelar"
+	                  		uploadLabel="Subir"
 	                  		update="messages" />
 	                  	</div>
 	            	</div>    
@@ -132,15 +134,13 @@
 	              
 	              circle = new google.maps.Circle(circleOptions);
 
-	              radioPre = circle.getRadius();
-				  
 	              google.maps.event.addListener(circle, 'radius_changed', function (){
-
 	            	map.fitBounds(circle.getBounds());		            
 		  	        document.getElementById('form-catastrofe:radio').value = circle.getRadius();				
 		  		  });
 	          
 	              document.getElementById('form-catastrofe:coord').value = circle.getCenter();
+	              document.getElementById('form-catastrofe:radio').value = circle.getRadius();
 	              
 	            } else {
 	              alert('Geocode was not successful for the following reason: ' + status);
