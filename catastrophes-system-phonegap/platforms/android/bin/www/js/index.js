@@ -35,12 +35,14 @@ var app = {
         //app.deleteCatastrofe(); borro si sucsess al bajar la data por web service
         app.checkSesion();
         app.fabrica();
-                            
+        
+        app.getUsuarioForUpdate();
+                    
         app.receivedEvent('deviceready');
         var pushNotification = window.plugins.pushNotification;
         pushNotification.register(app.successHandler, app.errorHandler,{"senderID":"466388852109","ecb":"app.onNotificationGCM"});
 
-
+        
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -296,6 +298,9 @@ var app = {
         var salir = function(){
             navigator.app.exitApp();
         }
+
+        app.email = null;
+        window.localStorage.setItem("idUsuario", 0);
         
         var db = app.db;
         db.transaction(function(tx) {
@@ -324,9 +329,20 @@ var app = {
                 {
                     //asigno a la app el regid obtenido
                     app.regid = e.regid;
+                    
                     console.log("lgh Regid " + e.regid);
-                    // HACER LLAMA AL SERVICIO DE UPDATE DE USUARIO 
+                    console.log('lgh en registered app.email: ' + app.email);
+                    console.log('lgh en registered app.regid: ' + app.regid);
+                    // LLAMA AL SERVICIO DE UPDATE, put DE USUARIO 
                     // PARA SETEARLE EL REGID
+                    if(app.email !== null) {
+                        //alert(' email not null');
+                        setTimeout(function(){ app.putUsuario(app.regid); }, 3000);
+                        //app.putUsuario(app.regid);
+                    }
+                    else{
+                        //alert(' email null');   
+                    }
                 }
             break;
  
@@ -514,6 +530,15 @@ var app = {
             //$("#formIngresar").addClass("novisible");
             $('#map').removeClass("mapFondo");
             $('#menuboton').addClass("visible");
+            //alert('app.regid ' + app.regid);
+            
+            if(app.regid !== null) {
+                app.putUsuarioEnLogin();
+            }
+            else{
+                console.log('lgh en dom , evento login y app.regid === null');
+            }
+
         }
         
         if(evento==="catastrofes"){
@@ -574,6 +599,7 @@ var app = {
                         });
                     }
                     else{
+                        app.email = email;
                         app.noCerrar(noCerrarSesion,email);
                         window.localStorage.setItem("idUsuario", idUsuario);
                         //window.localStorage.setItem("password", password);
@@ -587,8 +613,8 @@ var app = {
                 // }
             },
             error: function(xhr, textStatus, errorThrown) {
-                bootbox.alert('Se produjo un error: ' + errorThrown, function() {
-                            console.log('lgh En Login, se produjo error: ' + errorThrown);
+                bootbox.alert('Ingrese email y password para ingresar ' , function() {
+                            console.log('lgh En Login, se produjo error: ingrese email y password ' + errorThrown);
                 });
                 //alert('Se produjo un error: ' + errorThrown );
                 //  + ( errorThrown ? errorThrown : 
@@ -653,7 +679,89 @@ var app = {
             }
         });
 
+    },
 
+    putUsuarioEnLogin: function(){
+        app.getUsuarioForUpdate();
+        setTimeout(function(){ app.putUsuario(app.regid); }, 3000);
+    },
+
+    //getUsuarioForUpdate: function(id, pregId){
+    getUsuarioForUpdate: function(){
+        var id = window.localStorage.getItem("idUsuario");
+        if(app.email === null) { console.log('lgh en getUsuarioForUpdate (app.email === null) ');}
+        else{ 
+            console.log('lgh en getUsuarioForUpdate id: ' + id);
+            var usuarioJson = {};
+            var url = "http://"+app.hostservidor+":8080/catastrophes-system-web/rest/usuarios/"+id;
+            
+            $.ajax({ 
+                type: "GET",
+                //data: form,
+                url: url,
+                contentType: "application/json",//; charset=utf-8",
+                dataType: "json",
+                crossDomain: true,
+                //cache: false,
+                timeout: 20 * 1000,
+                success:function(response)
+                {   
+                    usuarioJson = response;
+                    //usuarioJson.regId = pregId;
+                    app.usuario = usuarioJson;
+                    window.localStorage.setItem("appUsuario", usuarioJson);
+
+                    console.log('lgh en get rest/usuarios/id , usuario: ' + JSON.stringify(usuarioJson));                    
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    bootbox.alert('Se produjo un error al traer usuario: ' + errorThrown, function() {
+                                console.log('lgh en get rest/usuarios/"+id, se produjo error: ' + errorThrown);
+                    });
+                }
+            });
+        }
+    },
+
+    putUsuario: function(pRegId){        
+        app.usuario.regid = pRegId;
+        console.log('lgh en put rest/usuarios/id , app.usuario: ' + JSON.stringify(app.usuario) );
+        
+        url = "http://"+app.hostservidor+":8080/catastrophes-system-web/rest/usuarios/"+ app.usuario.id;
+        
+        $.ajax({ 
+            type: "PUT",
+            data: JSON.stringify({ 
+                id: app.usuario.id ,
+                version: app.usuario.version ,
+                user: app.usuario.user ,
+                password: app.usuario.password,
+                rol: app.usuario.rol,
+                nombre: app.usuario.nombre,
+                apellido: app.usuario.test,
+                nacimiento: app.usuario.nacimiento,
+                telefono: app.usuario.telefono ,
+                email: app.usuario.email,
+                regId: app.usuario.regid,
+                sexo: app.usuario.sexo
+            }),
+            url: url,
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            timeout: 20 * 1000,
+            success:function()
+            {   
+                alert('anduvo');
+                // bootbox.alert('Se actualizo el usuario con regid con exito: ' + response, function() {
+                //     console.log('lgh en POST rest/usuarios/" , data: ' + data);
+                // });
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                bootbox.alert('Se produjo un error en put usuario: ' + errorThrown, function() {
+                            console.log('lgh en put rest/usuarios/"+id, se produjo error: ' + errorThrown);
+                });
+            }
+        });
+        
     },
 
     backButton: function(){
@@ -846,14 +954,17 @@ var app = {
     
 };
 
-//app.hostservidor = "192.168.1.42";
+app.hostservidor = "192.168.1.42";
 //app.hostservidor = "172.16.102.205";
 //app.hostservidor = "192.168.1.41";
-app.hostservidor = "172.16.100.4";
 //app.hostservidor = "172.16.100.4";
+//app.hostservidor = "172.16.100.4";
+
 app.map = null; 
 
 app.email = null; // sesion
+
+app.usuario = null;
 
 app.regid = null;
 
