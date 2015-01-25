@@ -9,6 +9,7 @@
       xmlns:c="http://java.sun.com/jsp/jstl/core">
     <body>
 	    <ui:composition>
+	    <h:form id="formHeader">
 			<ul class="nav nav-pills pull-right" role="tablist">
 				<c:if test="#{not empty usuario}">
 					<li>
@@ -25,6 +26,7 @@
 			            <li><h:link value="Alta de Catastrofes" outcome="/catastrofe/create.xhtml" /></li>
 			            <li><h:link value="Administracion de Ong's" outcome="/ong/ong.xhtml" /></li>
 			            <li><h:link value="Reportes" outcome="/reportes/reporteDonacion.xhtml" /></li>
+			            <li><p:commandLink value="Cerrar Sesión"  action="#{loginBean.doLogout}" style="font-size: 10pt;"  ajax="false" immediate="true" /></li>
 			          </ul>
 			        </li>
 		        	
@@ -34,7 +36,7 @@
 		        </c:if>
 			</ul>
 			<h3 class="text-muted"> <h:link outcome="/user/userIndex.xhtml" ><h:graphicImage name="images/img1.png" /></h:link></h3>
-			
+			</h:form>
 	    </ui:composition>
     </body>
 </html>
