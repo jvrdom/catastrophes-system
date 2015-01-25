@@ -196,50 +196,44 @@ public class CatastrofeBean implements Serializable {
 			this.entityManager.flush();
 			return "search?faces-redirect=true";
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(e.getMessage()));
 			return null;
 		}
 	}
 
 	public void handleFileUploadImagen(FileUploadEvent event) {
 		try {
-			this.catastrofe.setLogo(utiles.fileUpload(event.getFile()
-					.getFileName(), event.getFile().getInputstream()));
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Succesful", event.getFile().getFileName()
-							+ " is uploaded.");
+			this.catastrofe.setLogo(utiles.fileUpload(event.getFile().getFileName(), event.getFile().getInputstream()));
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Exito", event.getFile().getFileName() + " esta subido.");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		} catch (IOException e) {
-			FacesMessage message = new FacesMessage(
-					FacesMessage.SEVERITY_ERROR, "Fail!",
-					"Failed to upload file: " + event.getFile().getFileName()
-							+ ", reason: " + e.getMessage());
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fallo!","Fallo al subir archivo: " + event.getFile().getFileName() + ", razón: " + e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
 
 	public void handleFileUpload(FileUploadEvent event) {
 		try {
-
+			
+			String fileName = event.getFile().getFileName();
 			Plan plan = new Plan();
-			plan.setUrl(utiles.fileUpload(event.getFile().getFileName(), event
-					.getFile().getInputstream()));
-			plan.setDescripcion("Esta es una descripcion de prueba");
-			plan.setTipo(tipoPlan.Emergencia);
+			plan.setUrl(utiles.fileUpload(fileName, event.getFile().getInputstream()));
+			
+			if(utiles.isEmergencia(fileName)) {
+				plan.setDescripcion("Plan de Emergencia");
+				plan.setTipo(tipoPlan.Emergencia);
+			} else {
+				plan.setDescripcion("Plan de Gestión de Riesgos");
+				plan.setTipo(tipoPlan.Riesgo);
+			}
 
 			planes.add(plan);
 
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Succesful", event.getFile().getFileName()
-							+ " is uploaded.");
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Exito", event.getFile().getFileName()+ " esta subido.");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 
 		} catch (IOException e) {
-			FacesMessage message = new FacesMessage(
-					FacesMessage.SEVERITY_ERROR, "Fail!",
-					"Failed to upload file: " + event.getFile().getFileName()
-							+ ", reason: " + e.getMessage());
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fallo!","Fallo al subir el archivo: " + event.getFile().getFileName() + ", razón: " + e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
@@ -251,10 +245,7 @@ public class CatastrofeBean implements Serializable {
 		try {
 			imagen.setImagen(utiles.fileUpload(event.getFile().getFileName(), event.getFile().getInputstream()));
 		} catch (IOException e) {
-			FacesMessage message = new FacesMessage(
-					FacesMessage.SEVERITY_ERROR, "Fail!",
-					"Failed to upload file: " + event.getFile().getFileName()
-							+ ", reason: " + e.getMessage());
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fallo!", "Fallo al subir el archivo: " + event.getFile().getFileName() + ", razón: " + e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 		
@@ -263,9 +254,7 @@ public class CatastrofeBean implements Serializable {
 		
 		this.update();
 		
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
-				"Succesful", event.getFile().getFileName()
-						+ " is uploaded.");
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,	"Exito", event.getFile().getFileName() + " esta subido.");
 		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 	

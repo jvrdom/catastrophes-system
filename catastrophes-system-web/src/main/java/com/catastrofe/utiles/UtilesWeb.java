@@ -186,4 +186,14 @@ public class UtilesWeb {
 		}
 	}
 	
+	public boolean isEmergencia(String fileName){
+		
+		boolean result = false; 
+		
+		if(fileName.toLowerCase().contains("emergencia"))
+			result = true;
+		
+		return result;
+	}
+	
 }

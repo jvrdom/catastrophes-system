@@ -47,22 +47,22 @@ public class LoginBean {
 				audit.setUsuario_id(usuario.getId());
 				audit.setUsuario_rol(usuario.getRol().getName());
 				auditDao.create(audit);
-				if(usuario.getRol().getName().equals("administrador")){							
+				if(usuario.getRol().getName().toLowerCase().equals("administrador")){							
 					return "catastrofe/create?faces-redirect=true";
-				} else if (usuario.getRol().getName().equals("usuario")) {
+				} else if (usuario.getRol().getName().toLowerCase().equals("usuario")) {
 					return "usuario/index?faces-redirect=true";
 				} else {
 					return "usuario/view?faces-redirect=true";
 				}
 				
 			} else {
-				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Invalid Login!","Please Try Again!"));
+				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Login Invalido!","Intente de Nuevo!"));
 				return "login?faces-redirect=false";
 			}
 			
 		}catch(Exception ex){
 			ex.printStackTrace();
-			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",ex.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al Iniciar Sesion",ex.getMessage()));
 			return "login?faces-redirect=false";
 		}
 		
