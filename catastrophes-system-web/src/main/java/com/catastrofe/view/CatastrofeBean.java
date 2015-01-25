@@ -70,7 +70,8 @@ public class CatastrofeBean implements Serializable {
 	private Set<Plan> planes;
 	private Set<Imagen> imagenesCatastrofe;
 	private Set<Novedades> novedadesCatastrofe;
-
+	private String estilo;
+	
 	public CatastrofeBean() {
 		utiles = new UtilesWeb();
 		planes = new HashSet<Plan>();
@@ -84,6 +85,18 @@ public class CatastrofeBean implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	
+
+	public String getEstilo() {
+		return estilo;
+	}
+
+	public void setEstilo(String estilo) {
+		this.estilo = estilo;
+	}
+
+
 
 	private Catastrofe catastrofe;
 
@@ -122,6 +135,7 @@ public class CatastrofeBean implements Serializable {
 			this.catastrofe = this.example;
 		} else {
 			this.catastrofe = findById(getId());
+			estilo=catastrofe.getCss();
 		}
 	}
 
@@ -151,7 +165,9 @@ public class CatastrofeBean implements Serializable {
 				this.catastrofe.setLongitud(lng);
 				this.catastrofe.setRadio(this.radio);
 				this.catastrofe.setPlanes(this.planes);
-
+				if(estilo!=null && !estilo.isEmpty()){
+					this.catastrofe.setCss(estilo.trim()+".css");
+				}
 				this.catastofeDao.create(this.catastrofe);
 				
 				this.sendNotification(RESCATISTA);

@@ -62,7 +62,10 @@ public class Catastrofe implements Serializable
 
    @Column
    private tipoCatastrofe tipoCatastrofe;
-
+   
+   @Column
+   private String css;
+   
    public Long getId()
    {
       return this.id;
@@ -81,6 +84,16 @@ public class Catastrofe implements Serializable
    public void setVersion(final int version)
    {
       this.version = version;
+   }
+   
+   
+
+   public String getCss() {
+	return css;
+   }
+
+   public void setCss(String css) {
+	this.css = css;
    }
 
    @Override
