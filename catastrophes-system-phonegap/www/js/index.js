@@ -40,7 +40,7 @@ var app = {
                     
         app.receivedEvent('deviceready');
         var pushNotification = window.plugins.pushNotification;
-        pushNotification.register(app.successHandler, app.errorHandler,{"senderID":"466388852109","ecb":"app.onNotificationGCM"});
+        pushNotification.register(app.successHandler, app.errorHandler,{"senderID":"641130337481","ecb":"app.onNotificationGCM"});
 
         
     },
@@ -349,9 +349,42 @@ var app = {
             case 'message':
                 // this is the actual push notification. its format depends on the data model from the push server
                 //alert('message = '+e.message+' msgcnt = '+e.msgcnt);
-                bootbox.alert('message = '+e.message+' msgcnt = '+e.msgcnt, function() {
+                var obj = jQuery.parseJSON(e.message);
+                
+                /*bootbox.alert('message = '+ e.message , function() {
                             console.log('lgh message = '+e.message+' msgcnt = '+e.msgcnt);
                 });
+                */
+
+                bootbox.dialog ({
+                    title: obj.title,
+                    message: 
+                        '<div class="row"> ' +
+                            '<div class="col-md-12"> ' + 
+                                '<form class="form-horizontal"> ' +
+                                    '<div class="form-group"> ' +
+                                        '<label class="col-md-4 control-label" for="name">Descripción:</label> ' +
+                                        '<div class="col-md-4"> ' +
+                                            '<h2>' + obj.description + '</h2>' + 
+                                        '</div> ' +
+                                    '</div> ' +
+                                    '<div class="form-group"> ' +
+                                        '<label class="col-md-4 control-label" for="name">Fecha:</label> ' +
+                                        '<div class="col-md-4"> ' +
+                                            '<h2>' + new Date(obj.dateAdded) + '</h2>' + 
+                                        '</div> ' +
+                                    '</div> ' +
+                                '</form>' + 
+                            '</div>' + 
+                        '</div>',
+                    buttons : {
+                        success: {
+                            label: "Ok",
+                            className: "btn-success"
+                        }
+                    }
+                });
+
                 app.persistirLocal();
 
             break;
@@ -954,7 +987,7 @@ var app = {
     
 };
 
-app.hostservidor = "192.168.1.42";
+app.hostservidor = "192.168.1.35";
 //app.hostservidor = "172.16.102.205";
 //app.hostservidor = "192.168.1.41";
 //app.hostservidor = "172.16.100.4";

@@ -55,11 +55,15 @@ public class PedidoAyudaBean implements Serializable
    private static final long serialVersionUID = 1L;
    private String latLong;
    private static final String RESCATISTA = "Rescatista";
+   private AndroidGCMPushNotification notifications;
 
    /*
     * Support creating and retrieving PedidoAyuda entities
     */
-
+   public PedidoAyudaBean() {
+	   notifications = new AndroidGCMPushNotification();
+   }
+   
    private Long id;
 
    public Long getId()
@@ -151,7 +155,7 @@ public class PedidoAyudaBean implements Serializable
 			this.pedidoAyuda.setUsuario((Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario"));
 			
 			this.pedidoAyudaDao.create(this.pedidoAyuda);
-			this.sendNotification(RESCATISTA);
+			this.sendNotification(RESCATISTA, this.pedidoAyuda);
 			
             FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Su pedido de ayuda ha sido ingresado correctamente",""));
             
@@ -171,9 +175,9 @@ public class PedidoAyudaBean implements Serializable
       }
    }
    
-   private void sendNotification(String rolUsuario){
+   private void sendNotification(String rolUsuario, Object object){
 	    try {
-	    	AndroidGCMPushNotification.enviarNotificaciones("10", usuarioDao.getRegIDs(rolUsuario));
+	    	notifications.enviarNotificaciones("10", usuarioDao.getRegIDs(rolUsuario), object);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

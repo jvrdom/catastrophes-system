@@ -154,7 +154,7 @@ public class CatastrofeBean implements Serializable {
 
 				this.catastofeDao.create(this.catastrofe);
 				
-				this.sendNotification(RESCATISTA);
+				//this.sendNotification(RESCATISTA);
 				
 				return "search?faces-redirect=true";
 			} else {
@@ -267,13 +267,13 @@ public class CatastrofeBean implements Serializable {
 		}
 	}
 	
-	private void sendNotification(String rolUsuario){
+	/*private void sendNotification(String rolUsuario){
 	    try {
-	    	AndroidGCMPushNotification.enviarNotificaciones("10", usuarioDao.getRegIDs(rolUsuario));
+	    	//AndroidGCMPushNotification.enviarNotificaciones("10", usuarioDao.getRegIDs(rolUsuario));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-   }
+    }*/
 
 	public String getLatLng() {
 		return latLng;
