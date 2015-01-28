@@ -23,12 +23,14 @@ public class BusquedaPersonaDesaparecidaBean {
 	private List<PerosnaDesap> personasDesaparecidas;
 	private Catastrofe catastrofe;
 	private long idCatastrofe;
+	private String estilo;
 	
 	@PostConstruct
 	public void init(){
 		
 		catastrofe = (Catastrofe) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("catastrofe");
 		idCatastrofe =  catastrofe.getId();
+		estilo=catastrofe.getCss();
 		
 		try{
 		personasDesaparecidas = personDesDao.getPersonasByCatastrofe(idCatastrofe);
@@ -55,6 +57,14 @@ public class BusquedaPersonaDesaparecidaBean {
 
 	public void setSearch(String search) {
 		this.search = search;
+	}
+	
+	public String getEstilo() {
+		return estilo;
+	}
+
+	public void setEstilo(String estilo) {
+		this.estilo = estilo;
 	}
 
 	public List<PerosnaDesap> getPersonasDesaparecidas() {

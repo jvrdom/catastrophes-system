@@ -68,7 +68,7 @@ public class LoginBean {
 		
 	}
 	
-	public String logout(){
+	/*public String logout(){
 		try{
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
 			return "login?faces-redirect=true";
@@ -77,6 +77,26 @@ public class LoginBean {
 			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",ex.getMessage()));
 			return "";
 		}
+		
+	}*/
+	public String doLogout() {
+        try {
+            limpiarUsuario();
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
+            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+            System.out.println("en logout***********");
+        } catch (Exception ex) {
+        	ex.printStackTrace();
+        	FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",ex.getMessage()));
+            return null;
+        }
+        return "/login?faces-redirect=true";
+    }
+
+	private void limpiarUsuario() {
+		usuario=null;
+		user="";
+		password="";
 		
 	}
 

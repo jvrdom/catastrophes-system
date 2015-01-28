@@ -68,10 +68,13 @@ public class PerosnaDesapBean implements Serializable
    private UtilesWeb utiles;
    private Set<Imagen> imagenesPersonDes;
    private String coordenadas;
+   private String estilo;
    
    public PerosnaDesapBean() {
 	   utiles = new UtilesWeb();
 	   imagenesPersonDes = new HashSet<Imagen>();
+	   Catastrofe catastrofe=(Catastrofe) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("catastrofe");
+	   estilo=catastrofe.getCss();
    }
    
    /*
@@ -89,8 +92,16 @@ public class PerosnaDesapBean implements Serializable
    {
       this.id = id;
    }
+   
+   public String getEstilo() {
+	return estilo;
+}
 
-   private PerosnaDesap perosnaDesap;
+public void setEstilo(String estilo) {
+	this.estilo = estilo;
+}
+
+private PerosnaDesap perosnaDesap;
 
    public PerosnaDesap getPerosnaDesap()
    {

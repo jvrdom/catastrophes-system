@@ -29,6 +29,9 @@ public class Novedades implements Serializable
    
    @Column
    private String thumbnail;
+   
+   @Column
+   private String tipo;
 
    public Long getId()
    {
@@ -59,8 +62,17 @@ public class Novedades implements Serializable
    {
 	   this.thumbnail = thumbnail;
    }
+   
 
-   @Override
+   public String getTipo() {
+	return tipo;
+}
+
+public void setTipo(String tipo) {
+	this.tipo = tipo;
+}
+
+@Override
    public boolean equals(Object obj)
    {
       if (this == obj)

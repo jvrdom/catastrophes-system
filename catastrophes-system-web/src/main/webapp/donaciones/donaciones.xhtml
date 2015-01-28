@@ -10,11 +10,14 @@
 
 
 	<ui:define name="content">
-	<script type="text/javascript">
-		
-		var element=document.getElementById('idForm');
-		
-	</script>
+	
+	<f:facet name="last">
+    		<h:outputStylesheet name="#{donacionesMB.estilo}" />
+			<h:outputStylesheet name="bootstrap-select.css" />
+			<h:outputStylesheet name="bootstrap-lightbox/ekko-lightbox.min.css" />
+			<h:outputStylesheet name="style.css" />
+			<h:outputStylesheet name="styleUser.css" />
+		</f:facet>
 	
 	<h:outputStylesheet library="css" name="css/style.css" /> 
 		<h:form id="form" >

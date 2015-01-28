@@ -46,6 +46,7 @@ public class DonacionesMB implements Serializable {
 	private Usuario usuario;
 	private Catastrofe catastrofe;
 	private String selectedOngMail;
+	private String estilo;
 	
 	@PostConstruct
 	public void init(){
@@ -53,6 +54,7 @@ public class DonacionesMB implements Serializable {
 			System.out.println("*******PostConstruct");
 			usuario=(Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
 			catastrofe=(Catastrofe) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("catastrofe");
+			estilo=catastrofe.getCss();
 			ongs=ongDao.findOngByCatastrofe(catastrofe.getId());
 			horasDonacion=0;
 			montoDonacion=0;
@@ -152,6 +154,17 @@ public class DonacionesMB implements Serializable {
 		this.horasDonacion = horasDonacion;
 	}
 	
+	
+	public String getEstilo() {
+		return estilo;
+	}
+
+
+	public void setEstilo(String estilo) {
+		this.estilo = estilo;
+	}
+
+
 	public void crearDonacionEco(){
 		if(selectedOngDonacion==null){
 			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN, "Datos Incompletos", "Debe seleccionar una ong destinataria."));
