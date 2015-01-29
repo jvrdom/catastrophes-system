@@ -24,6 +24,9 @@
 	        <div class="collapse navbar-collapse pull-right">
 	          <ul class="nav navbar-nav">
 	          	<c:if test="#{ not empty usuario}">
+	          		<li>
+			        	<h:link outcome="/usuario/index" value="Inicio"/>							
+		        	</li>
 	            	<li><a href="#about">Bienvenido #{usuario.email}</a></li>
 	            	<li><h:link value="Pedido de Ayuda" outcome="/pedidoAyuda/create.xhtml" /></li>
 	            </c:if>

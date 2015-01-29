@@ -172,7 +172,7 @@ public class CatastrofeBean implements Serializable {
 				
 				//this.sendNotification(RESCATISTA);
 				
-				return "search?faces-redirect=true";
+				return "./../usuario/index.xhtml";
 			} else {
 				
 				if(!this.imagenesCatastrofe.isEmpty()) {
