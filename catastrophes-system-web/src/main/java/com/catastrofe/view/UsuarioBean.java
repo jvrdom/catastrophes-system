@@ -143,6 +143,7 @@ public class UsuarioBean implements Serializable
         	}
         
         	if(!this.usuarioDao.existeUsuario(this.usuario.getUser())){
+        		usuario.setSocialAuth(false);
         		this.conversation.end();
 
         		//Genero password encriptado
