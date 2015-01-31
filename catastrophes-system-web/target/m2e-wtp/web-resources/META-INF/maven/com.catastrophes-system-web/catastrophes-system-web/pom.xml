@@ -133,6 +133,16 @@
 		<artifactId>itext</artifactId>
 		<version>2.1.7</version>
 	</dependency>
+	<dependency>
+	<groupId>org.mindrot</groupId>
+		<artifactId>jbcrypt</artifactId>
+		<version>0.3m</version>
+	</dependency>
+	<dependency>
+		<groupId>org.twitter4j</groupId>
+		<artifactId>twitter4j-core</artifactId>
+		<version>4.0.2</version>
+	</dependency>
   </dependencies>
   <repositories>
     <repository>
