@@ -12,9 +12,6 @@
 	xmlns:og="http://ogp.me/ns#"
 	xmlns:fb="http://www.facebook.com/2008/fbml"
 	template="/resources/template/layout.xhtml">
-
-
-
 	<ui:define name="content">
 	<script type="text/javascript" src="resources/simpleFacebookGraph.js"></script>
 	<script type="text/javascript">
@@ -30,10 +27,8 @@
 		    }
 		  })
 		};
-		</script>
-		
-		<h:form id="formLogin" class="form-signin">
-		
+	</script>
+		<h:form id="formLogin" class="form-signin">		
 			<div id="fb-root"></div>
 			<p:growl id="msg" showDetail="true" life="3000" />
 			<h2 class="form-signin-heading text-center">Inicio de Sesión</h2>
@@ -52,11 +47,9 @@
 				class="btn btn-success btn-lg btn-block" update="msg" />
 			<h:commandButton id="btn1" style="display: none"  action="#{loginBean.faceLogin}"/>	
 			<p:commandLink onclick="login();">
-				<p:graphicImage value="/resources/img/facebook.png" />
+				<p:graphicImage style="margin-top:3px;" value="/resources/img/facebook.png" />
 			</p:commandLink>
-			<h:inputHidden id="userFaceId" value="#{loginBean.userFace}" />
-			
-			
+			<h:inputHidden id="userFaceId" value="#{loginBean.userFace}" />			
 		</h:form>
 		
 
