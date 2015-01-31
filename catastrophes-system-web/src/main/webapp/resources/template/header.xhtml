@@ -13,6 +13,9 @@
 			<ul class="nav nav-pills pull-right" role="tablist">
 				<c:if test="#{not empty usuario}">
 					<li>
+			        	<h:link outcome="/usuario/index" value="Inicio"/>							
+		        	</li>
+					<li>
 			        	<h:link outcome="/usuario/view" value="Bienvenido #{usuario.user}">
 							<f:param name="id" value="#{usuario.id}"/>
 						</h:link>
