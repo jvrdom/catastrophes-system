@@ -71,11 +71,13 @@ public class CatastrofeBean implements Serializable {
 	private Set<Imagen> imagenesCatastrofe;
 	private Set<Novedades> novedadesCatastrofe;
 	private String estilo;
+	private AndroidGCMPushNotification notifications;
 	
 	public CatastrofeBean() {
 		utiles = new UtilesWeb();
 		planes = new HashSet<Plan>();
 		imagenesCatastrofe = new HashSet<Imagen>();
+		notifications = new AndroidGCMPushNotification();
 	}
 
 	public Long getId() {
@@ -170,7 +172,7 @@ public class CatastrofeBean implements Serializable {
 				}
 				this.catastofeDao.create(this.catastrofe);
 				
-				//this.sendNotification(RESCATISTA);
+				this.sendNotification(RESCATISTA, this.catastrofe);
 				
 				return "search?faces-redirect=true";
 			} else {
@@ -283,13 +285,13 @@ public class CatastrofeBean implements Serializable {
 		}
 	}
 	
-	/*private void sendNotification(String rolUsuario){
+	private void sendNotification(String rolUsuario, Object object){
 	    try {
-	    	//AndroidGCMPushNotification.enviarNotificaciones("10", usuarioDao.getRegIDs(rolUsuario));
+	    	notifications.enviarNotificaciones("10", usuarioDao.getRegIDs(rolUsuario), object);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-    }*/
+    }
 
 	public String getLatLng() {
 		return latLng;

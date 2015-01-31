@@ -350,33 +350,96 @@ var app = {
                 // this is the actual push notification. its format depends on the data model from the push server
                 //alert('message = '+e.message+' msgcnt = '+e.msgcnt);
                 var obj = jQuery.parseJSON(e.message);
-                
-                /*bootbox.alert('message = '+ e.message , function() {
-                            console.log('lgh message = '+e.message+' msgcnt = '+e.msgcnt);
-                });
-                */
+                var title = obj.title;
+
+                /*bootbox.alert('message = '+ title  , function() {
+                    console.log('lgh message = '+e.message+' msgcnt = '+e.msgcnt);
+                });*/
+                              
+                if(title.indexOf("catástrofe") > -1) {
+                    mensaje = '<div class="row"> ' +
+                        '<div class="col-md-12"> ' + 
+                            '<form class="form-horizontal"> ' +
+                                '<div class="form-group"> ' +
+                                    '<label class="col-md-4 control-label" for="name">Nombre:</label> ' +
+                                    '<div class="col-md-4"> ' +
+                                        '<h2>' + obj.name + '</h2>' + 
+                                    '</div> ' +
+                                '</div> ' +
+                                '<div class="form-group"> ' +
+                                    '<label class="col-md-4 control-label" for="name">Descripción:</label> ' +
+                                    '<div class="col-md-4"> ' +
+                                        '<h2>' + obj.description + '</h2>' + 
+                                    '</div> ' +
+                                '</div> ' +
+                                '<div class="form-group"> ' +
+                                    '<label class="col-md-4 control-label" for="name">Dirección:</label> ' +
+                                    '<div class="col-md-4"> ' +
+                                        '<h2>' + obj.address + '</h2>' + 
+                                    '</div> ' +
+                                '</div> ' +
+                                '<div class="form-group"> ' +
+                                    '<label class="col-md-4 control-label" for="name">Tipo:</label> ' +
+                                    '<div class="col-md-4"> ' +
+                                        '<h2>' + obj.type + '</h2>' + 
+                                    '</div> ' +
+                                '</div> ' +
+                            '</form>' + 
+                        '</div>' + 
+                    '</div>'
+                }
+               
+                if(obj.title.indexOf("ayuda") > -1) {
+                    mensaje = '<div class="row"> ' +
+                                '<div class="col-md-12"> ' + 
+                                    '<form class="form-horizontal"> ' +
+                                        '<div class="form-group"> ' +
+                                            '<label class="col-md-4 control-label" for="name">Descripción:</label> ' +
+                                            '<div class="col-md-4"> ' +
+                                                '<h2>' + obj.description + '</h2>' + 
+                                            '</div> ' +
+                                        '</div> ' +
+                                        '<div class="form-group"> ' +
+                                            '<label class="col-md-4 control-label" for="name">Fecha:</label> ' +
+                                            '<div class="col-md-4"> ' +
+                                                '<h2>' + new Date(obj.dateAdded) + '</h2>' + 
+                                            '</div> ' +
+                                        '</div> ' +
+                                    '</form>' + 
+                                '</div>' + 
+                            '</div>'
+                }
+
+                if(obj.title.indexOf("persona") > -1) {
+                    mensaje = '<div class="row"> ' +
+                                '<div class="col-md-12"> ' + 
+                                    '<form class="form-horizontal"> ' +
+                                        '<div class="form-group"> ' +
+                                            '<label class="col-md-4 control-label" for="name">Nombre:</label> ' +
+                                            '<div class="col-md-4"> ' +
+                                                '<h2>' + obj.name + '</h2>' + 
+                                            '</div> ' +
+                                        '</div> ' +
+                                        '<div class="form-group"> ' +
+                                            '<label class="col-md-4 control-label" for="name">Descripción:</label> ' +
+                                            '<div class="col-md-4"> ' +
+                                                '<h2>' + obj.description + '</h2>' + 
+                                            '</div> ' +
+                                        '</div> ' +
+                                        '<div class="form-group"> ' +
+                                            '<label class="col-md-4 control-label" for="name">Teléfono:</label> ' +
+                                            '<div class="col-md-4"> ' +
+                                                '<h2>' + obj.tel + '</h2>' + 
+                                            '</div> ' +
+                                        '</div> ' +
+                                    '</form>' + 
+                                '</div>' + 
+                            '</div>'
+                }
 
                 bootbox.dialog ({
                     title: obj.title,
-                    message: 
-                        '<div class="row"> ' +
-                            '<div class="col-md-12"> ' + 
-                                '<form class="form-horizontal"> ' +
-                                    '<div class="form-group"> ' +
-                                        '<label class="col-md-4 control-label" for="name">Descripción:</label> ' +
-                                        '<div class="col-md-4"> ' +
-                                            '<h2>' + obj.description + '</h2>' + 
-                                        '</div> ' +
-                                    '</div> ' +
-                                    '<div class="form-group"> ' +
-                                        '<label class="col-md-4 control-label" for="name">Fecha:</label> ' +
-                                        '<div class="col-md-4"> ' +
-                                            '<h2>' + new Date(obj.dateAdded) + '</h2>' + 
-                                        '</div> ' +
-                                    '</div> ' +
-                                '</form>' + 
-                            '</div>' + 
-                        '</div>',
+                    message: mensaje,
                     buttons : {
                         success: {
                             label: "Ok",
@@ -384,7 +447,7 @@ var app = {
                         }
                     }
                 });
-
+                
                 app.persistirLocal();
 
             break;

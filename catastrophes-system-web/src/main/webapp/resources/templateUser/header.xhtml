@@ -26,9 +26,8 @@
 	          	<c:if test="#{ not empty usuario}">
 	            	<li><a href="#about">Bienvenido #{usuario.email}</a></li>
 	            	<li><h:link value="Pedido de Ayuda" outcome="/pedidoAyuda/create.xhtml" /></li>
+	            	<li><p:commandLink value="Cerrar Sesión"  action="#{loginBean.doLogout}" style="font-size: 14px;"  ajax="false" immediate="true" /></li>
 	            </c:if>
-	            <li><a href="#contact">Contact</a></li>
-	            <li><p:commandLink value="Cerrar Sesión"  action="#{loginBean.doLogout}" style="font-size: 10pt;"  ajax="false" immediate="true" /></li>
 	          </ul>
 	        </div>
 	      </div>
