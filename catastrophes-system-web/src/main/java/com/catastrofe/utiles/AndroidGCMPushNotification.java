@@ -23,13 +23,14 @@ public class AndroidGCMPushNotification {
 			//Instancia de com.android.gcm.server.Sender que realiza la transmision
 			//de los mensajes a Google Cloud Messaging Service.
 			//Se le pasa el API KEY obtenido de code.google.com
-	        Sender sender = new Sender("API_KEY");
+			Sender sender = new Sender("API_KEY");
 	        
 	        // Mensaje que contiene los datos que seran transmitidos.
 	        Message message1 = new Message.Builder()
 		        .collapseKey(collapseKey)
 		        .timeToLive(30)
 		        .delayWhileIdle(true)
+		        .addData("title", "Nuevo Evento" )
 		        .addData("message", this.buildObject(object) )
 		        .build();
 	        try 
@@ -92,7 +93,7 @@ public class AndroidGCMPushNotification {
 				jsonObj.put("description", ((PerosnaDesap) object).getDescripcion());
 				jsonObj.put("lat", ((PerosnaDesap) object).getLatitud());
 				jsonObj.put("long", ((PerosnaDesap) object).getLongitud());
-				jsonObj.put("plans", ((PerosnaDesap) object).getImagenes());
+				jsonObj.put("images", ((PerosnaDesap) object).getImagenes());
 				
 			} else {
 				
