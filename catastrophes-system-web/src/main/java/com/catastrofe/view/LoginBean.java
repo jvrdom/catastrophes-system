@@ -1,26 +1,17 @@
 package com.catastrofe.view;
 
-import java.awt.event.ActionListener;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
-import javax.faces.application.ViewHandler;
-import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-<<<<<<< HEAD
 import org.mindrot.jbcrypt.BCrypt;
-=======
 import org.primefaces.context.RequestContext;
->>>>>>> 33a829beaa7b11ddf112c48aed5e8f1a5abc5f8d
 
 import com.catastrofe.dao.Audit_LoginDao;
 import com.catastrofe.dao.RolDao;
@@ -57,53 +48,47 @@ public class LoginBean {
 	
 	public String login(){
 		try{
-<<<<<<< HEAD
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
 			usuario = usuarioDao.findByUserAndPass(user, password);
 			
 			if(usuario != null){
 				if(BCrypt.checkpw(password, usuario.getPassword())) {
-					
-=======
-			if(validarDatos()){
-				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
-				usuario = usuarioDao.findByUserAndPass(user, password);
-				if(usuario != null){
->>>>>>> 33a829beaa7b11ddf112c48aed5e8f1a5abc5f8d
-					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", usuario);
-					Audit_Login audit=new Audit_Login();
-					audit.setFecha(new Date());
-					audit.setUsuario_id(usuario.getId());
-					audit.setUsuario_rol(usuario.getRol().getName());
-					auditDao.create(audit);
-<<<<<<< HEAD
-					
-=======
->>>>>>> 33a829beaa7b11ddf112c48aed5e8f1a5abc5f8d
-					if(usuario.getRol().getName().toLowerCase().equals("administrador")){							
-						return "catastrofe/create?faces-redirect=true";
-					} else if (usuario.getRol().getName().toLowerCase().equals("usuario")) {
-						return "usuario/index?faces-redirect=true";
+					if(validarDatos()){
+						FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
+						usuario = usuarioDao.findByUserAndPass(user, password);
+						if(usuario != null){
+							FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", usuario);
+							Audit_Login audit=new Audit_Login();
+							audit.setFecha(new Date());
+							audit.setUsuario_id(usuario.getId());
+							audit.setUsuario_rol(usuario.getRol().getName());
+							auditDao.create(audit);
+		
+							if(usuario.getRol().getName().toLowerCase().equals("administrador")){							
+								return "catastrofe/create?faces-redirect=true";
+							} else if (usuario.getRol().getName().toLowerCase().equals("usuario")) {
+								return "usuario/index?faces-redirect=true";
+							} else {
+								return "usuario/view?faces-redirect=true";
+							}
+						} else {
+							FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Login Invalido!","Intente de Nuevo!"));
+							return "login?faces-redirect=false";
+						}
 					} else {
-						return "usuario/view?faces-redirect=true";
+						FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Login Invalido!","Intente de Nuevo!"));
+						return "login?faces-redirect=false";
 					}
-<<<<<<< HEAD
-				} else {
+				} else{
 					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Password Incorrecto!","Intente de Nuevo!"));
-=======
-					
-				} else {
-					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"Login Invalido!","Intente de Nuevo!"));
->>>>>>> 33a829beaa7b11ddf112c48aed5e8f1a5abc5f8d
 					return "login?faces-redirect=false";
 				}
-			}else{
+			} else {
+				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"El usuario ingresado no esta ingresado","Intente de Nuevo!"));
 				return "login?faces-redirect=false";
 			}
-				
-			
-			
-		}catch(Exception ex){
+
+		} catch(Exception ex){
 			ex.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error al Iniciar Sesion",ex.getMessage()));
 			return "login?faces-redirect=false";
