@@ -39,8 +39,8 @@ public class LoginBean {
 	@Inject
 	private Audit_LoginDao auditDao;
 	
-	 @Inject
-	 private RolDao rolDao;
+	@Inject
+	private RolDao rolDao;
 	
 	public LoginBean() {
 		
@@ -49,13 +49,12 @@ public class LoginBean {
 	public String login(){
 		try{
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
-			usuario = usuarioDao.findByUserAndPass(user, password);
+			usuario = usuarioDao.findByUser(user);
 			
 			if(usuario != null){
 				if(BCrypt.checkpw(password, usuario.getPassword())) {
 					if(validarDatos()){
 						FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
-						usuario = usuarioDao.findByUserAndPass(user, password);
 						if(usuario != null){
 							FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", usuario);
 							Audit_Login audit=new Audit_Login();
@@ -84,7 +83,7 @@ public class LoginBean {
 					return "login?faces-redirect=false";
 				}
 			} else {
-				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"El usuario ingresado no esta ingresado","Intente de Nuevo!"));
+				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,"El usuario ingresado no esta registrado","Intente de Nuevo!"));
 				return "login?faces-redirect=false";
 			}
 

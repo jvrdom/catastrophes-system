@@ -128,7 +128,7 @@ public class UsuarioBean implements Serializable
 
    public String update()
    {
-      
+	  this.conversation.end();
 
       try
       {
@@ -144,15 +144,16 @@ public class UsuarioBean implements Serializable
         
         	if(!this.usuarioDao.existeUsuario(this.usuario.getUser())){
         		usuario.setSocialAuth(false);
-        		this.conversation.end();
 
         		//Genero password encriptado
         		String hashed = BCrypt.hashpw(this.usuario.getPassword(), BCrypt.gensalt());
         		
         		this.usuario.setPassword(hashed);
         		this.usuarioDao.create(this.usuario);
+        		
                 FacesContext.getCurrentInstance().getExternalContext().redirect("/catastrophes-system-web");
                 return null;
+                
         	}else{
         		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Nombre de usuario ya existe en el sistema","Por favor ingrese otro valor valor"));
         		return "";
