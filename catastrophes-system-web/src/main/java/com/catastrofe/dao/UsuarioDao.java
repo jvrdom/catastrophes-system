@@ -79,4 +79,12 @@ public class UsuarioDao
 	   List<String> resultList = em.createNamedQuery("Usuario.getRegIdsRescatista").setParameter("nombre", rolUsuario).getResultList();
 	   return resultList;
    }
+
+public Usuario findBySocialUser(String mail) {
+	if (em.createNamedQuery("Usuario.findBySocialUser").setParameter("email", mail).getResultList().size() > 0) {
+        return (Usuario) em.createNamedQuery("Usuario.findBySocialUser").setParameter("email", mail).getSingleResult();
+    } else {
+ 	   return null;
+    }
+}
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-	
+
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -9,23 +9,56 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:forgeview="http://jboss.org/forge/view"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:og="http://ogp.me/ns#"
+	xmlns:fb="http://www.facebook.com/2008/fbml"
 	template="/resources/template/layout.xhtml">
 
-  	<ui:define name="content">
+
+
+	<ui:define name="content">
+	<script type="text/javascript" src="resources/simpleFacebookGraph.js"></script>
+	<script type="text/javascript">
+		// Funcion para logarse con Facebook.
+		function login() {
+		  fb.login(function(){ 
+		    if (fb.logged) {			    
+			 
+		     	document.getElementById("formLogin:userFaceId").value=fb.user.first_name+','+fb.user.last_name+','+fb.user.email+','+fb.user.gender;		
+		     	document.getElementById('formLogin:btn1').click();     			     		
+		    } else {
+		      alert("No se pudo identificar al usuario");
+		    }
+		  })
+		};
+		</script>
+		
 		<h:form id="formLogin" class="form-signin">
+		
+			<div id="fb-root"></div>
 			<p:growl id="msg" showDetail="true" life="3000" />
 			<h2 class="form-signin-heading text-center">Inicio de Sesión</h2>
-			<p:inputText id="inputuser" value="#{loginBean.user}" required="true" label="User" styleClass="form-control">
-                    <f:validateLength minimum="2" />
-            </p:inputText>
-            <p:watermark for="inputuser" value="usuario@usuario.com" id="watermarkUser" />
-          	<p:password id="inputpassword" value="#{loginBean.password}" required="true" label="Password" styleClass="form-control">
-                    <f:validateLength minimum="2" />
-            </p:password>
-            <p:watermark for="inputpassword" value="password" id="watermarkPassword" />
-	            
-	        <h:commandButton value="Ingresar" action="#{loginBean.login}" class="btn btn-success btn-lg btn-block" update="msg"/>
-	     </h:form>
-  	</ui:define>  	
+			<p:inputText id="inputuser" value="#{loginBean.user}"
+				label="User" styleClass="form-control">
+			</p:inputText>
+			<p:watermark for="inputuser" value="usuario"
+				id="watermarkUser" />
+			<p:password id="inputpassword" value="#{loginBean.password}"
+				label="Password" styleClass="form-control">
+			</p:password>
+			<p:watermark for="inputpassword" value="password"
+				id="watermarkPassword" />
 
+			<h:commandButton value="Ingresar" action="#{loginBean.login}"
+				class="btn btn-success btn-lg btn-block" update="msg" />
+			<h:commandButton id="btn1" style="display: none"  action="#{loginBean.faceLogin}"/>	
+			<p:commandLink onclick="login();">
+				<p:graphicImage value="/resources/img/facebook.png" />
+			</p:commandLink>
+			<h:inputHidden id="userFaceId" value="#{loginBean.userFace}" />
+			
+			
+		</h:form>
+		
+
+	</ui:define>
 </ui:composition>
