@@ -28,6 +28,13 @@
 		  })
 		};
 	</script>
+	<f:view>
+		<ui:param name="originalURL" value="#{request.requestURI}?#{request.queryString}" />
+		<f:metadata>
+			<f:event rendered="#{empty loginBean.profile}" type="preRenderView" listener="#{loginBean.setOriginalURL(originalURL)}" />
+		</f:metadata>
+	</f:view>
+
 		<h:form id="formLogin" class="form-signin">		
 			<div id="fb-root"></div>
 			<p:growl id="msg" showDetail="true" life="3000" />
@@ -49,7 +56,14 @@
 			<p:commandLink onclick="login();">
 				<p:graphicImage style="margin-top:3px;" value="/resources/img/facebook.png" />
 			</p:commandLink>
-			<h:inputHidden id="userFaceId" value="#{loginBean.userFace}" />			
+			<h:inputHidden id="userFaceId" value="#{loginBean.userFace}" />		
+			<p:commandLink id="twitter" action="#{loginBean.socialConnect}">
+				<f:setPropertyActionListener target="#{loginBean.providerID}" value="twitter" />
+				<p:graphicImage style="margin-top:3px;" value="/resources/img/twitter.png" />
+			</p:commandLink>
+
+
+ 			
 		</h:form>
 		
 

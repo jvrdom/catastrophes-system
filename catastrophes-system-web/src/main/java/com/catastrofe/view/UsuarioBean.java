@@ -151,8 +151,10 @@ public class UsuarioBean implements Serializable
         		this.usuario.setPassword(hashed);
         		this.usuarioDao.create(this.usuario);
         		
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/catastrophes-system-web");
-                return null;
+                
+        		FacesContext.getCurrentInstance().getExternalContext().redirect("/catastrophes-system-web");
+                System.out.println("fallo el redirect*********************************");
+        		return null;
                 
         	}else{
         		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Nombre de usuario ya existe en el sistema","Por favor ingrese otro valor valor"));

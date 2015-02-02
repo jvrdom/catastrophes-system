@@ -80,9 +80,9 @@ public class UsuarioDao
 	   return resultList;
    }
 
-public Usuario findBySocialUser(String mail) {
-	if (em.createNamedQuery("Usuario.findBySocialUser").setParameter("email", mail).getResultList().size() > 0) {
-        return (Usuario) em.createNamedQuery("Usuario.findBySocialUser").setParameter("email", mail).getSingleResult();
+public Usuario findByUser(String mail) {
+	if (em.createNamedQuery("Usuario.findByUser").setParameter("user", mail).getResultList().size() > 0) {
+        return (Usuario) em.createNamedQuery("Usuario.findByUser").setParameter("user", mail).getSingleResult();
     } else {
  	   return null;
     }
