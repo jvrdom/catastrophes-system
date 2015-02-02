@@ -349,7 +349,7 @@ public class LoginBean {
 						.getExternalContext()
 						.redirect(
 								externalContext.getRequestContextPath()
-										+ "/home.xhtml");
+										+ "/login.xhtml");
 			}
 		} catch (Exception ex) {
 			System.out.println("UserSession - Exception: " + ex.toString());
