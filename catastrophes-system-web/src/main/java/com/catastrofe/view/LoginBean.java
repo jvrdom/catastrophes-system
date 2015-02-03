@@ -91,7 +91,7 @@ public class LoginBean {
 									.equals("usuario")) {
 								return "usuario/index?faces-redirect=true";
 							} else {
-								return "usuario/view?faces-redirect=true";
+								return "rescatista/rescatista?faces-redirect=true";
 							}
 						} else {
 							FacesContext.getCurrentInstance().addMessage(
@@ -349,7 +349,7 @@ public class LoginBean {
 						.getExternalContext()
 						.redirect(
 								externalContext.getRequestContextPath()
-										+ "/home.xhtml");
+										+ "/login.xhtml");
 			}
 		} catch (Exception ex) {
 			System.out.println("UserSession - Exception: " + ex.toString());
