@@ -17,8 +17,10 @@ import com.catastrofe.model.Usuario;
 import javax.persistence.OneToOne;
 import com.catastrofe.model.Ong;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
 public class Donacion implements Serializable
 {
 
