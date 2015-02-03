@@ -67,10 +67,10 @@ public class LoginBean {
 		try {
 			FacesContext.getCurrentInstance().getExternalContext()
 					.getSessionMap().clear();
-			usuario = usuarioDao.findByUser(user);
+			usuario = usuarioDao.findByUserAndPass(user,password);
 
 			if (usuario != null) {
-				if (BCrypt.checkpw(password, usuario.getPassword())) {
+				//if (BCrypt.checkpw(password, usuario.getPassword())) {
 					if (validarDatos()) {
 						FacesContext.getCurrentInstance().getExternalContext()
 								.getSessionMap().clear();
@@ -112,7 +112,7 @@ public class LoginBean {
 												"Intente de Nuevo!"));
 						return "login?faces-redirect=false";
 					}
-				} else {
+				/*} else {
 					FacesContext.getCurrentInstance()
 							.addMessage(
 									null,
@@ -121,7 +121,7 @@ public class LoginBean {
 											"Password Incorrecto!",
 											"Intente de Nuevo!"));
 					return "login?faces-redirect=false";
-				}
+				}*/
 			} else {
 				FacesContext.getCurrentInstance().addMessage(
 						null,
