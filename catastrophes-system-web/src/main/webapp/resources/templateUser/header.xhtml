@@ -19,16 +19,18 @@
 	            <span class="icon-bar"></span>
 	            <span class="icon-bar"></span>
 	          </button>
-	          <a class="navbar-brand" href="#"><img src="#{catastrofe.logo}" alt="Imagen" class="picture"/></a>
+	          <a class="navbar-brand" href="/catastrophes-system-web/faces/usuario/index.xhtml"><h:graphicImage name="images/img2.png" style="margin-top:-21%;"/></a>
 	        </div>
 	        <div class="collapse navbar-collapse pull-right">
 	          <ul class="nav navbar-nav">
 	          	<c:if test="#{ not empty usuario}">
+	          		<li>
+			        	<h:link outcome="/usuario/index" value="Inicio"/>							
+		        	</li>
 	            	<li><a href="#about">Bienvenido #{usuario.email}</a></li>
 	            	<li><h:link value="Pedido de Ayuda" outcome="/pedidoAyuda/create.xhtml" /></li>
+	            	<li><p:commandLink value="Cerrar Sesión"  action="#{loginBean.doLogout}" style="font-size: 14px;"  ajax="false" immediate="true" /></li>
 	            </c:if>
-	            <li><a href="#contact">Contact</a></li>
-	            <li><p:commandLink value="Cerrar Sesión"  action="#{loginBean.doLogout}" style="font-size: 10pt;"  ajax="false" immediate="true" /></li>
 	          </ul>
 	        </div>
 	      </div>

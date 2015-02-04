@@ -18,6 +18,7 @@ import org.primefaces.model.map.MapModel;
 
 import com.catastrofe.dao.CatastrofeDao;
 import com.catastrofe.model.Catastrofe;
+import com.catastrofe.model.Usuario;
 
 @ViewScoped
 @ManagedBean
@@ -30,17 +31,25 @@ public class UserIndex {
 	private final static String TERREMOTO = "#FE9A2E";
 	private final static String INUNDACION = "#0101DF";
 	private final static String SUDESTADA = "#58D3F7";
-
+	private final static String TORMENTA = "#0B0B61";
+ 
 	@EJB
 	private CatastrofeDao catastrofe;
 	private MapModel map;
 	private Circle circle;
 	private List<Catastrofe> catastrofes;
 	private Catastrofe catastrofeSelected;
-
+	private String selectedTemplate;
+	 
 	@PostConstruct
 	public void init() {
 		try {
+			Usuario usuario=(Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+			if(usuario.getRol().getName().equals("usuario")){
+				selectedTemplate="/resources/templateUser/layout.xhtml";
+			}else if (usuario.getRol().getName().equals("administrador")){
+				selectedTemplate="/resources/template/layout.xhtml";
+			}
 			map = new DefaultMapModel();
 			catastrofes = catastrofe.getAll();
 
@@ -106,6 +115,8 @@ public class UserIndex {
 		case "Inundacion":
 			retorno = UserIndex.INUNDACION;
 			break;
+		case "Tormenta":
+			retorno = UserIndex.TORMENTA;
 
 		default:
 			retorno = UserIndex.INCENDIO;
@@ -113,6 +124,14 @@ public class UserIndex {
 		}
 
 		return retorno;
+	}
+	
+	public String getSelectedTemplate() {
+		return selectedTemplate;
+	}
+
+	public void setSelectedTemplate(String selectedTemplate) {
+		this.selectedTemplate = selectedTemplate;
 	}
 
 	public MapModel getMap() {

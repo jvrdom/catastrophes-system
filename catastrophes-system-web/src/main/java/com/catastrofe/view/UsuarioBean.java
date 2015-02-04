@@ -20,6 +20,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import com.catastrofe.dao.RolDao;
 import com.catastrofe.dao.UsuarioDao;
 import com.catastrofe.model.Rol;
@@ -126,7 +128,7 @@ public class UsuarioBean implements Serializable
 
    public String update()
    {
-      
+	  this.conversation.end();
 
       try
       {
@@ -141,10 +143,19 @@ public class UsuarioBean implements Serializable
         	}
         
         	if(!this.usuarioDao.existeUsuario(this.usuario.getUser())){
-        		this.conversation.end();
+        		usuario.setSocialAuth(false);
+
+        		//Genero password encriptado
+        		//String hashed = BCrypt.hashpw(this.usuario.getPassword(), BCrypt.gensalt());
+        		
+        		//this.usuario.setPassword(hashed);
         		this.usuarioDao.create(this.usuario);
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/catastrophes-system-web");
-                return null;
+        		
+                
+        		FacesContext.getCurrentInstance().getExternalContext().redirect("/catastrophes-system-web");
+                System.out.println("fallo el redirect*********************************");
+        		return null;
+                
         	}else{
         		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Nombre de usuario ya existe en el sistema","Por favor ingrese otro valor valor"));
         		return "";

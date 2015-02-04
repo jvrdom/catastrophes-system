@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @NamedQueries({
       @NamedQuery(name = "Usuario.findByLoginPass", query = "SELECT u FROM Usuario u WHERE u.user = :usuario AND u.password=:password"),
+      @NamedQuery(name="Usuario.findByUser", query="SELECT u FROM Usuario u WHERE u.user = :user"),
       @NamedQuery(name= "Usuario.findAll", query="SELECT u FROM Usuario u"),
       @NamedQuery(name="Usuario.existeUsuario", query= "SELECT u FROM Usuario u WHERE u.user = :usuario"),
       @NamedQuery(name="Usuario.getRegIdsRescatista", query="SELECT DISTINCT u.regId FROM Usuario u, Rol r JOIN u.rol oRol where oRol.id = r.id and r.name=:nombre")
@@ -78,6 +79,9 @@ public class Usuario implements Serializable
    
    @Column
    private String regId;
+   
+   @Column
+   private Boolean socialAuth;
 
    public Long getId()
    {
@@ -92,6 +96,14 @@ public class Usuario implements Serializable
    public int getVersion()
    {
       return this.version;
+   }
+   
+   public Boolean getSocialAuth() {
+	return socialAuth;
+   }
+
+   public void setSocialAuth(Boolean socialAuth) {
+	this.socialAuth = socialAuth;
    }
 
    public void setVersion(final int version)

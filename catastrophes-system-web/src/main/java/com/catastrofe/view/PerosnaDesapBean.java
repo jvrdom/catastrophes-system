@@ -69,12 +69,14 @@ public class PerosnaDesapBean implements Serializable
    private Set<Imagen> imagenesPersonDes;
    private String coordenadas;
    private String estilo;
+   private AndroidGCMPushNotification notifications;
    
    public PerosnaDesapBean() {
 	   utiles = new UtilesWeb();
 	   imagenesPersonDes = new HashSet<Imagen>();
-	   Catastrofe catastrofe=(Catastrofe) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("catastrofe");
-	   estilo=catastrofe.getCss();
+	   Catastrofe catastrofe = (Catastrofe) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("catastrofe");
+	   estilo = catastrofe.getCss();
+	   notifications = new AndroidGCMPushNotification();
    }
    
    /*
@@ -94,14 +96,14 @@ public class PerosnaDesapBean implements Serializable
    }
    
    public String getEstilo() {
-	return estilo;
-}
+	  return estilo;
+   }
 
-public void setEstilo(String estilo) {
-	this.estilo = estilo;
-}
+   public void setEstilo(String estilo) {
+	  this.estilo = estilo;
+   }
 
-private PerosnaDesap perosnaDesap;
+   private PerosnaDesap perosnaDesap;
 
    public PerosnaDesap getPerosnaDesap()
    {
@@ -175,7 +177,7 @@ private PerosnaDesap perosnaDesap;
         	this.personaDesDao.create(this.perosnaDesap);
         	
         	//Envio la notificacion a los rescatistas
-        	this.sendNotification(RESCATISTA);
+        	this.sendNotification(RESCATISTA, this.perosnaDesap);
         	
             FacesContext.getCurrentInstance().getExternalContext().redirect("search.xhtml");
             return null;
@@ -229,9 +231,9 @@ private PerosnaDesap perosnaDesap;
 		}
    }
    
-   private void sendNotification(String rolUsuario){
+   private void sendNotification(String rolUsuario, Object object){
 	    try {
-	    	AndroidGCMPushNotification.enviarNotificaciones("10", usuarioDao.getRegIDs(rolUsuario));
+	    	notifications.enviarNotificaciones("10", usuarioDao.getRegIDs(rolUsuario), object);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

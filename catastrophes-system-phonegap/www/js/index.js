@@ -40,7 +40,7 @@ var app = {
                     
         app.receivedEvent('deviceready');
         var pushNotification = window.plugins.pushNotification;
-        pushNotification.register(app.successHandler, app.errorHandler,{"senderID":"466388852109","ecb":"app.onNotificationGCM"});
+        pushNotification.register(app.successHandler, app.errorHandler,{"senderID":"641130337481","ecb":"app.onNotificationGCM"});
 
         
     },
@@ -349,9 +349,105 @@ var app = {
             case 'message':
                 // this is the actual push notification. its format depends on the data model from the push server
                 //alert('message = '+e.message+' msgcnt = '+e.msgcnt);
-                bootbox.alert('message = '+e.message+' msgcnt = '+e.msgcnt, function() {
-                            console.log('lgh message = '+e.message+' msgcnt = '+e.msgcnt);
+                var obj = jQuery.parseJSON(e.message);
+                var title = obj.title;
+
+                /*bootbox.alert('message = '+ title  , function() {
+                    console.log('lgh message = '+e.message+' msgcnt = '+e.msgcnt);
+                });*/
+                              
+                if(obj.title.indexOf("catástrofe") > -1) {
+                    mensaje = '<div class="row"> ' +
+                        '<div class="col-md-12"> ' + 
+                            '<form class="form-horizontal"> ' +
+                                '<div class="form-group"> ' +
+                                    '<label class="col-md-4 control-label" for="name">Nombre:</label> ' +
+                                    '<div class="col-md-4"> ' +
+                                        '<h2>' + obj.name + '</h2>' + 
+                                    '</div> ' +
+                                '</div> ' +
+                                '<div class="form-group"> ' +
+                                    '<label class="col-md-4 control-label" for="name">Descripción:</label> ' +
+                                    '<div class="col-md-4"> ' +
+                                        '<h2>' + obj.description + '</h2>' + 
+                                    '</div> ' +
+                                '</div> ' +
+                                '<div class="form-group"> ' +
+                                    '<label class="col-md-4 control-label" for="name">Dirección:</label> ' +
+                                    '<div class="col-md-4"> ' +
+                                        '<h2>' + obj.address + '</h2>' + 
+                                    '</div> ' +
+                                '</div> ' +
+                                '<div class="form-group"> ' +
+                                    '<label class="col-md-4 control-label" for="name">Tipo:</label> ' +
+                                    '<div class="col-md-4"> ' +
+                                        '<h2>' + obj.type + '</h2>' + 
+                                    '</div> ' +
+                                '</div> ' +
+                            '</form>' + 
+                        '</div>' + 
+                    '</div>'
+                }
+               
+                if(obj.title.indexOf("ayuda") > -1) {
+                    mensaje = '<div class="row"> ' +
+                                '<div class="col-md-12"> ' + 
+                                    '<form class="form-horizontal"> ' +
+                                        '<div class="form-group"> ' +
+                                            '<label class="col-md-4 control-label" for="name">Descripción:</label> ' +
+                                            '<div class="col-md-4"> ' +
+                                                '<h2>' + obj.description + '</h2>' + 
+                                            '</div> ' +
+                                        '</div> ' +
+                                        '<div class="form-group"> ' +
+                                            '<label class="col-md-4 control-label" for="name">Fecha:</label> ' +
+                                            '<div class="col-md-4"> ' +
+                                                '<h2>' + new Date(obj.dateAdded) + '</h2>' + 
+                                            '</div> ' +
+                                        '</div> ' +
+                                    '</form>' + 
+                                '</div>' + 
+                            '</div>'
+                }
+
+                if(obj.title.indexOf("persona") > -1) {
+                    mensaje = '<div class="row"> ' +
+                                '<div class="col-md-12"> ' + 
+                                    '<form class="form-horizontal"> ' +
+                                        '<div class="form-group"> ' +
+                                            '<label class="col-md-4 control-label" for="name">Nombre:</label> ' +
+                                            '<div class="col-md-4"> ' +
+                                                '<h2>' + obj.name + '</h2>' + 
+                                            '</div> ' +
+                                        '</div> ' +
+                                        '<div class="form-group"> ' +
+                                            '<label class="col-md-4 control-label" for="name">Descripción:</label> ' +
+                                            '<div class="col-md-4"> ' +
+                                                '<h2>' + obj.description + '</h2>' + 
+                                            '</div> ' +
+                                        '</div> ' +
+                                        '<div class="form-group"> ' +
+                                            '<label class="col-md-4 control-label" for="name">Teléfono:</label> ' +
+                                            '<div class="col-md-4"> ' +
+                                                '<h2>' + obj.tel + '</h2>' + 
+                                            '</div> ' +
+                                        '</div> ' +
+                                    '</form>' + 
+                                '</div>' + 
+                            '</div>'
+                }
+
+                bootbox.dialog ({
+                    title: obj.title,
+                    message: mensaje,
+                    buttons : {
+                        success: {
+                            label: "Ok",
+                            className: "btn-success"
+                        }
+                    }
                 });
+                
                 app.persistirLocal();
 
             break;
@@ -655,8 +751,23 @@ var app = {
                 $.each(data, function(i, obj) {
                   //use obj.id and obj.name here, for example:
                   console.log('lgh llamando addCatastrofe para '+obj.nombre);
+
+                  if (obj.planes != null) {
+                    $.each(obj.planes, function(i, plan) {
+                        if(plan.tipo == "Emergencia") {
+                            obj.planEmergencia = plan.url;
+                        }
+
+                        if(plan.tipo == "Riesgo") {
+                            obj.planRiesgo = plan.url;  
+                        }
+                    });
+                  }
+
                   app.addCatastrofe(obj.idC, obj.nombre, obj.latitud, obj.longitud, obj.planRiesgo, obj.planEmergencia );
+                
                 });
+                
                 console.log('lgh en success');
                 //setCatastrofeYRefresh();
                 var seleccionada = window.localStorage.getItem("appCatastrofe");
@@ -750,7 +861,7 @@ var app = {
             timeout: 20 * 1000,
             success:function()
             {   
-                alert('anduvo');
+                //alert('anduvo');
                 // bootbox.alert('Se actualizo el usuario con regid con exito: ' + response, function() {
                 //     console.log('lgh en POST rest/usuarios/" , data: ' + data);
                 // });
@@ -810,7 +921,7 @@ var app = {
                     success:function(response)
                     {   
                         console.log('lgh success ' + response) ;
-                        alert('response: ' + response.llave);
+                        //alert('response: ' + response.llave);
                         // if(!timeOutOccured){
                         //     clearTimeout(timeOutInteger);
                         //     onlineFunction();
@@ -894,7 +1005,7 @@ var app = {
             });// end - $( "btn1").click(function(){
             
             $( ".menu1").click(function(){
-                alert('boton 2');
+                //alert('boton 2');
 
             });// end - $( "btn2").click(function(){
 
@@ -954,7 +1065,7 @@ var app = {
     
 };
 
-app.hostservidor = "192.168.1.42";
+app.hostservidor = "192.168.1.35";
 //app.hostservidor = "172.16.102.205";
 //app.hostservidor = "192.168.1.41";
 //app.hostservidor = "172.16.100.4";

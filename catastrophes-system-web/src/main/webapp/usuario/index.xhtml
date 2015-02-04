@@ -7,12 +7,12 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:forgeview="http://jboss.org/forge/view"
 	xmlns:p="http://primefaces.org/ui"	
-	template="/resources/templateUser/layout.xhtml">
+	template="#{userIndex.selectedTemplate}">
 
 	<ui:param name="pageTitle" value="Inicio Usuario"/>
 
 	<ui:define name="footer"/>
-
+	
 	<ui:define name="content">
   		<div class="row">
 	  		<div class="col-xs-12 text-center">

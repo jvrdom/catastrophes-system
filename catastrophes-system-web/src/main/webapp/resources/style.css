@@ -339,3 +339,6 @@ body {
 	width:700px;
 }
 
+.faceImage {
+    background-image: url("resources/img/facebook.png");
+}

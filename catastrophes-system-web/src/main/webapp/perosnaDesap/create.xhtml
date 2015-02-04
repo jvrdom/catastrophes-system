@@ -29,11 +29,15 @@
   			<div class="col-xs-6">
   				<div class="row">
 	  				<h:form enctype="multipart/form-data">
+	  				
+	  				   <p:growl id="messages" showDetail="true" />
+	  					 
 	 				   <p:fileUpload fileUploadListener="#{perosnaDesapBean.handleFileUpload}" mode="advanced" dragDropSupport="false"
 	                  	multiple="true" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
 	                  	label="Elegir Imágenes"
 	                  	cancelLabel="Cancelar"
 	                  	uploadLabel="Subir"
+	                  	update="messages"
 	                  	/>
 					</h:form>
 				</div>
