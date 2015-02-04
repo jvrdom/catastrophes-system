@@ -47,7 +47,7 @@
 									<ui:repeat
 										value="#{of:setToList(catastrofeBean.catastrofe.novedades)}"
 										var="novedad">
-										<a href="#{novedad.origenDato}" data-toggle="lightbox"
+										<a href="#{novedad.origenDato}" data-toggle="lightbox" target="_blank"
 											data-gallery="youtubevideos" class="col-sm-4"> <img
 											src="#{novedad.thumbnail}" class="img-responsive" />
 										</a>
@@ -68,22 +68,24 @@
 						</p:feedReader>
 					</h:panelGrid>
 				</div>
-				<div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar"
-					role="navigation">
+				<div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+					<div class="row">
+					  <div class="col-xs-6 col-md-3">
+					    <a href="#" class="thumbnail">
+					      <h:graphicImage url="#{catastrofeBean.catastrofe.logo}" />
+					    </a>
+					  </div>
+					</div>
 					<div class="list-group">
-						<a href="/catastrophes-system-web/faces/perosnaDesap/create.xhtml"
-							class="list-group-item">Ingreso de Persona Desaparecida</a> <a
-							href="/catastrophes-system-web/faces/perosnaDesap/search.xhtml"
-							class="list-group-item">Búsqueda de Personas Desaparecidas</a> <a
-							href="/catastrophes-system-web/faces/donaciones/donaciones.xhtml" class="list-group-item">Realizar Donación</a> <a
-							href="#" class="list-group-item" data-toggle="modal"
-							data-target="#myModal">Ver Galería</a>
+						<a href="/catastrophes-system-web/faces/perosnaDesap/create.xhtml" class="list-group-item">Ingreso de Persona Desaparecida</a>
+						<a href="/catastrophes-system-web/faces/perosnaDesap/search.xhtml" class="list-group-item">Búsqueda de Personas Desaparecidas</a> 
+						<a href="/catastrophes-system-web/faces/donaciones/donaciones.xhtml" class="list-group-item">Realizar Donación</a> 
+						<a href="#" class="list-group-item" data-toggle="modal" data-target="#myModal">Ver Galería</a>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -108,8 +110,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal fade" id="modalImagenes" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal fade" id="modalImagenes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -139,15 +140,11 @@
 			</div>
 		</div>
 		<script type="text/javascript">
-$(document).ready(function ($) {
-$('[data-toggle="offcanvas"]').click(function () {
-$('.row-offcanvas').toggleClass('active')
-});
-$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
-event.preventDefault();
-$(this).ekkoLightbox();
-});
-});
-</script>
+			$(document).ready(function ($) {
+				$('[data-toggle="offcanvas"]').click(function () {
+					$('.row-offcanvas').toggleClass('active')
+				});
+			});
+		</script>
 	</ui:define>
 </ui:composition>

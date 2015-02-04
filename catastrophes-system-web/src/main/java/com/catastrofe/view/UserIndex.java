@@ -31,7 +31,8 @@ public class UserIndex {
 	private final static String TERREMOTO = "#FE9A2E";
 	private final static String INUNDACION = "#0101DF";
 	private final static String SUDESTADA = "#58D3F7";
-
+	private final static String TORMENTA = "#0B0B61";
+ 
 	@EJB
 	private CatastrofeDao catastrofe;
 	private MapModel map;
@@ -114,6 +115,8 @@ public class UserIndex {
 		case "Inundacion":
 			retorno = UserIndex.INUNDACION;
 			break;
+		case "Tormenta":
+			retorno = UserIndex.TORMENTA;
 
 		default:
 			retorno = UserIndex.INCENDIO;

@@ -356,7 +356,7 @@ var app = {
                     console.log('lgh message = '+e.message+' msgcnt = '+e.msgcnt);
                 });*/
                               
-                if(title.indexOf("catástrofe") > -1) {
+                if(obj.title.indexOf("catástrofe") > -1) {
                     mensaje = '<div class="row"> ' +
                         '<div class="col-md-12"> ' + 
                             '<form class="form-horizontal"> ' +
@@ -751,8 +751,23 @@ var app = {
                 $.each(data, function(i, obj) {
                   //use obj.id and obj.name here, for example:
                   console.log('lgh llamando addCatastrofe para '+obj.nombre);
+
+                  if (obj.planes != null) {
+                    $.each(obj.planes, function(i, plan) {
+                        if(plan.tipo == "Emergencia") {
+                            obj.planEmergencia = plan.url;
+                        }
+
+                        if(plan.tipo == "Riesgo") {
+                            obj.planRiesgo = plan.url;  
+                        }
+                    });
+                  }
+
                   app.addCatastrofe(obj.idC, obj.nombre, obj.latitud, obj.longitud, obj.planRiesgo, obj.planEmergencia );
+                
                 });
+                
                 console.log('lgh en success');
                 //setCatastrofeYRefresh();
                 var seleccionada = window.localStorage.getItem("appCatastrofe");
@@ -846,7 +861,7 @@ var app = {
             timeout: 20 * 1000,
             success:function()
             {   
-                alert('anduvo');
+                //alert('anduvo');
                 // bootbox.alert('Se actualizo el usuario con regid con exito: ' + response, function() {
                 //     console.log('lgh en POST rest/usuarios/" , data: ' + data);
                 // });
@@ -906,7 +921,7 @@ var app = {
                     success:function(response)
                     {   
                         console.log('lgh success ' + response) ;
-                        alert('response: ' + response.llave);
+                        //alert('response: ' + response.llave);
                         // if(!timeOutOccured){
                         //     clearTimeout(timeOutInteger);
                         //     onlineFunction();
@@ -990,7 +1005,7 @@ var app = {
             });// end - $( "btn1").click(function(){
             
             $( ".menu1").click(function(){
-                alert('boton 2');
+                //alert('boton 2');
 
             });// end - $( "btn2").click(function(){
 

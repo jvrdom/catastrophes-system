@@ -146,9 +146,9 @@ public class UsuarioBean implements Serializable
         		usuario.setSocialAuth(false);
 
         		//Genero password encriptado
-        		String hashed = BCrypt.hashpw(this.usuario.getPassword(), BCrypt.gensalt());
+        		//String hashed = BCrypt.hashpw(this.usuario.getPassword(), BCrypt.gensalt());
         		
-        		this.usuario.setPassword(hashed);
+        		//this.usuario.setPassword(hashed);
         		this.usuarioDao.create(this.usuario);
         		
                 
