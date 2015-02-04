@@ -3,6 +3,7 @@ package com.catastrophessystemweb.rest;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -11,7 +12,10 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
+
+import com.catastrofe.dao.UsuarioDao;
 import com.catastrofe.model.PedidoAyuda;
+import com.catastrofe.model.Usuario;
 
 /**
  * 
@@ -23,10 +27,15 @@ public class PedidoAyudaEndpoint
    @PersistenceContext(unitName = "forge-default")
    private EntityManager em;
 
+   @Inject private UsuarioDao usuDAO;
    @POST
+   @Path("/create/{usuario_id:[0-9][0-9]*}")
    @Consumes("application/json")
-   public Response create(PedidoAyuda entity)
+   public Response create(PedidoAyuda entity, @PathParam("usuario_id") int usuario_id)
    {
+	  Long usuarioIdLong = Long.valueOf(usuario_id);
+	  Usuario usuario = usuDAO.findById(usuarioIdLong);
+	  entity.setUsuario(usuario);
       em.persist(entity);
       return Response.created(UriBuilder.fromResource(PedidoAyudaEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
    }

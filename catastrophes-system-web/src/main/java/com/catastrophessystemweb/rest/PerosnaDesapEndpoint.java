@@ -3,6 +3,7 @@ package com.catastrophessystemweb.rest;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -11,24 +12,46 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
-import com.catastrofe.model.PerosnaDesap;
 
-/**
- * 
- */
+import com.catastrofe.dao.CatastrofeDao;
+import com.catastrofe.dao.UsuarioDao;
+import com.catastrofe.model.Catastrofe;
+import com.catastrofe.model.PerosnaDesap;
+import com.catastrofe.model.Usuario;
+
 @Stateless
 @Path("/perosnadesaps")
 public class PerosnaDesapEndpoint
 {
    @PersistenceContext(unitName = "forge-default")
    private EntityManager em;
+   
+   @Inject private CatastrofeDao catasDAO;
+   @Inject private UsuarioDao usuDAO;
+   @POST
+   @Path("/create_new/{catastrofeId:[0-9][0-9]*}/{reportado_id:[0-9][0-9]*}")
+   @Consumes("application/json")
+   public Response create2(PerosnaDesap entity, @PathParam("catastrofeId") int catastrofeId, @PathParam("reportado_id") int reportado_id)
+   {
+	  Long catastrofeIdLong = Long.valueOf(catastrofeId);
+	  Long usuarioIdLong = Long.valueOf(reportado_id);	  
+	  Catastrofe catastrofe = catasDAO.findById(catastrofeIdLong);
+	  Usuario usuario = usuDAO.findById(usuarioIdLong);
+	  entity.setCatastrofe(catastrofe);
+	  entity.setReportado(usuario);
+      em.persist(entity);      
+      return Response.created(UriBuilder.fromResource(PerosnaDesapEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
+   }
 
    @POST
+   @Path("/create")
    @Consumes("application/json")
    public Response create(PerosnaDesap entity)
    {
-      em.persist(entity);
+	  System.out.println("entidad " + entity);
+      em.persist(entity);      
       return Response.created(UriBuilder.fromResource(PerosnaDesapEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
+	  
    }
 
    @DELETE
@@ -68,10 +91,11 @@ public class PerosnaDesapEndpoint
    }
 
    @GET
+   @Path("/list")   
    @Produces("application/json")
    public List<PerosnaDesap> listAll()
    {
-      final List<PerosnaDesap> results = em.createQuery("SELECT DISTINCT p FROM PerosnaDesap p LEFT JOIN FETCH p.catastrofe LEFT JOIN FETCH p.reportado LEFT JOIN FETCH p.imagenes ORDER BY p.id", PerosnaDesap.class).getResultList();
+	  final List<PerosnaDesap> results = em.createQuery("SELECT DISTINCT p FROM PerosnaDesap p LEFT JOIN FETCH p.catastrofe LEFT JOIN FETCH p.reportado LEFT JOIN FETCH p.imagenes ORDER BY p.id", PerosnaDesap.class).getResultList();
       return results;
    }
 
