@@ -68,6 +68,7 @@ public class CatastrofeEndpoint
    }
 
    @GET
+   @Path("/obtener")
    @Produces("application/json")
    public List<Catastrofe> listAll()
    {
