@@ -3,6 +3,7 @@ package com.catastrophessystemweb.rest;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -11,7 +12,11 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
+
+import com.catastrofe.dao.UsuarioDao;
 import com.catastrofe.model.Donacion;
+import com.catastrofe.model.Usuario;
+import com.catastrofe.model.tipoDonacion;
 
 /**
  * 
@@ -23,10 +28,18 @@ public class DonacionEndpoint
    @PersistenceContext(unitName = "forge-default")
    private EntityManager em;
 
+   @Inject private UsuarioDao usuDAO;
    @POST
+   @Path("/{usuario_id:[0-9][0-9]*}/{tipo_donacion:[0-9][0-9]*}")
    @Consumes("application/json")
-   public Response create(Donacion entity)
+   public Response create(Donacion entity,@PathParam("usuario_id") int usuario_id, @PathParam("tipo_donacion") int tipo_donacion)
    {
+	  Long usuarioIdLong = Long.valueOf(usuario_id);	
+	  Usuario usuario = usuDAO.findById(usuarioIdLong);
+	  entity.setUsuario(usuario);
+	  if(tipo_donacion==1) entity.setTipo(tipoDonacion.Económica);
+	  else if(tipo_donacion==2) entity.setTipo(tipoDonacion.DeBienes);
+	  else if(tipo_donacion==3) entity.setTipo(tipoDonacion.DeServicios);	 
       em.persist(entity);
       return Response.created(UriBuilder.fromResource(DonacionEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
    }
