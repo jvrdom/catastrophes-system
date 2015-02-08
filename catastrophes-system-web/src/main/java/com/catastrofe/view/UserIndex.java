@@ -1,6 +1,7 @@
 package com.catastrofe.view;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -39,7 +40,7 @@ public class UserIndex {
 	private Circle circle;
 	private List<Catastrofe> catastrofes;
 	private Catastrofe catastrofeSelected;
-	private String selectedTemplate;
+	private String selectedTemplate, name;
 	 
 	@PostConstruct
 	public void init() {
@@ -54,15 +55,10 @@ public class UserIndex {
 			catastrofes = catastrofe.getAll();
 
 			for (int i = 0; i < catastrofes.size(); i++) {
-				LatLng coordenadas = new LatLng(
-						catastrofes.get(i).getLatitud(), catastrofes.get(i)
-								.getLongitud());
+				LatLng coordenadas = new LatLng(catastrofes.get(i).getLatitud(), catastrofes.get(i).getLongitud());
 				circle = new Circle(coordenadas, catastrofes.get(i).getRadio());
-
-				circle.setStrokeColor(this.getColorCatastrophe(catastrofes
-						.get(i).getTipoCatastrofe().name()));
-				circle.setFillColor(this.getColorCatastrophe(catastrofes.get(i)
-						.getTipoCatastrofe().name()));
+				circle.setStrokeColor(this.getColorCatastrophe(catastrofes.get(i).getTipoCatastrofe().name()));
+				circle.setFillColor(this.getColorCatastrophe(catastrofes.get(i).getTipoCatastrofe().name()));
 				circle.setData(catastrofes.get(i));
 				circle.setFillOpacity(0.5);
 
@@ -79,22 +75,21 @@ public class UserIndex {
 	public void onCircleSelect(OverlaySelectEvent event) {
 
 		catastrofeSelected = (Catastrofe) event.getOverlay().getData();
-		FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-				.put("catastrofe", catastrofeSelected);
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("catastrofe", catastrofeSelected);
 
 		if (catastrofeSelected != null) {
 			try {
-				FacesContext
-						.getCurrentInstance()
-						.getExternalContext()
-						.redirect(
-								FacesContext.getCurrentInstance()
-										.getExternalContext()
-										.getRequestContextPath()
-										+ "/faces/catastrofe/view.xhtml?id="
-										+ catastrofeSelected.getId());
+				FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/faces/catastrofe/view.xhtml?id="	+ catastrofeSelected.getId());
 			} catch (IOException e) {
 				e.printStackTrace();				
+			}
+		}
+	}
+	
+	public void checkCatastrofe(){
+		for (int i = 0; i < catastrofes.size(); i++) {
+			if(!catastrofes.get(i).getNombre().contains(name)) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"La catastrofe ingresa no existe","Por favor ingrese otra dirección"));
 			}
 		}
 	}
@@ -156,6 +151,14 @@ public class UserIndex {
 
 	public void setCatastrofes(List<Catastrofe> catastrofes) {
 		this.catastrofes = catastrofes;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }
