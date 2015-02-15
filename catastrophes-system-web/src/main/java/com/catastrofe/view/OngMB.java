@@ -260,6 +260,7 @@ public class OngMB implements Serializable{
 		ong.setPaypalMail(mail);
 		Set<Catastrofe> set = new HashSet<Catastrofe>(catsOng);
 		ong.setCatastrofes(set);
+		
 		//ong.setCatastrofes((Set<Catastrofe>) catsOng);
 		System.out.println("catAsignadas:"+ong.getCatastrofes().size()+created);
 		
@@ -270,6 +271,7 @@ public class OngMB implements Serializable{
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, txt, txt);
 	        FacesContext.getCurrentInstance().addMessage("successInfo", facesMsg);
 		}else{
+			ong.setVersion(selectedOng.getVersion());
 			ong.setId(selectedOng.getId());
 			ongDao.update(ong);
 			String txt="Se ha editado correctamente.";

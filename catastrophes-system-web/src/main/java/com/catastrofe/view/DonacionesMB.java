@@ -50,17 +50,17 @@ public class DonacionesMB implements Serializable {
 	
 	@PostConstruct
 	public void init(){
-		try{
-			System.out.println("*******PostConstruct");
-			usuario=(Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
-			catastrofe=(Catastrofe) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("catastrofe");
-			estilo=catastrofe.getCss();
-			ongs=ongDao.findOngByCatastrofe(catastrofe.getId());
-			horasDonacion=0;
-			montoDonacion=0;
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
+//		try{
+//			System.out.println("*******PostConstruct");
+//			usuario=(Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+//			catastrofe=(Catastrofe) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("catastrofe");
+//			estilo=catastrofe.getCss();
+//			ongs=ongDao.findOngByCatastrofe(catastrofe.getId());
+//			horasDonacion=0;
+//			montoDonacion=0;
+//		}catch(Exception ex){
+//			ex.printStackTrace();
+//		}
 	}
 	
 	
@@ -314,6 +314,20 @@ public class DonacionesMB implements Serializable {
 			
 		} catch (IOException e) {
 			e.printStackTrace();				
+		}
+    }
+    
+    public void retrieve(){
+    	try{
+			System.out.println("*******retrieve");
+			usuario=(Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+			catastrofe=(Catastrofe) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("catastrofe");
+			estilo=catastrofe.getCss();
+			ongs=ongDao.findOngByCatastrofe(catastrofe.getId());
+			horasDonacion=0;
+			montoDonacion=0;
+		}catch(Exception ex){
+			ex.printStackTrace();
 		}
     }
 
