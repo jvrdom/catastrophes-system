@@ -39,6 +39,7 @@ public class OngDao
 
    public Ong update(Ong entity)
    {
+	   System.out.println("va a hacer el marge******** ");
       return em.merge(entity);
    }
 
