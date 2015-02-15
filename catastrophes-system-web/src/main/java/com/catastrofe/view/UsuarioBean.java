@@ -136,12 +136,20 @@ public class UsuarioBean implements Serializable
          {
         	this.roles = rolDao.listAll(null, null);
         	
-        	for(int i = 0; i < roles.size(); i++){
-        		if (roles.get(i).getName().equals(this.rol.toLowerCase())){
-        			this.usuario.setRol(roles.get(i));
-        		} 
+        	if (this.rol == null) {
+        		for(int i = 0; i < roles.size(); i++){
+            		if (roles.get(i).getName().equals("usuario")){
+            			this.usuario.setRol(roles.get(i));
+            		} 
+            	}
+        	} else {
+        		for(int i = 0; i < roles.size(); i++){
+            		if (roles.get(i).getName().equals(this.rol.toLowerCase())){
+            			this.usuario.setRol(roles.get(i));
+            		} 
+            	}
         	}
-        
+        	
         	if(!this.usuarioDao.existeUsuario(this.usuario.getUser())){
         		usuario.setSocialAuth(false);
 
