@@ -36,13 +36,13 @@
 								styleClass="form-control" disabled="#{ongMB.readOnly}"
 								style="margin-bottom:5px;" />
 						</div>
-						<label for="inputmail" class="col-sm-2 control-label">Email</label>
+						<label for="inputmail" class="col-sm-2 control-label">Correo Electrónico</label>
 						<div class="col-sm-10">
 							<p:inputText id="inputmail" value="#{ongMB.mail}"
 								styleClass="form-control" disabled="#{ongMB.readOnly}"
 								style="margin-bottom:5px;" />
 						</div>
-						<label for="inputdesc" class="col-sm-2 control-label">Descripcion</label>
+						<label for="inputdesc" class="col-sm-2 control-label">Descripción</label>
 						<div class="col-sm-10">
 							<p:inputTextarea id="inputdesc" value="#{ongMB.desc}"
 								styleClass="form-control" disabled="#{ongMB.readOnly}" />
@@ -106,7 +106,7 @@
 
 			<p:dialog id="catastrofesDlgId" widgetVar="catastrofesDlg">
 				<h:panelGrid columns="1">
-					<p:dataTable id="catastrofesDlgTbl" var="catastrofe"
+					<p:dataTable id="catastrofesDlgTbl" var="catastrofe" scrollable="true" scrollHeight="150"
 						value="#{ongMB.catastrofes}"
 						selection="#{ongMB.selectedCatastrofes}" style="width: 250px;"
 						rowKey="#{catastrofe.id}">

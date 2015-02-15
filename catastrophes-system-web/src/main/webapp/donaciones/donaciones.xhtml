@@ -41,9 +41,9 @@
 						
 							<p:outputLabel value="Ong destinataria" styleClass="labelDonacion" style="margin-bottom:0px" />
 							<p:spacer width="10px" />
-							<p:selectOneMenu id="comboOng" value="#{donacionesMB.selectedOngDonacion}"	 converter="#{donacionesMB.ongConverter}"						
+							<p:selectOneMenu id="comboOng" value="#{donacionesMB.selectedOngDonacion}" converter="#{donacionesMB.ongConverter}"						
 								 style="width:160px;">
-								<f:selectItem itemLabel="Select One" itemValue="" />
+								<f:selectItem itemLabel="Seleccionar" itemValue="" />
 								<f:selectItems value="#{donacionesMB.ongs}" var="ong"   itemLabel="#{ong.nombre}" itemValue="#{ong}" />
 							</p:selectOneMenu>
 						
