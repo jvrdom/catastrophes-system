@@ -1,5 +1,6 @@
 package com.catastrofe.view;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -182,6 +183,45 @@ public class UsuarioBean implements Serializable
          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
          return null;
       }
+   }
+   
+   public String createUser(){
+	
+      	this.roles = rolDao.listAll(null, null);
+      	
+      	if (this.rol == null) {
+      		for(int i = 0; i < roles.size(); i++){
+          		if (roles.get(i).getName().equals("usuario")){
+          			this.usuario.setRol(roles.get(i));
+          		} 
+          	}
+      	} else {
+      		for(int i = 0; i < roles.size(); i++){
+          		if (roles.get(i).getName().equals(this.rol.toLowerCase())){
+          			this.usuario.setRol(roles.get(i));
+          		} 
+          	}
+      	}
+      	
+      	if(!this.usuarioDao.existeUsuario(this.usuario.getUser())){
+      		usuario.setSocialAuth(false);
+      		//Genero password encriptado
+      		//String hashed = BCrypt.hashpw(this.usuario.getPassword(), BCrypt.gensalt());      		
+      		//this.usuario.setPassword(hashed);
+      		this.usuarioDao.create(this.usuario);
+      		
+      		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Registro de usuario","El registro se ha efectuado de forma correcta."));
+      		System.out.println("crea el usuario*********************************");	
+      		this.usuario=new Usuario();
+      		//return "index.xhtml";			
+      		
+              
+      	}else{
+      		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Nombre de usuario ya existe en el sistema","Por favor ingrese otro valor valor"));
+      		//return "";
+      	}
+      	return "";
+       
    }
 
    public String delete()

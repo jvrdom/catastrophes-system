@@ -14,7 +14,7 @@
 	</f:metadata>
 	<ui:param name="pageTitle" value="Create Usuario" />
 	<ui:define name="content">
-		
+		 
 		<div class="row text-center">
 			<h:message for="formRegistrer:inputpassword" id="msgPassword"
 				class="alert alert-danger" style="display: inline-block;" />
@@ -22,6 +22,7 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-6 col-md-8 col-sm-offset-4 col-md-offset-2">
 				<h:form id="formRegistrer">
+				<p:growl id="messages" showDetail="true" />
 					<div class="row">
 						<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="form-group">
@@ -97,7 +98,7 @@
 					</div>
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-12">
-							<h:commandButton value="Registrar Usuario" action="#{usuarioBean.update()}" class="btn btn-success btn-block btn-lg"></h:commandButton>
+							<p:commandButton value="Registrar Usuario" action="#{usuarioBean.createUser()}" styleClass="btn btn-success btn-block btn-lg" update="formRegistrer messages"></p:commandButton>
 						</div>
 					</div>
 				</h:form>
