@@ -16,6 +16,7 @@ import org.primefaces.model.map.Circle;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
+import org.primefaces.model.map.Marker;
 
 import com.catastrofe.dao.CatastrofeDao;
 import com.catastrofe.model.Catastrofe;
@@ -38,6 +39,7 @@ public class UserIndex {
 	private CatastrofeDao catastrofe;
 	private MapModel map;
 	private Circle circle;
+	private Marker marker;
 	private List<Catastrofe> catastrofes;
 	private Catastrofe catastrofeSelected;
 	private String selectedTemplate, name;
@@ -57,12 +59,15 @@ public class UserIndex {
 			for (int i = 0; i < catastrofes.size(); i++) {
 				LatLng coordenadas = new LatLng(catastrofes.get(i).getLatitud(), catastrofes.get(i).getLongitud());
 				circle = new Circle(coordenadas, catastrofes.get(i).getRadio());
+				marker = new Marker(coordenadas, catastrofes.get(i).getNombre());				
+				
 				circle.setStrokeColor(this.getColorCatastrophe(catastrofes.get(i).getTipoCatastrofe().name()));
 				circle.setFillColor(this.getColorCatastrophe(catastrofes.get(i).getTipoCatastrofe().name()));
 				circle.setData(catastrofes.get(i));
 				circle.setFillOpacity(0.5);
-
+				
 				map.addOverlay(circle);
+				map.addOverlay(marker);
 			}
 
 		} catch (Exception ex) {
