@@ -9,6 +9,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 
 import com.catastrofe.model.Catastrofe;
+import com.catastrofe.model.Usuario;
 
 /**
  *  DAO for Catastrofe
@@ -62,4 +63,12 @@ public class CatastrofeDao
       CriteriaQuery<Catastrofe> criteria = em.getCriteriaBuilder().createQuery(Catastrofe.class);
       return em.createQuery(criteria.select(criteria.from(Catastrofe.class))).getResultList();
    }
+
+public Catastrofe findByName(String nombre) {
+	if (em.createNamedQuery("Catastrofe.findByName").setParameter("nombre", nombre).getResultList().size() > 0) {
+        return (Catastrofe) em.createNamedQuery("Catastrofe.findByName").setParameter("nombre", nombre).getSingleResult();
+    } else {
+ 	   return null;
+    }
+}
 }

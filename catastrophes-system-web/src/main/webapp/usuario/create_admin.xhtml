@@ -14,7 +14,8 @@
 	</f:metadata>
 	<ui:param name="pageTitle" value="Create Usuario" />
 	<ui:define name="content">
-		 
+		<h:outputStylesheet name="bootstrap.css" />
+    	<h:outputStylesheet name="bootstrap-select.css" />
 		<div class="row text-center">
 			<h:message for="formRegistrer:inputpassword" id="msgPassword"
 				class="alert alert-danger" style="display: inline-block;" />
@@ -84,7 +85,7 @@
 							</div>
 							
 							<div class="form-group">
-								<p:calendar id="inputdate" value="#{usuarioBean.usuario.nacimiento}" inputStyleClass="form-control input-lg" />
+								<p:calendar id="inputdate" placeholder="Fecha de Nacimiento" value="#{usuarioBean.usuario.nacimiento}" inputStyleClass="form-control input-lg" />
 							</div>
 							
 							<div class="form-group">   

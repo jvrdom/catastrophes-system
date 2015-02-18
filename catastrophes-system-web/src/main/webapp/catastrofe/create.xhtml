@@ -86,6 +86,7 @@
 							</h:selectOneMenu>
 						</div>
 					</div>
+					<p:commandButton value="Asignar Ong's" oncomplete="PF('ongDlg').show();" actionListener="#{catastrofeBean.cargarOngs}" immediate="true" update=":form-catastrofe:ongDlgId" style="margin-bottom:10px;" ></p:commandButton>
 					<div class="form-group">
 						<div class="col-sm-12">
 							<p:fileUpload fileUploadListener="#{catastrofeBean.handleFileUpload}" mode="advanced" dragDropSupport="false"
@@ -94,14 +95,43 @@
 	                  		cancelLabel="Cancelar"
 	                  		uploadLabel="Subir"
 	                  		update="messages" />
-	                  	</div>
+	                  	</div>	                  	
 	            	</div>    
-					
+										
                 	<h:commandButton value="Ingresar Catástrofe" action="#{catastrofeBean.update}" class="pull-right btn btn-success"></h:commandButton>
+                	
+                	<p:dialog id="ongDlgId" header="Asignar Ong's." width="480" 
+                  		closeOnEscape="true" resizable="false" modal="true" widgetVar="ongDlg" >
+            			<h:panelGrid width="100%" cellspacing="5">
+                			<h:outputText value="Seleccione las ong que colaborarán con la catástrofe." />
+            			</h:panelGrid>
+            			<p:spacer height="10"/>
+            			<p:pickList id="pickList" value="#{catastrofeBean.ongPick}" var="ong" itemLabel="#{ong.nombre}" itemValue="#{ong}" 
+                        showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains"    
+                        converter="#{catastrofeBean.ongConverter}" >
+                			<f:facet name="sourceCaption">Ong's asignadas</f:facet>
+                			<f:facet name="targetCaption">Resto de las ong's</f:facet>
+							<p:column >
+                        		<h:outputText value="#{ong.nombre}"/>
+                    		</p:column>
+               
+           				</p:pickList>
+
+            			<p:spacer height="5" styleClass="punteadoH" width="100%"/>
+            			<h:panelGrid  columns="2" cellspacing="10" styleClass="cen" columnClasses="izq, izq" cellpadding="10" >
+                				<p:commandButton value="Aplicar" oncomplete="PF('ongDlg').hide();"  actionListener="#{catastrofeBean.asignarOng}" 
+                                 styleClass="btn"  update=":form-catastrofe:messages"   />
+                				<p:commandButton value="Cancelar" actionListener="#{catastrofeBean.cancelarAsigOng}"
+                                 update="pickList" oncomplete="PF('ongDlg').hide();" styleClass="btn"/>
+            			</h:panelGrid>
+						
+        			</p:dialog>
         		</h:form>
 			</div>
 			<div class="col-xs-6" id="mapa" style="height: 300px;"></div>
 		</div>
+		
+		
 		<script type="text/javascript">
 			var map;
 			var geocoder;
