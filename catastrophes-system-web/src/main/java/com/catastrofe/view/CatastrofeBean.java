@@ -88,8 +88,6 @@ public class CatastrofeBean implements Serializable {
 		this.id = id;
 	}
 	
-	
-
 	public String getEstilo() {
 		return estilo;
 	}
@@ -97,8 +95,6 @@ public class CatastrofeBean implements Serializable {
 	public void setEstilo(String estilo) {
 		this.estilo = estilo;
 	}
-
-
 
 	private Catastrofe catastrofe;
 
@@ -175,6 +171,7 @@ public class CatastrofeBean implements Serializable {
 				this.sendNotification(RESCATISTA, this.catastrofe);
 				
 				return "./../usuario/index.xhtml";
+				
 			} else {
 				
 				if(!this.imagenesCatastrofe.isEmpty()) {

@@ -35,6 +35,7 @@
   <url-pattern>/faces/catastrofe/*</url-pattern>
   <url-pattern>/faces/perosnaDesap/*</url-pattern>
   <url-pattern>/faces/ong/*</url-pattern>
+  <url-pattern>/faces/usuario/index.xhtml</url-pattern>
  </filter-mapping>
  <filter-mapping>
   <filter-name>PrimeFaces FileUpload Filter</filter-name>
