@@ -32,7 +32,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.json.JSONException;
-import org.omnifaces.cdi.ViewScoped;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DualListModel;
 
@@ -42,7 +41,6 @@ import com.catastrofe.dao.UsuarioDao;
 import com.catastrofe.model.Catastrofe;
 import com.catastrofe.model.Imagen;
 import com.catastrofe.model.Novedades;
-import com.catastrofe.model.Ong;
 import com.catastrofe.model.Ong;
 import com.catastrofe.model.Plan;
 import com.catastrofe.model.tipoPlan;

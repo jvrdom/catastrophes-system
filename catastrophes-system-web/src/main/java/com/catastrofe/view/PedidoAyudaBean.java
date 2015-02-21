@@ -146,6 +146,7 @@ public class PedidoAyudaBean implements Serializable
         	latLong = latLong.replace(")", "");
 
 			String[] latlong = latLong.split(",");
+			
 			double lat = Double.parseDouble(latlong[0]);
 			double lng = Double.parseDouble(latlong[1]);
 			
@@ -157,9 +158,12 @@ public class PedidoAyudaBean implements Serializable
 			this.pedidoAyudaDao.create(this.pedidoAyuda);
 			this.sendNotification(RESCATISTA, this.pedidoAyuda);
 			
-            FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Su pedido de ayuda ha sido ingresado correctamente",""));
+            //FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Su pedido de ayuda ha sido ingresado correctamente",""));
             
-            return "search?faces-redirect=true";
+            //Thread.sleep(5000);
+            
+            //return "search?faces-redirect=true";
+			return "./../usuario/index.xhtml";
          }
          else
          {
