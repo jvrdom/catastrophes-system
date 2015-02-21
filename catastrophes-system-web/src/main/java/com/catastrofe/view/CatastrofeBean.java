@@ -2,12 +2,12 @@ package com.catastrofe.view;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateful;
@@ -17,6 +17,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.ConverterException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -29,13 +30,18 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.json.JSONException;
+import org.omnifaces.cdi.ViewScoped;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DualListModel;
 
 import com.catastrofe.dao.CatastrofeDao;
+import com.catastrofe.dao.OngDao;
 import com.catastrofe.dao.UsuarioDao;
 import com.catastrofe.model.Catastrofe;
 import com.catastrofe.model.Imagen;
 import com.catastrofe.model.Novedades;
+import com.catastrofe.model.Ong;
+import com.catastrofe.model.Ong;
 import com.catastrofe.model.Plan;
 import com.catastrofe.model.tipoPlan;
 import com.catastrofe.utiles.AndroidGCMPushNotification;
@@ -55,7 +61,10 @@ import com.catastrofe.utiles.UtilesWeb;
 @Stateful
 @ConversationScoped
 public class CatastrofeBean implements Serializable {
-
+	
+	@Inject
+	private OngDao ongDao;
+	
 	private static final long serialVersionUID = 1L;
 	private static final String RESCATISTA = "Rescatista";
 
@@ -73,11 +82,23 @@ public class CatastrofeBean implements Serializable {
 	private String estilo;
 	private AndroidGCMPushNotification notifications;
 	
+	private DualListModel<Ong> ongPick;
+	private List<Ong> ongSelected;
+	private List<Ong> ongs;
+
+	
 	public CatastrofeBean() {
 		utiles = new UtilesWeb();
 		planes = new HashSet<Plan>();
 		imagenesCatastrofe = new HashSet<Imagen>();
 		notifications = new AndroidGCMPushNotification();
+	}
+	
+	@PostConstruct
+	public void init(){
+		ongSelected=new ArrayList<Ong>();
+		ongs=new ArrayList<>();
+		ongPick = new DualListModel<>(ongSelected, ongs);
 	}
 
 	public Long getId() {
@@ -95,6 +116,28 @@ public class CatastrofeBean implements Serializable {
 	public void setEstilo(String estilo) {
 		this.estilo = estilo;
 	}
+
+	public void setOngPick(DualListModel<Ong> ongPick) {
+		this.ongPick = ongPick;
+	}
+
+	public List<Ong> getOngSelected() {
+		return ongSelected;
+	}
+
+	public void setOngSelected(List<Ong> ongSelected) {
+		this.ongSelected = ongSelected;
+	}
+
+	public List<Ong> getOngs() {
+		return ongs;
+	}
+
+	public void setOngs(List<Ong> ongs) {
+		this.ongs = ongs;
+	}
+
+
 
 	private Catastrofe catastrofe;
 
@@ -151,7 +194,7 @@ public class CatastrofeBean implements Serializable {
 
 		try {
 			if (this.id == null) {
-
+				System.out.println("para crear catastrofe----");
 				latLng = latLng.replace("(", "");
 				latLng = latLng.replace(")", "");
 
@@ -168,6 +211,22 @@ public class CatastrofeBean implements Serializable {
 				}
 				this.catastofeDao.create(this.catastrofe);
 				
+				this.catastrofe=this.catastofeDao.findByName(this.catastrofe.getNombre());
+				System.out.println("findByName catId:"+this.catastrofe.getId());
+				if(ongPick.getSource()!=null && !ongPick.getSource().isEmpty()){
+					System.out.println("ongSelected no es null");
+					for(Ong ong: ongPick.getSource()){
+						System.out.println("en el for");
+						if(ong.getCatastrofes()==null){
+							Set<Catastrofe> set = new HashSet<Catastrofe>();
+							set.add(catastrofe);
+							ong.setCatastrofes(set);
+						}else{
+							ong.getCatastrofes().add(catastrofe);
+						}
+						ongDao.update(ong);
+					}
+				}
 				this.sendNotification(RESCATISTA, this.catastrofe);
 				
 				return "./../usuario/index.xhtml";
