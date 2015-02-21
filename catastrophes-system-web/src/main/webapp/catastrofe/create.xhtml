@@ -6,7 +6,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"	
-	template="/resources/template/layout.xhtml">
+	template="/resources/template/layoutCatastrofe.xhtml">
 	
 	<f:metadata>
 		<f:viewParam name="id" value="#{catastrofeBean.id}"/>
@@ -18,10 +18,25 @@
 	<ui:define name="footer"/>
 	
 	  <ui:define name="content">
+	  <h:outputStylesheet name="#{catastrofeBean.estiloCss}" />
 	  	<div class="row">
 	  		<div class="col-xs-6">
-	  			<h:form enctype="multipart/form-data" class="form-horizontal" id="form-catastrofe">
-	  				<p:growl id="messages" showDetail="true" />
+	  			<h:form enctype="multipart/form-data" class="form-horizontal" id="form-catastrofe"> 
+	  				<p:growl id="messages" showDetail="true" autoUpdate="true"/>
+	  				<div class="form-group">
+					  	<div class="col-sm-10">
+							<h:selectOneMenu id="tipoCss"  value="#{catastrofeBean.estilo}"  valueChangeListener="#{catastrofeBean.seleccionarTema}" onchange="submit()" styleClass="selectpicker">																
+								<f:selectItem itemValue="tema1" />
+								<f:selectItem itemValue="tema2"/>
+								<f:selectItem itemValue="tema3"/>
+								<f:selectItem itemValue="tema4"/>
+								<f:selectItem itemValue="tema5"/>
+								<f:selectItem itemValue="tema6"/>
+								<f:selectItem itemValue="tema7"/>
+								<f:selectItem itemValue="tema8"/>
+							</h:selectOneMenu>					
+						</div>
+					</div>
 	  				<div class="form-group">
 	  					<div class="col-sm-12">
 			  				<p:fileUpload fileUploadListener="#{catastrofeBean.handleFileUploadImagen}" mode="advanced" dragDropSupport="false"
@@ -62,20 +77,6 @@
 								<f:selectItem itemValue="Inundacion"/>
 								<f:selectItem itemValue="Terremoto"/>
 								<f:selectItem itemValue="Tormenta"/>
-							</h:selectOneMenu>
-						</div>
-					</div>
-					<div class="form-group">
-					  	<div class="col-sm-10">
-							<h:selectOneMenu id="tipoCss" value="#{catastrofeBean.estilo}" styleClass="selectpicker">
-								<f:selectItem itemValue="tema1"/>
-								<f:selectItem itemValue="tema2"/>
-								<f:selectItem itemValue="tema3"/>
-								<f:selectItem itemValue="tema4"/>
-								<f:selectItem itemValue="tema5"/>
-								<f:selectItem itemValue="tema6"/>
-								<f:selectItem itemValue="tema7"/>
-								<f:selectItem itemValue="tema8"/>
 							</h:selectOneMenu>
 						</div>
 					</div>

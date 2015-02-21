@@ -15,9 +15,11 @@ import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -85,7 +87,7 @@ public class CatastrofeBean implements Serializable {
 	private DualListModel<Ong> ongPick;
 	private List<Ong> ongSelected;
 	private List<Ong> ongs;
-
+	private String estiloCss;
 	
 	public CatastrofeBean() {
 		utiles = new UtilesWeb();
@@ -99,6 +101,7 @@ public class CatastrofeBean implements Serializable {
 		ongSelected=new ArrayList<Ong>();
 		ongs=new ArrayList<>();
 		ongPick = new DualListModel<>(ongSelected, ongs);
+		estiloCss="tema1.css";
 	}
 
 	public Long getId() {
@@ -115,6 +118,18 @@ public class CatastrofeBean implements Serializable {
 
 	public void setEstilo(String estilo) {
 		this.estilo = estilo;
+	}
+	
+	public String getEstiloCss() {
+		return estiloCss;
+	}
+
+	public void setEstiloCss(String estiloCss) {
+		this.estiloCss = estiloCss;
+	}
+	
+	public DualListModel<Ong> getOngPick() {
+		return ongPick;
 	}
 
 	public void setOngPick(DualListModel<Ong> ongPick) {
@@ -163,7 +178,9 @@ public class CatastrofeBean implements Serializable {
 	}
 
 	public void retrieve() {
-
+		estilo= estiloCss;
+		estilo=estilo.replaceAll(".css", "");
+		System.out.println("estilo en retrive: "+estilo);
 		if (FacesContext.getCurrentInstance().isPostback()) {
 			return;
 		}
@@ -524,5 +541,77 @@ public class CatastrofeBean implements Serializable {
 		Catastrofe added = this.add;
 		this.add = new Catastrofe();
 		return added;
+	}
+	
+	public void cargarOngs(){
+		ongs=ongDao.listAll(null, null);
+		
+		ongPick = new DualListModel<>(ongSelected, ongs);
+	}
+	public void cancelarAsigOng(){
+		ongSelected=new ArrayList<Ong>();
+	}
+	public void asignarOng(){
+		
+		System.out.println("cantidad de ong selec:"+ongPick.getSource().size());
+		for(Ong o:ongPick.getSource()){
+			System.out.println("valor:"+o.getNombre());
+		}
+		System.out.println("cantidad de ong2:"+ongPick.getTarget().size());
+		
+	}
+	
+	
+	public Converter getOngConverter() {
+        return new Converter() {
+            @Override
+            public Object getAsObject(FacesContext context, UIComponent component, String value) {
+                if (value.trim().equals("")) {
+                    return null;
+                } else {
+                    try {
+                        long number = Long.parseLong(value);
+
+                        for (Ong u : ongs) {
+                            if (u.getId() == number) {
+                                return u;
+                            }
+                        }
+
+                    } catch (NumberFormatException ex) {
+                        ex.printStackTrace();
+                        throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid User"));
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            public String getAsString(FacesContext context, UIComponent component, Object value) {
+                if (value == null || value.equals("")) {
+                    return "";
+                } else {
+                    return String.valueOf(((Ong) value).getId());
+                }
+
+            }
+        };
+    }
+	
+	public void seleccionarTema(ValueChangeEvent e){
+		
+		estiloCss=e.getNewValue().toString()+".css";
+		System.out.println("Ingreso a seleccionar tema***************************************:"+estiloCss);
+		
+		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+		try {
+			context.redirect(context.getRequestContextPath() + "/catastrofe/create.xhtml");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 	}
 }
