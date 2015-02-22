@@ -20,8 +20,8 @@
 		  fb.login(function(){ 
 		    if (fb.logged) {			    
 			 
-		     	document.getElementById("formLogin:userFaceId").value=fb.user.first_name+','+fb.user.last_name+','+fb.user.email+','+fb.user.gender;		
-		     	document.getElementById('formLogin:btn1').click();     			     		
+		     	document.getElementById("formHeader:userFaceId").value=fb.user.first_name+','+fb.user.last_name+','+fb.user.email+','+fb.user.gender;		
+		     	document.getElementById('formHeader:btn1').click();     			     		
 		    } else {
 		      alert("No se pudo identificar al usuario");
 		    }
@@ -34,7 +34,6 @@
 			<f:event rendered="#{empty loginBean.profile}" type="preRenderView" listener="#{loginBean.setOriginalURL(originalURL)}" />
 		</f:metadata>
 	</f:view>
-
 		<h:form id="formLogin" class="form-signin">		
 			<div id="fb-root"></div>
 			<p:growl id="msg" showDetail="true" life="3000" />
@@ -52,20 +51,6 @@
 
 			<h:commandButton value="Ingresar" action="#{loginBean.login}"
 				class="btn btn-success btn-lg btn-block" update="msg" />
-			<h:commandButton id="btn1" style="display: none"  action="#{loginBean.faceLogin}"/>	
-			<p:commandLink onclick="login();">
-				<p:graphicImage style="margin-top:3px;" value="/resources/img/facebook.png" />
-			</p:commandLink>
-			<h:inputHidden id="userFaceId" value="#{loginBean.userFace}" />		
-			<p:commandLink id="twitter" action="#{loginBean.socialConnect}">
-				<f:setPropertyActionListener target="#{loginBean.providerID}" value="twitter" />
-				<p:graphicImage style="margin-top:3px;" value="/resources/img/twitter.png" />
-			</p:commandLink>
-
-
- 			
 		</h:form>
-		
-
 	</ui:define>
 </ui:composition>
