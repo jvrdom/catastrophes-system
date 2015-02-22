@@ -12,126 +12,123 @@
 		<f:viewParam name="id" value="#{catastrofeBean.id}"/>
 		<f:event type="preRenderView" listener="#{catastrofeBean.retrieve}"/>
 	</f:metadata>
+	
+	<style>
+		.hiddenDiv {
+			display:none;
+		}
+	</style>
 
 	<ui:param name="pageTitle" value="Create Catastrofe"/>
 
 	<ui:define name="footer"/>
 	
-	  <ui:define name="content">
+	<ui:define name="content">
 	  <h:outputStylesheet name="#{catastrofeBean.estiloCss}" />
-	  	<div class="row">
+	  <h:form enctype="multipart/form-data" class="form-horizontal" id="form-catastrofe"> 
+	  	<p:growl id="messages" showDetail="true" autoUpdate="true"/>	
+	  	<div class="row" id="step1">
 	  		<div class="col-xs-6">
-	  			<h:form enctype="multipart/form-data" class="form-horizontal" id="form-catastrofe"> 
-	  				<p:growl id="messages" showDetail="true" autoUpdate="true"/>
-	  				<div class="form-group">
-					  	<div class="col-sm-10">
-							<h:selectOneMenu id="tipoCss"  value="#{catastrofeBean.estilo}"  valueChangeListener="#{catastrofeBean.seleccionarTema}" onchange="submit()" styleClass="selectpicker">																
-								<f:selectItem itemValue="tema1" />
-								<f:selectItem itemValue="tema2"/>
-								<f:selectItem itemValue="tema3"/>
-								<f:selectItem itemValue="tema4"/>
-								<f:selectItem itemValue="tema5"/>
-								<f:selectItem itemValue="tema6"/>
-								<f:selectItem itemValue="tema7"/>
-								<f:selectItem itemValue="tema8"/>
-							</h:selectOneMenu>					
-						</div>
+	  			<div class="form-group">
+  					<div class="col-sm-12">
+		  				<p:fileUpload fileUploadListener="#{catastrofeBean.handleFileUploadImagen}" mode="advanced" dragDropSupport="false"
+                 			multiple="false" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                 			label="Elegir Icono"
+                 			cancelLabel="Cancelar"
+                 			uploadLabel="Subir"
+                 			update="messages" />
 					</div>
-	  				<div class="form-group">
-	  					<div class="col-sm-12">
-			  				<p:fileUpload fileUploadListener="#{catastrofeBean.handleFileUploadImagen}" mode="advanced" dragDropSupport="false"
-                  			multiple="false" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-                  			label="Elegir Icono"
-                  			cancelLabel="Cancelar"
-                  			uploadLabel="Subir"
-                  			update="messages" />
-						</div>
+				</div>
+	  			<div class="form-group">
+		  			<div class="col-sm-12">	
+		                <p:inputText id="inputname" value="#{catastrofeBean.catastrofe.nombre}" required="true" label="Name" styleClass="form-control">
+		                    <f:validateLength minimum="2" />
+		                </p:inputText>
+		                <p:watermark for="inputname" value="Nombre de Evento" id="watermarkName" />
+		            </div>
+                </div>
+                <div class="form-group">
+		  			<div class="col-sm-12">	
+		                <p:inputText id="inputdescripcion" value="#{catastrofeBean.catastrofe.descripcion}" required="true" label="Name" styleClass="form-control"/>
+		                <p:watermark for="inputdescripcion" value="Descripcion" id="watermarkDesc" />
+		            </div>
+                </div>
+                <div class="form-group">
+		  			<div class="col-sm-12">
+	                	<p:inputText id="inputdireccion" value="#{catastrofeBean.catastrofe.direccion}" required="true" label="Name" styleClass="form-control"/>
+	                	<h:inputHidden value="#{catastrofeBean.latLng}" id='coord'/>
+	                	<h:inputHidden value="#{catastrofeBean.radio}" id='radio'/>
+				        <p:watermark for="inputdireccion" value="Direccion" id="watermarkDireccion" />
+		            </div>
+                </div>
+                <div class="form-group">
+				  	<div class="col-sm-10">
+						<h:selectOneMenu id="tipo" value="#{catastrofeBean.catastrofe.tipoCatastrofe}" styleClass="selectpicker">
+							<f:selectItem itemValue="Incendio"/>
+							<f:selectItem itemValue="Sudestada"/>
+							<f:selectItem itemValue="Inundacion"/>
+							<f:selectItem itemValue="Terremoto"/>
+							<f:selectItem itemValue="Tormenta"/>
+						</h:selectOneMenu>
 					</div>
-	  				<div class="form-group">
-			  			<div class="col-sm-12">	
-			                <p:inputText id="inputname" value="#{catastrofeBean.catastrofe.nombre}" required="true" label="Name" styleClass="form-control">
-			                    <f:validateLength minimum="2" />
-			                </p:inputText>
-			                <p:watermark for="inputname" value="Nombre de Evento" id="watermarkName" />
-			            </div>
-	                </div>
-	                <div class="form-group">
-			  			<div class="col-sm-12">	
-			                <p:inputText id="inputdescripcion" value="#{catastrofeBean.catastrofe.descripcion}" required="true" label="Name" styleClass="form-control"/>
-			                <p:watermark for="inputdescripcion" value="Descripcion" id="watermarkDesc" />
-			            </div>
-	                </div>
-	                <div class="form-group">
-			  			<div class="col-sm-12">
-		                	<p:inputText id="inputdireccion" value="#{catastrofeBean.catastrofe.direccion}" required="true" label="Name" styleClass="form-control"/>
-		                	<h:inputHidden value="#{catastrofeBean.latLng}" id='coord'/>
-		                	<h:inputHidden value="#{catastrofeBean.radio}" id='radio'/>
-					        <p:watermark for="inputdireccion" value="Direccion" id="watermarkDireccion" />
-			            </div>
-	                </div>
-	                <div class="form-group">
-					  	<div class="col-sm-10">
-							<h:selectOneMenu id="tipo" value="#{catastrofeBean.catastrofe.tipoCatastrofe}" styleClass="selectpicker">
-								<f:selectItem itemValue="Incendio"/>
-								<f:selectItem itemValue="Sudestada"/>
-								<f:selectItem itemValue="Inundacion"/>
-								<f:selectItem itemValue="Terremoto"/>
-								<f:selectItem itemValue="Tormenta"/>
-							</h:selectOneMenu>
-						</div>
-					</div>
-					<p:commandButton value="Asignar Ong's" oncomplete="PF('ongDlg').show();" actionListener="#{catastrofeBean.cargarOngs}" immediate="true" update=":form-catastrofe:ongDlgId" style="margin-bottom:10px;" ></p:commandButton>
-					<div class="form-group">
-						<div class="col-sm-12">
-							<p:fileUpload fileUploadListener="#{catastrofeBean.handleFileUpload}" mode="advanced" dragDropSupport="false"
-	                  		multiple="true" allowTypes="/(\.|\/)(pdf)$/"
-	                  		label="Elegir Plan"
-	                  		cancelLabel="Cancelar"
-	                  		uploadLabel="Subir"
-	                  		update="messages" />
-	                  	</div>	                  	
-	            	</div>    
-										
-                	<h:commandButton value="Ingresar Catástrofe" action="#{catastrofeBean.update}" class="pull-right btn btn-success"></h:commandButton>
-                	
-                	<p:dialog id="ongDlgId" header="Asignar Ong's." width="480" 
-                  		closeOnEscape="true" resizable="false" modal="true" widgetVar="ongDlg" >
-            			<h:panelGrid width="100%" cellspacing="5">
-                			<h:outputText value="Seleccione las ong que colaborarán con la catástrofe." />
-            			</h:panelGrid>
-            			<p:spacer height="10"/>
-            			<p:pickList id="pickList" value="#{catastrofeBean.ongPick}" var="ong" itemLabel="#{ong.nombre}" itemValue="#{ong}" 
-                        showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains"    
-                        converter="#{catastrofeBean.ongConverter}" >
-                			<f:facet name="sourceCaption">Ong's asignadas</f:facet>
-                			<f:facet name="targetCaption">Resto de las ong's</f:facet>
-							<p:column >
-                        		<h:outputText value="#{ong.nombre}"/>
-                    		</p:column>
-               
-           				</p:pickList>
-
-            			<p:spacer height="5" styleClass="punteadoH" width="100%"/>
-            			<h:panelGrid  columns="2" cellspacing="10" styleClass="cen" columnClasses="izq, izq" cellpadding="10" >
-                				<p:commandButton value="Aplicar" oncomplete="PF('ongDlg').hide();"  actionListener="#{catastrofeBean.asignarOng}" 
-                                 styleClass="btn"  update=":form-catastrofe:messages"   />
-                				<p:commandButton value="Cancelar" actionListener="#{catastrofeBean.cancelarAsigOng}"
-                                 update="pickList" oncomplete="PF('ongDlg').hide();" styleClass="btn"/>
-            			</h:panelGrid>
-						
-        			</p:dialog>
-        		</h:form>
+				</div>
+				
+				<p:commandButton value="Asignar Ong's" oncomplete="PF('ongDlg').show();" actionListener="#{catastrofeBean.cargarOngs}" immediate="true" update=":form-catastrofe:ongDlgId" style="margin-bottom:10px;" ></p:commandButton>
+				
+	  		</div>
+	  		<div class="col-xs-6" id="mapa" style="height: 400px;"></div>	  	
+	  	</div>
+		
+		<div class="row" id="step2">
+			<div style="display: none;">
+			<p>hola</p>
 			</div>
-			<div class="col-xs-6" id="mapa" style="height: 400px;"></div>
 		</div>
 		
+		<div class="row" id="step3">
+			<div style="display: none;">
+			<p>holaUltimo</p>
+			</div>
+		</div>
 		
-		<script type="text/javascript">
+		<p:dialog id="ongDlgId" header="Asignar Ong's." width="480" 
+                  		closeOnEscape="true" resizable="false" modal="true" widgetVar="ongDlg" >
+          			<h:panelGrid width="100%" cellspacing="5">
+              			<h:outputText value="Seleccione las ong que colaborarán con la catástrofe." />
+          			</h:panelGrid>
+          			<p:spacer height="10"/>
+          			<p:pickList id="pickList" value="#{catastrofeBean.ongPick}" var="ong" itemLabel="#{ong.nombre}" itemValue="#{ong}" 
+                      showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains"    
+                      converter="#{catastrofeBean.ongConverter}" >
+              			<f:facet name="sourceCaption">Ong's asignadas</f:facet>
+              			<f:facet name="targetCaption">Resto de las ong's</f:facet>
+						<p:column >
+                      		<h:outputText value="#{ong.nombre}"/>
+                  		</p:column>
+             
+         			</p:pickList>
+
+          			<p:spacer height="5" styleClass="punteadoH" width="100%"/>
+          			<h:panelGrid  columns="2" cellspacing="10" styleClass="cen" columnClasses="izq, izq" cellpadding="10" >
+              				<p:commandButton value="Aplicar" oncomplete="PF('ongDlg').hide();"  actionListener="#{catastrofeBean.asignarOng}" 
+                               styleClass="btn"  update=":form-catastrofe:messages"   />
+              				<p:commandButton value="Cancelar" actionListener="#{catastrofeBean.cancelarAsigOng}"
+                               update="pickList" oncomplete="PF('ongDlg').hide();" styleClass="btn"/>
+          			</h:panelGrid>
+				
+      			</p:dialog>
+	  </h:form>	
+	  
+	  
+      <button id="next" type="button" class="btn btn-primary">Next</button>
+		
+	  <script type="text/javascript">
 			var map;
 			var geocoder;
 			var circle;
 			var overlays = [];
-
+			var step = 1; 
+			
 			function initialize(){
 				 geocoder = new google.maps.Geocoder();
 				 var mapOptions = {
@@ -148,6 +145,24 @@
 
 				 google.maps.event.addListener(map, 'click', function(event) {
 					 addMarkerWithCircle(event.latLng);
+				 });
+
+				 $("#next").click(function() {
+					if(step == 1){
+						$("#step2 div").attr('style','display:inline;');
+						$("#step1 div").attr('style','display:none;');
+						step++;
+					} else if(step == 2){
+						$("#step3 div").attr('style','display:inline;');
+						$("#step2 div").attr('style','display:none;');
+						step++;
+					}
+
+					if(step == 3){
+						//$("#step2").removeClass('hiddenDiv');
+						//$("#step1").addClass('hiddenDiv');
+						//step++;
+					}		  
 				 });
 			}
 
