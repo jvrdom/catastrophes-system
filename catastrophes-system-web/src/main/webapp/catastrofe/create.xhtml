@@ -30,6 +30,20 @@
 	  	<div class="row" id="step1">
 	  		<div class="col-xs-6">
 	  			<div class="form-group">
+				  	<div class="col-sm-10">
+						<h:selectOneMenu id="comboCss" value="#{catastrofeBean.estilo}" valueChangeListener="#{catastrofeBean.seleccionarTema}" onchange="submit()" styleClass="selectpicker">
+							<f:selectItem itemValue="tema1"/>
+							<f:selectItem itemValue="tema2"/>
+							<f:selectItem itemValue="tema3"/>
+							<f:selectItem itemValue="tema4"/>
+							<f:selectItem itemValue="tema5"/>
+							<f:selectItem itemValue="tema6"/>
+							<f:selectItem itemValue="tema7"/>
+							<f:selectItem itemValue="tema8"/>
+						</h:selectOneMenu>
+					</div>
+				</div>
+	  			<div class="form-group">
   					<div class="col-sm-12">
 		  				<p:fileUpload fileUploadListener="#{catastrofeBean.handleFileUploadImagen}" mode="advanced" dragDropSupport="false"
                  			multiple="false" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
@@ -113,7 +127,7 @@
               				<p:commandButton value="Aplicar" oncomplete="PF('ongDlg').hide();"  actionListener="#{catastrofeBean.asignarOng}" 
                                styleClass="btn"  update=":form-catastrofe:messages"   />
               				<p:commandButton value="Cancelar" actionListener="#{catastrofeBean.cancelarAsigOng}"
-                               update="pickList" oncomplete="PF('ongDlg').hide();" styleClass="btn"/>
+                               update="pickList" immediate="true" oncomplete="PF('ongDlg').hide();" styleClass="btn"/>
           			</h:panelGrid>
 				
       			</p:dialog>
