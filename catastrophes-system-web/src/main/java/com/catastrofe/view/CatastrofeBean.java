@@ -2,6 +2,7 @@ package com.catastrofe.view;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -86,6 +87,7 @@ public class CatastrofeBean implements Serializable {
 	private List<Ong> ongSelected;
 	private List<Ong> ongs;
 	private String estiloCss;
+	private String rss;
 	
 	public CatastrofeBean() {
 		utiles = new UtilesWeb();
@@ -110,6 +112,14 @@ public class CatastrofeBean implements Serializable {
 		this.id = id;
 	}
 	
+	public String getRss() {
+		return rss;
+	}
+
+	public void setRss(String rss) {
+		this.rss = rss;
+	}
+
 	public String getEstilo() {
 		return estilo;
 	}
@@ -205,11 +215,12 @@ public class CatastrofeBean implements Serializable {
 	 */
 
 	public String update() {
+		System.out.println("metodo update catastrofe----");
 		this.conversation.end();
 
 		try {
 			if (this.id == null) {
-				System.out.println("para crear catastrofe----");
+				
 				latLng = latLng.replace("(", "");
 				latLng = latLng.replace(")", "");
 
@@ -224,7 +235,24 @@ public class CatastrofeBean implements Serializable {
 				if(estilo!=null && !estilo.isEmpty()){
 					this.catastrofe.setCss(estilo.trim()+".css");
 				}
+				
+				if(rss!=null && !rss.isEmpty()){
+					Novedades nov=new Novedades();
+					nov.setTipo("rss");
+					nov.setOrigenDato(rss);
+					nov.setDescripcion("Fuente de noticias rss");
+					if(novedadesCatastrofe==null){
+						novedadesCatastrofe= new HashSet<Novedades>();
+						novedadesCatastrofe.add(nov);						
+					}else{
+						novedadesCatastrofe.add(nov);
+					}
+				}
+				
+				catastrofe.setNovedades(novedadesCatastrofe);
 				this.catastofeDao.create(this.catastrofe);
+				
+				
 				
 				this.catastrofe=this.catastofeDao.findByName(this.catastrofe.getNombre());
 				System.out.println("findByName catId:"+this.catastrofe.getId());
@@ -267,11 +295,43 @@ public class CatastrofeBean implements Serializable {
 				
 				this.catastofeDao.update(this.catastrofe);
 				return "view?faces-redirect=true&id=" + this.catastrofe.getId();
+				
 			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(e.getMessage()));
 			return null;
 		}
+	}
+	
+	public void actualizar(){
+		try {
+		if(!this.imagenesCatastrofe.isEmpty()) {
+			this.catastrofe.setImagenes(this.imagenesCatastrofe);
+		}
+		
+		if(!this.url.isEmpty()){
+			Novedades novedad = new Novedades();
+			novedad.setDescripcion("chuco");
+			
+			
+				novedad.setThumbnail(utiles.getThumbUrl(this.url));
+			
+			novedad.setOrigenDato(this.url);
+			
+			novedadesCatastrofe = this.catastrofe.getNovedades();
+			novedadesCatastrofe.add(novedad);
+			
+			this.catastrofe.setNovedades(this.novedadesCatastrofe);
+			this.url="";
+		}
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
+		this.catastofeDao.update(this.catastrofe);
 	}
 
 	public String delete() {
@@ -349,7 +409,9 @@ public class CatastrofeBean implements Serializable {
 	
 	public void handleKeyEvent(){
 		try{
-			this.update();
+			System.out.println("en handle ******************************");
+			//this.update();
+			this.actualizar();
 		}catch(Exception ex){
 			ex.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",ex.getMessage()));
