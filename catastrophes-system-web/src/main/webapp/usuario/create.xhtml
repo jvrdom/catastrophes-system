@@ -51,14 +51,14 @@
 						</div>
 						<div class="form-group">
 							<p:inputText id="inputmail" value="#{usuarioBean.usuario.email}"
-								required="true" label="User" styleClass="form-control input-lg" placeholder="E-Mail" tabindex="1">
+								required="true" label="User" styleClass="form-control input-lg" placeholder="Correo Electrónico" tabindex="1">
 								<f:validateLength minimum="2" />
 							</p:inputText>
 						</div>
 						<div class="form-group">
 							<p:password id="inputpassword"
 								value="#{usuarioBean.usuario.password}" required="true"
-								label="Password" styleClass="form-control input-lg" placeholder="Password" tabindex="1"
+								label="Password" styleClass="form-control input-lg" placeholder="Contaseña" tabindex="1"
 								requiredMessage="Por favor ingrese un password"
 								validatorMessage="Formato de Password Invalido">
 								<f:validateLength minimum="8" />
@@ -76,15 +76,7 @@
 							</div>
 							
 							<div class="form-group">
-								<h:selectOneMenu id="inputtipo" value="#{usuarioBean.rol}" styleClass="selectpicker form-control input-lg">
-									<f:selectItem itemValue="Usuario" />
-									<f:selectItem itemValue="Administrador" />
-									<f:selectItem itemValue="Rescatista" />
-								</h:selectOneMenu>
-							</div>
-							
-							<div class="form-group">
-								<p:calendar id="inputdate" value="#{usuarioBean.usuario.nacimiento}" inputStyleClass="form-control input-lg" />
+								<p:calendar id="inputdate" placeholder="Fecha de Nacimiento" value="#{usuarioBean.usuario.nacimiento}" inputStyleClass="form-control input-lg" />
 							</div>
 							
 							<div class="form-group">   

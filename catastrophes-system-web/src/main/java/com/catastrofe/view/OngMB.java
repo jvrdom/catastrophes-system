@@ -3,19 +3,17 @@ package com.catastrofe.view;
 
 import java.io.Serializable;
 
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Stateful;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
 
 import org.omnifaces.cdi.ViewScoped;
 
@@ -23,7 +21,7 @@ import com.catastrofe.dao.CatastrofeDao;
 import com.catastrofe.dao.OngDao;
 import com.catastrofe.model.Ong;
 import com.catastrofe.model.Catastrofe;
-import com.catastrofe.model.Usuario;
+
 
 
 @Named
@@ -260,6 +258,7 @@ public class OngMB implements Serializable{
 		ong.setPaypalMail(mail);
 		Set<Catastrofe> set = new HashSet<Catastrofe>(catsOng);
 		ong.setCatastrofes(set);
+		
 		//ong.setCatastrofes((Set<Catastrofe>) catsOng);
 		System.out.println("catAsignadas:"+ong.getCatastrofes().size()+created);
 		
@@ -270,6 +269,7 @@ public class OngMB implements Serializable{
 			FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, txt, txt);
 	        FacesContext.getCurrentInstance().addMessage("successInfo", facesMsg);
 		}else{
+			ong.setVersion(selectedOng.getVersion());
 			ong.setId(selectedOng.getId());
 			ongDao.update(ong);
 			String txt="Se ha editado correctamente.";

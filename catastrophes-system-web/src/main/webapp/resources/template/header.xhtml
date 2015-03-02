@@ -6,9 +6,18 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:og="http://ogp.me/ns#"
+	  xmlns:fb="http://www.facebook.com/2008/fbml"
       xmlns:c="http://java.sun.com/jsp/jstl/core">
     <body>
 	    <ui:composition>
+		<f:view>
+			<ui:param name="originalURL" value="#{request.requestURI}?#{request.queryString}" />
+			<f:metadata>
+				<f:event rendered="#{empty loginBean.profile}" type="preRenderView" listener="#{loginBean.setOriginalURL(originalURL)}" />
+			</f:metadata>
+		</f:view>
+		
 	    <h:form id="formHeader">
 			<ul class="nav nav-pills pull-right" role="tablist">
 				<c:if test="#{not empty usuario}">
@@ -27,6 +36,7 @@
 			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Opciones <span class="caret"></span></a>
 			          <ul class="dropdown-menu" role="menu">
 			            <li><h:link value="Alta de Catastrofes" outcome="/catastrofe/create.xhtml" /></li>
+			            <li><h:link value="Alta de Usuarios" outcome="/usuario/create_admin.xhtml" /></li>
 			            <li><h:link value="Administracion de Ong's" outcome="/ong/ong.xhtml" /></li>
 			            <li><h:link value="Reportes" outcome="/reportes/reporteDonacion.xhtml" /></li>
 			            <li><p:commandLink value="Cerrar Sesión"  action="#{loginBean.doLogout}" style="font-size: 14px;"  ajax="false" immediate="true" /></li>
@@ -36,6 +46,19 @@
 		        </c:if>
 		        <c:if test="#{empty usuario}">
 		        	<li role="presentation"><h:link value="Registrarse" outcome="/usuario/create.xhtml" /></li>
+		        	<li style="margin-top: -5%;">
+		        		<h:commandButton id="btn1" style="display: none" action="#{loginBean.faceLogin}"/>
+			        	<p:commandLink onclick="login();">
+							<p:graphicImage value="/resources/img/facebook.png" />
+						</p:commandLink>
+						<h:inputHidden id="userFaceId" value="#{loginBean.userFace}" />
+					</li>
+					<li style="margin-top: -5%;">
+						<p:commandLink id="twitter" action="#{loginBean.socialConnect}">
+							<f:setPropertyActionListener target="#{loginBean.providerID}" value="twitter" />
+							<p:graphicImage value="/resources/img/twitter.png" />
+						</p:commandLink>
+					</li>
 		        </c:if>
 			</ul>
 			<h3 class="text-muted"> <h:link outcome="/user/userIndex.xhtml" ><h:graphicImage name="images/img1.png" /></h:link></h3>

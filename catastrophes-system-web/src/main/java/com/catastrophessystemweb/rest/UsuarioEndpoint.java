@@ -27,7 +27,8 @@ public class UsuarioEndpoint
    @PersistenceContext(unitName = "forge-default")
    private EntityManager em;
    
-   @Inject private RolDao rolDao;
+   @Inject 
+   private RolDao rolDao;
    
    @POST
    @Path("/create")

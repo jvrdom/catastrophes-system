@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 
@@ -33,6 +34,22 @@ public class ReportePedidoAyudaMB implements Serializable {
 	@EJB
 	private PedidoAyudaDao pedidoAyudaDao;
 	
+	@PostConstruct
+	public void init(){
+		try {
+
+            Date nuevo = new Date();
+            SimpleDateFormat otroFormato = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+            String fecha=otroFormato.format(nuevo);				
+			System.out.println("****findByDate");
+			Date date = otroFormato.parse(fecha);
+			pedidos=pedidoAyudaDao.findByDate(date);
+	 
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	public String getFechaPedidoInicial() {
 		return fechaPedidoInicial;

@@ -2,12 +2,13 @@ package com.catastrofe.view;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.URL;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateful;
@@ -15,8 +16,11 @@ import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.ConverterException;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -30,12 +34,15 @@ import javax.persistence.criteria.Root;
 
 import org.json.JSONException;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DualListModel;
 
 import com.catastrofe.dao.CatastrofeDao;
+import com.catastrofe.dao.OngDao;
 import com.catastrofe.dao.UsuarioDao;
 import com.catastrofe.model.Catastrofe;
 import com.catastrofe.model.Imagen;
 import com.catastrofe.model.Novedades;
+import com.catastrofe.model.Ong;
 import com.catastrofe.model.Plan;
 import com.catastrofe.model.tipoPlan;
 import com.catastrofe.utiles.AndroidGCMPushNotification;
@@ -55,7 +62,10 @@ import com.catastrofe.utiles.UtilesWeb;
 @Stateful
 @ConversationScoped
 public class CatastrofeBean implements Serializable {
-
+	
+	@Inject
+	private OngDao ongDao;
+	
 	private static final long serialVersionUID = 1L;
 	private static final String RESCATISTA = "Rescatista";
 
@@ -73,11 +83,25 @@ public class CatastrofeBean implements Serializable {
 	private String estilo;
 	private AndroidGCMPushNotification notifications;
 	
+	private DualListModel<Ong> ongPick;
+	private List<Ong> ongSelected;
+	private List<Ong> ongs;
+	private String estiloCss;
+	private String rss;
+	
 	public CatastrofeBean() {
 		utiles = new UtilesWeb();
 		planes = new HashSet<Plan>();
 		imagenesCatastrofe = new HashSet<Imagen>();
 		notifications = new AndroidGCMPushNotification();
+	}
+	
+	@PostConstruct
+	public void init(){
+		ongSelected=new ArrayList<Ong>();
+		ongs=new ArrayList<>();
+		ongPick = new DualListModel<>(ongSelected, ongs);
+		estiloCss="tema1.css";
 	}
 
 	public Long getId() {
@@ -88,7 +112,13 @@ public class CatastrofeBean implements Serializable {
 		this.id = id;
 	}
 	
-	
+	public String getRss() {
+		return rss;
+	}
+
+	public void setRss(String rss) {
+		this.rss = rss;
+	}
 
 	public String getEstilo() {
 		return estilo;
@@ -96,6 +126,38 @@ public class CatastrofeBean implements Serializable {
 
 	public void setEstilo(String estilo) {
 		this.estilo = estilo;
+	}
+	
+	public String getEstiloCss() {
+		return estiloCss;
+	}
+
+	public void setEstiloCss(String estiloCss) {
+		this.estiloCss = estiloCss;
+	}
+	
+	public DualListModel<Ong> getOngPick() {
+		return ongPick;
+	}
+
+	public void setOngPick(DualListModel<Ong> ongPick) {
+		this.ongPick = ongPick;
+	}
+
+	public List<Ong> getOngSelected() {
+		return ongSelected;
+	}
+
+	public void setOngSelected(List<Ong> ongSelected) {
+		this.ongSelected = ongSelected;
+	}
+
+	public List<Ong> getOngs() {
+		return ongs;
+	}
+
+	public void setOngs(List<Ong> ongs) {
+		this.ongs = ongs;
 	}
 
 
@@ -124,7 +186,9 @@ public class CatastrofeBean implements Serializable {
 	}
 
 	public void retrieve() {
-
+		estilo= estiloCss;
+		estilo=estilo.replaceAll(".css", "");
+		System.out.println("estilo en retrive: "+estilo);
 		if (FacesContext.getCurrentInstance().isPostback()) {
 			return;
 		}
@@ -151,11 +215,12 @@ public class CatastrofeBean implements Serializable {
 	 */
 
 	public String update() {
+		System.out.println("metodo update catastrofe----");
 		this.conversation.end();
 
 		try {
 			if (this.id == null) {
-
+				
 				latLng = latLng.replace("(", "");
 				latLng = latLng.replace(")", "");
 
@@ -170,11 +235,45 @@ public class CatastrofeBean implements Serializable {
 				if(estilo!=null && !estilo.isEmpty()){
 					this.catastrofe.setCss(estilo.trim()+".css");
 				}
+				
+				if(rss!=null && !rss.isEmpty()){
+					Novedades nov=new Novedades();
+					nov.setTipo("rss");
+					nov.setOrigenDato(rss);
+					nov.setDescripcion("Fuente de noticias rss");
+					if(novedadesCatastrofe==null){
+						novedadesCatastrofe= new HashSet<Novedades>();
+						novedadesCatastrofe.add(nov);						
+					}else{
+						novedadesCatastrofe.add(nov);
+					}
+				}
+				
+				catastrofe.setNovedades(novedadesCatastrofe);
 				this.catastofeDao.create(this.catastrofe);
 				
+				
+				
+				this.catastrofe=this.catastofeDao.findByName(this.catastrofe.getNombre());
+				System.out.println("findByName catId:"+this.catastrofe.getId());
+				if(ongPick.getSource()!=null && !ongPick.getSource().isEmpty()){
+					System.out.println("ongSelected no es null");
+					for(Ong ong: ongPick.getSource()){
+						System.out.println("en el for");
+						if(ong.getCatastrofes()==null){
+							Set<Catastrofe> set = new HashSet<Catastrofe>();
+							set.add(catastrofe);
+							ong.setCatastrofes(set);
+						}else{
+							ong.getCatastrofes().add(catastrofe);
+						}
+						ongDao.update(ong);
+					}
+				}
 				this.sendNotification(RESCATISTA, this.catastrofe);
 				
 				return "./../usuario/index.xhtml";
+				
 			} else {
 				
 				if(!this.imagenesCatastrofe.isEmpty()) {
@@ -196,11 +295,43 @@ public class CatastrofeBean implements Serializable {
 				
 				this.catastofeDao.update(this.catastrofe);
 				return "view?faces-redirect=true&id=" + this.catastrofe.getId();
+				
 			}
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(e.getMessage()));
 			return null;
 		}
+	}
+	
+	public void actualizar(){
+		try {
+		if(!this.imagenesCatastrofe.isEmpty()) {
+			this.catastrofe.setImagenes(this.imagenesCatastrofe);
+		}
+		
+		if(!this.url.isEmpty()){
+			Novedades novedad = new Novedades();
+			novedad.setDescripcion("chuco");
+			
+			
+				novedad.setThumbnail(utiles.getThumbUrl(this.url));
+			
+			novedad.setOrigenDato(this.url);
+			
+			novedadesCatastrofe = this.catastrofe.getNovedades();
+			novedadesCatastrofe.add(novedad);
+			
+			this.catastrofe.setNovedades(this.novedadesCatastrofe);
+			this.url="";
+		}
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
+		this.catastofeDao.update(this.catastrofe);
 	}
 
 	public String delete() {
@@ -278,7 +409,9 @@ public class CatastrofeBean implements Serializable {
 	
 	public void handleKeyEvent(){
 		try{
-			this.update();
+			System.out.println("en handle ******************************");
+			//this.update();
+			this.actualizar();
 		}catch(Exception ex){
 			ex.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error",ex.getMessage()));
@@ -468,5 +601,77 @@ public class CatastrofeBean implements Serializable {
 		Catastrofe added = this.add;
 		this.add = new Catastrofe();
 		return added;
+	}
+	
+	public void cargarOngs(){
+		ongs=ongDao.listAll(null, null);
+		
+		ongPick = new DualListModel<>(ongSelected, ongs);
+	}
+	public void cancelarAsigOng(){
+		ongSelected=new ArrayList<Ong>();
+	}
+	public void asignarOng(){
+		
+		System.out.println("cantidad de ong selec:"+ongPick.getSource().size());
+		for(Ong o:ongPick.getSource()){
+			System.out.println("valor:"+o.getNombre());
+		}
+		System.out.println("cantidad de ong2:"+ongPick.getTarget().size());
+		
+	}
+	
+	
+	public Converter getOngConverter() {
+        return new Converter() {
+            @Override
+            public Object getAsObject(FacesContext context, UIComponent component, String value) {
+                if (value.trim().equals("")) {
+                    return null;
+                } else {
+                    try {
+                        long number = Long.parseLong(value);
+
+                        for (Ong u : ongs) {
+                            if (u.getId() == number) {
+                                return u;
+                            }
+                        }
+
+                    } catch (NumberFormatException ex) {
+                        ex.printStackTrace();
+                        throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid User"));
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            public String getAsString(FacesContext context, UIComponent component, Object value) {
+                if (value == null || value.equals("")) {
+                    return "";
+                } else {
+                    return String.valueOf(((Ong) value).getId());
+                }
+
+            }
+        };
+    }
+	
+	public void seleccionarTema(ValueChangeEvent e){
+		
+		estiloCss=e.getNewValue().toString()+".css";
+		System.out.println("Ingreso a seleccionar tema***************************************:"+estiloCss);
+		
+		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+		try {
+			context.redirect(context.getRequestContextPath() + "/catastrofe/create.xhtml");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 	}
 }

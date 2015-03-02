@@ -47,6 +47,20 @@ public class ReporteDonacionMB implements Serializable {
 	
 	@PostConstruct
 	public void init(){
+		try {
+			
+            //SimpleDateFormat formatoDelTexto = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+            //Date nuevo = (Date) formatoDelTexto.parse(fechaDonacionInicial);
+            Date nuevo = new Date();
+            SimpleDateFormat otroFormato = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+            String fecha=otroFormato.format(nuevo);				
+			System.out.println("****findByDate");
+			Date date = otroFormato.parse(fecha);
+			donaciones=donacionesDao.findByDate(date);
+	 
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		
 	}
 

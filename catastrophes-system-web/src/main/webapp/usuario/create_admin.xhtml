@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	xmlns:p="http://primefaces.org/ui"
+	template="/resources/template/layout.xhtml">
+	<f:metadata>
+		<f:viewParam name="id" value="#{usuarioBean.id}" />
+		<f:event type="preRenderView" listener="#{usuarioBean.retrieve}" />
+	</f:metadata>
+	<ui:param name="pageTitle" value="Create Usuario" />
+	<ui:define name="content">
+		<h:outputStylesheet name="bootstrap.css" />
+    	<h:outputStylesheet name="bootstrap-select.css" />
+		<div class="row text-center">
+			<h:message for="formRegistrer:inputpassword" id="msgPassword"
+				class="alert alert-danger" style="display: inline-block;" />
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-6 col-md-8 col-sm-offset-4 col-md-offset-2">
+				<h:form id="formRegistrer">
+				<p:growl id="messages" showDetail="true" />
+					<div class="row">
+						<div class="col-xs-6 col-sm-6 col-md-6">
+						<div class="form-group">
+							<p:inputText id="inputuser" value="#{usuarioBean.usuario.user}" required="true" label="Name" styleClass="form-control input-lg" placeholder="Usuario" tabindex="1">
+	                        	<f:validateLength minimum="2" />
+							</p:inputText>
+						</div>
+						<div class="row">
+							<div class="col-xs-6 col-sm-6 col-md-6">
+								<div class="form-group">
+			                        <p:inputText id="inputname" value="#{usuarioBean.usuario.nombre}"
+								required="true" label="Name" styleClass="form-control input-lg" placeholder="Nombre" tabindex="1">
+								<f:validateLength minimum="2" />
+								</p:inputText>
+								</div>
+							</div>
+							<div class="col-xs-6 col-sm-6 col-md-6">
+								<div class="form-group">
+									<p:inputText id="inputlastname"
+								value="#{usuarioBean.usuario.apellido}" required="true"
+								label="Lastname" styleClass="form-control input-lg" placeholder="Apellido" tabindex="1">
+								<f:validateLength minimum="2" />
+							</p:inputText>	
+								
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<p:inputText id="inputmail" value="#{usuarioBean.usuario.email}"
+								required="true" label="User" styleClass="form-control input-lg" placeholder="Correo Electrónico" tabindex="1">
+								<f:validateLength minimum="2" />
+							</p:inputText>
+						</div>
+						<div class="form-group">
+							<p:password id="inputpassword"
+								value="#{usuarioBean.usuario.password}" required="true"
+								label="Password" styleClass="form-control input-lg" placeholder="Contaseña" tabindex="1"
+								requiredMessage="Por favor ingrese un password"
+								validatorMessage="Formato de Password Invalido">
+								<f:validateLength minimum="8" />
+								<f:validateRegex
+									pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&amp;])[A-Za-z\d$@$!%*#?&amp;]{8,}$" />
+								<p:ajax update=":msgPassword" event="keyup" />
+							</p:password>
+						</div>
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="form-group">
+								<p:inputText id="inputelefono"
+								value="#{usuarioBean.usuario.telefono}" required="true"
+								label="Telefono" styleClass="form-control input-lg" placeholder="Teléfono" tabindex="1" />
+							</div>
+							
+							<div class="form-group">
+								<h:selectOneMenu id="inputtipo" value="#{usuarioBean.rol}" styleClass="selectpicker form-control input-lg">
+									<f:selectItem itemValue="Administrador" />
+									<f:selectItem itemValue="Rescatista" />
+								</h:selectOneMenu>
+							</div>
+							
+							<div class="form-group">
+								<p:calendar id="inputdate" placeholder="Fecha de Nacimiento" value="#{usuarioBean.usuario.nacimiento}" inputStyleClass="form-control input-lg" />
+							</div>
+							
+							<div class="form-group">   
+								<h:selectOneRadio id="sexo" value="#{usuarioBean.usuario.sexo}">
+									<f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+									<f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+								</h:selectOneRadio>	   
+							</div> 
+
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12 col-sm-12 col-md-12">
+							<p:commandButton value="Registrar Usuario" action="#{usuarioBean.createUser()}" styleClass="btn btn-success btn-block btn-lg" update="formRegistrer messages"></p:commandButton>
+						</div>
+					</div>
+				</h:form>
+		</div>
+		</div>
+	</ui:define>
+</ui:composition>

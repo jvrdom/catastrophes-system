@@ -29,10 +29,9 @@
 							data-toggle="offcanvas">Más Opciones</button>
 					</p>
 					<h:form>
+						<p:remoteCommand name="addMedia" actionListener="#{catastrofeBean.handleKeyEvent}" update=":display inputUrl watermarkUrl"/>
 						<p:inputText id="inputUrl" value="#{catastrofeBean.url}"
-							required="true" label="Name" styleClass="form-control">
-							<p:ajax event="valueChange" update=":display,:displayFeed"
-								listener="#{catastrofeBean.handleKeyEvent()}" />
+							 label="Name" styleClass="form-control" onkeypress="if (event.keyCode == 13) { addMedia(); return false; }">							
 						</p:inputText>
 						<p:watermark for="inputUrl"
 							value="Ingrese la url del video que desea publicar"
@@ -41,7 +40,7 @@
 					<br />
 					<h3 class="page-header" id="hidden-elements">Videos</h3>
 					<h:panelGrid id="display">
-						<div class="row">
+						<div class="row" >
 							<div class="col-md-offset-1 col-md-10">
 								<div class="row">
 									<ui:repeat
@@ -82,6 +81,7 @@
 						<a href="/catastrophes-system-web/faces/donaciones/donaciones.xhtml" class="list-group-item">Realizar Donación</a> 
 						<a href="#" class="list-group-item" data-toggle="modal" data-target="#myModal">Ver Galería</a>
 					</div>
+					<div class="well well-lg">#{catastrofeBean.catastrofe.descripcion}</div>
 				</div>
 			</div>
 		</div>
