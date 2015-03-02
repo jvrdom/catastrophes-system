@@ -1,6 +1,8 @@
 package com.catastrophessystemweb.rest;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -16,6 +18,7 @@ import javax.ws.rs.core.UriBuilder;
 import com.catastrofe.dao.CatastrofeDao;
 import com.catastrofe.dao.UsuarioDao;
 import com.catastrofe.model.Catastrofe;
+import com.catastrofe.model.Imagen;
 import com.catastrofe.model.PerosnaDesap;
 import com.catastrofe.model.Usuario;
 
@@ -39,6 +42,16 @@ public class PerosnaDesapEndpoint
 	  Usuario usuario = usuDAO.findById(usuarioIdLong);
 	  entity.setCatastrofe(catastrofe);
 	  entity.setReportado(usuario);
+	  
+	// Agrego La Imagen Del Usuario
+	  String urlImagen = entity.getStatus();
+	  Imagen imagen = new Imagen();
+	  imagen.setImagen(urlImagen);
+	  Set<Imagen> imagenes = new HashSet<Imagen>();
+	  imagenes.add(imagen);
+	  entity.setImagenes(imagenes);
+	  entity.setStatus("Desaparecida");
+
       em.persist(entity);      
       return Response.created(UriBuilder.fromResource(PerosnaDesapEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
    }
