@@ -6,6 +6,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"	
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
 	template="/resources/template/layoutCatastrofe.xhtml">
 	
 	<f:metadata>
@@ -20,8 +22,6 @@
 	</style>
 
 	<ui:param name="pageTitle" value="Create Catastrofe"/>
-
-	<ui:define name="footer"/>
 	
 	<ui:define name="content">
 	  <h:outputStylesheet name="#{catastrofeBean.estiloCss}" />
@@ -30,11 +30,7 @@
 	  	<div class="row" id="step1">
 	  		<div class="col-xs-6">
 	  			<div class="form-group">
-	  				<div class="col-sm-10">
-	  					<h:outputLabel value="Tema"  style="font-weight: 400;"/>
-	  				</div>
 				  	<div class="col-sm-10">
-				  		
 						<h:selectOneMenu id="comboCss"  value="#{catastrofeBean.estilo}" valueChangeListener="#{catastrofeBean.seleccionarTema}" onchange="submit()" styleClass="selectpicker">
 							<f:selectItem itemValue="tema1"/>
 							<f:selectItem itemValue="tema2"/>
@@ -47,17 +43,8 @@
 						</h:selectOneMenu>
 					</div>
 				</div>
-	  			<div class="form-group">
-  					<div class="col-sm-12">
-		  				<p:fileUpload fileUploadListener="#{catastrofeBean.handleFileUploadImagen}" mode="advanced" dragDropSupport="false"
-                 			multiple="false" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-                 			label="Elegir Icono"
-                 			cancelLabel="Cancelar"
-                 			uploadLabel="Subir"
-                 			update="messages" />
-					</div>
-				</div>
-	  			<div class="form-group">
+				
+				<div class="form-group">
 		  			<div class="col-sm-12">	
 		                <p:inputText id="inputname" value="#{catastrofeBean.catastrofe.nombre}" required="true" label="Name" styleClass="form-control">
 		                    <f:validateLength minimum="2" />
@@ -79,8 +66,21 @@
 				        <p:watermark for="inputdireccion" value="Direccion" id="watermarkDireccion" />
 		            </div>
                 </div>
+                
+	  			<div class="form-group">
+  					<div class="col-sm-12">
+		  				<p:fileUpload fileUploadListener="#{catastrofeBean.handleFileUploadImagen}" mode="advanced" dragDropSupport="false"
+                 			multiple="false" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                 			label="Elegir Icono"
+                 			cancelLabel="Cancelar"
+                 			uploadLabel="Subir"
+                 			update="messages" />
+					</div>
+				</div>
+				
                 <div class="form-group">
 				  	<div class="col-sm-10">
+						<p:commandButton value="Asignar Ong's" oncomplete="PF('ongDlg').show();" actionListener="#{catastrofeBean.cargarOngs}" immediate="true" update=":form-catastrofe:ongDlgId" style="margin-bottom:10px;" ></p:commandButton>
 						<h:selectOneMenu id="tipo" value="#{catastrofeBean.catastrofe.tipoCatastrofe}" styleClass="selectpicker">
 							<f:selectItem itemValue="Incendio"/>
 							<f:selectItem itemValue="Sudestada"/>
@@ -90,62 +90,52 @@
 						</h:selectOneMenu>
 					</div>
 				</div>
+				
+				<div class="form-group">
+					<div class="col-sm-12">
+						<p:fileUpload fileUploadListener="#{catastrofeBean.handleFileUpload}" mode="advanced" dragDropSupport="false"
+                  		multiple="true" allowTypes="/(\.|\/)(pdf)$/"
+                  		label="Elegir Plan"
+                  		cancelLabel="Cancelar"
+                  		uploadLabel="Subir"
+                  		update="messages" />
+                  	</div>	                  	
+            	</div>
+				
 				<div class="form-group">
 		  			<div class="col-sm-12">	
 		                <p:inputText id="inputrss" value="#{catastrofeBean.rss}" label="Name" styleClass="form-control">
-		                    <f:validateLength minimum="2" />
 		                </p:inputText>
 		                <p:watermark for="inputrss" value="Fuente de Noticias RSS" id="watermarkRss" />
 		            </div>
-                </div>
-				
-				
+               	</div>
 	  		</div>
-	  		<div class="col-xs-6" id="mapa" style="height: 400px;"></div>	  	
+	  		<div class="col-xs-6">
+	  			<div id="mapa" style="height: 400px;" ></div>
+	  		</div>
 	  	</div>
-		
-		<div class="row" id="step2">
-			<div style="display: none;">
-			<p:commandButton value="Asignar Ong's" oncomplete="PF('ongDlg').show();" actionListener="#{catastrofeBean.cargarOngs}" immediate="true" update=":form-catastrofe:ongDlgId" style="margin-bottom:10px;" ></p:commandButton>
-			</div>
-		</div>
-		
-		<div class="row" id="step3">
-			<div style="display: none;">
-			<p>holaUltimo</p>
-			</div>
-		</div>
-		
-		<p:dialog id="ongDlgId" header="Asignar Ong's." width="480" 
-                  		closeOnEscape="true" resizable="false" modal="true" widgetVar="ongDlg" >
-          			<h:panelGrid width="100%" cellspacing="5">
-              			<h:outputText value="Seleccione las ong que colaborarán con la catástrofe." />
-          			</h:panelGrid>
-          			<p:spacer height="10"/>
-          			<p:pickList id="pickList" value="#{catastrofeBean.ongPick}" var="ong" itemLabel="#{ong.nombre}" itemValue="#{ong}" 
-                      showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains"    
+		<p:dialog id="ongDlgId" header="Asignar Ong's." width="480" closeOnEscape="true" resizable="false" modal="true" widgetVar="ongDlg" >
+          	<h:panelGrid width="100%" cellspacing="5">
+            	<h:outputText value="Seleccione las ong que colaborarán con la catástrofe." />
+          		</h:panelGrid>
+          		<p:spacer height="10"/>
+          		<p:pickList id="pickList" value="#{catastrofeBean.ongPick}" var="ong" itemLabel="#{ong.nombre}" itemValue="#{ong}" showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains"    
                       converter="#{catastrofeBean.ongConverter}" >
-              			<f:facet name="sourceCaption">Ong's asignadas</f:facet>
-              			<f:facet name="targetCaption">Resto de las ong's</f:facet>
-						<p:column >
-                      		<h:outputText value="#{ong.nombre}"/>
-                  		</p:column>
-             
-         			</p:pickList>
-
-          			<p:spacer height="5" styleClass="punteadoH" width="100%"/>
-          			<h:panelGrid  columns="2" cellspacing="10" styleClass="cen" columnClasses="izq, izq" cellpadding="10" >
-              				<p:commandButton value="Aplicar" oncomplete="PF('ongDlg').hide();"  actionListener="#{catastrofeBean.asignarOng}" 
+              		<f:facet name="sourceCaption">Ong's asignadas</f:facet>
+              		<f:facet name="targetCaption">Resto de las ong's</f:facet>
+					<p:column >
+                    	<h:outputText value="#{ong.nombre}"/>
+                  	</p:column>             
+         		</p:pickList>
+          		<p:spacer height="5" styleClass="punteadoH" width="100%"/>
+          		<h:panelGrid  columns="2" cellspacing="10" styleClass="cen" columnClasses="izq, izq" cellpadding="10" >
+              		<p:commandButton value="Aplicar" oncomplete="PF('ongDlg').hide();"  actionListener="#{catastrofeBean.asignarOng}" 
                                styleClass="btn"  update=":form-catastrofe:messages"   />
-              				<p:commandButton value="Cancelar" actionListener="#{catastrofeBean.cancelarAsigOng}"
+              		<p:commandButton value="Cancelar" actionListener="#{catastrofeBean.cancelarAsigOng}"
                                update="pickList" immediate="true" oncomplete="PF('ongDlg').hide();" styleClass="btn"/>
-          			</h:panelGrid>
-				
-      			</p:dialog>
-	  </h:form>	
-	  
-	  
-      <button id="next" type="button" class="btn btn-primary">Next</button>
+          		</h:panelGrid>
+      	</p:dialog>
+	  </h:form>
 		
 	  <script type="text/javascript">
 			var map;
@@ -302,7 +292,14 @@
   			      event.preventDefault();
   			      return false;
   			    }
-  			});			
+  			});
+
+			$('#form-catastrofe\\:inputUrl').keypress(function(event){
+  			    if(event.keyCode == 13) {
+  			      event.preventDefault();
+  			      return false;
+  			    }
+  			});	
 
 			google.maps.event.addDomListener(window, 'load', initialize);
 
