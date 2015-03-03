@@ -80,7 +80,7 @@
 				
                 <div class="form-group">
 				  	<div class="col-sm-10">
-						<p:commandButton value="Asignar Ong's" oncomplete="PF('ongDlg').show();" actionListener="#{catastrofeBean.cargarOngs}" immediate="true" update=":form-catastrofe:ongDlgId" style="margin-bottom:10px;" ></p:commandButton>
+						
 						<h:selectOneMenu id="tipo" value="#{catastrofeBean.catastrofe.tipoCatastrofe}" styleClass="selectpicker">
 							<f:selectItem itemValue="Incendio"/>
 							<f:selectItem itemValue="Sudestada"/>
@@ -90,6 +90,12 @@
 						</h:selectOneMenu>
 					</div>
 				</div>
+				
+				<div class="form-group">
+		  			<div class="col-sm-12">	
+		  				<p:commandButton value="Asignar Ong's" oncomplete="PF('ongDlg').show();" actionListener="#{catastrofeBean.cargarOngs}" immediate="true" update=":form-catastrofe:ongDlgId"  ></p:commandButton>
+		  			</div>
+		  		</div>
 				
 				<div class="form-group">
 					<div class="col-sm-12">
@@ -113,7 +119,13 @@
 	  		<div class="col-xs-6">
 	  			<div id="mapa" style="height: 400px;" ></div>
 	  		</div>
+	  			
 	  	</div>
+	  	<div class="form-group">
+	  				<div class="col-sm-12">	
+	  				<h:commandButton value="Confirmar" action="#{catastrofeBean.update}" class="btn btn-success btn-lg" style="margin-left:20%"/>
+					</div>
+				</div>
 		<p:dialog id="ongDlgId" header="Asignar Ong's." width="480" closeOnEscape="true" resizable="false" modal="true" widgetVar="ongDlg" >
           	<h:panelGrid width="100%" cellspacing="5">
             	<h:outputText value="Seleccione las ong que colaborarán con la catástrofe." />

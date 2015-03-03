@@ -102,6 +102,7 @@ public class CatastrofeBean implements Serializable {
 		ongs=new ArrayList<>();
 		ongPick = new DualListModel<>(ongSelected, ongs);
 		estiloCss="tema1.css";
+		novedadesCatastrofe=new HashSet<Novedades>();
 	}
 
 	public Long getId() {
@@ -314,7 +315,7 @@ public class CatastrofeBean implements Serializable {
 			novedad.setDescripcion("chuco");
 			
 			
-				novedad.setThumbnail(utiles.getThumbUrl(this.url));
+			novedad.setThumbnail(utiles.getThumbUrl(this.url));
 			
 			novedad.setOrigenDato(this.url);
 			
@@ -333,7 +334,37 @@ public class CatastrofeBean implements Serializable {
 		
 		this.catastofeDao.update(this.catastrofe);
 	}
+	
+	public Set<Novedades> getNovedadesCatastrofe() {
+		return novedadesCatastrofe;
+	}
 
+	public void setNovedadesCatastrofe(Set<Novedades> novedadesCatastrofe) {
+		this.novedadesCatastrofe = novedadesCatastrofe;
+	}
+
+	public void agregarNovedad(){
+		System.out.println("en agregar novedades");
+		try{
+		if(!this.url.isEmpty()){
+			Novedades novedad = new Novedades();
+			novedad.setDescripcion("chuco");					
+			novedad.setThumbnail(utiles.getThumbUrl(this.url));
+			System.out.println("url:"+url);
+			novedad.setOrigenDato(this.url);		
+			this.novedadesCatastrofe.add(novedad);
+			System.out.println("cantidad de novedades:"+this.novedadesCatastrofe.size());
+			this.url="";
+		}
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+
+	}
+	
 	public String delete() {
 		this.conversation.end();
 
