@@ -34,23 +34,43 @@
 			<f:event rendered="#{empty loginBean.profile}" type="preRenderView" listener="#{loginBean.setOriginalURL(originalURL)}" />
 		</f:metadata>
 	</f:view>
-		<h:form id="formLogin" class="form-signin">		
-			<div id="fb-root"></div>
-			<p:growl id="msg" showDetail="true" life="3000" />
-			<h2 class="form-signin-heading text-center">Inicio de Sesión</h2>
-			<p:inputText id="inputuser" value="#{loginBean.user}"
-				label="User" styleClass="form-control">
-			</p:inputText>
-			<p:watermark for="inputuser" value="usuario"
-				id="watermarkUser" />
-			<p:password id="inputpassword" value="#{loginBean.password}"
-				label="Password" styleClass="form-control">
-			</p:password>
-			<p:watermark for="inputpassword" value="password"
-				id="watermarkPassword" />
-
-			<h:commandButton value="Ingresar" action="#{loginBean.login}"
-				class="btn btn-success btn-lg btn-block" update="msg" />
-		</h:form>
+	   <div class="row">
+	   	   <div class="col-sm-2"> </div>
+	   	   <div class="col-sm-4">
+	   	   
+				<h:form id="formLogin" class="form-signin">		
+					<div id="fb-root"></div>
+					<p:growl id="msg" showDetail="true" life="3000" />
+					<h2 class="form-signin-heading text-center">Inicio de Sesión</h2>
+					<p:inputText id="inputuser" value="#{loginBean.user}"
+						label="User" styleClass="form-control" style="margin-top: 20px;">
+					</p:inputText>
+					<p:watermark for="inputuser" value="usuario"
+						id="watermarkUser" />
+					
+					<p:password id="inputpassword" value="#{loginBean.password}"
+						label="Password" styleClass="form-control" style="margin-top: 20px;">
+					</p:password>
+					
+					<p:watermark for="inputpassword" value="password"
+						id="watermarkPassword" />
+		
+					<h:commandButton value="Ingresar" action="#{loginBean.login}"
+						class="btn btn-success btn-lg btn-block" style="margin-top: 20px;" update="msg" />
+				</h:form>
+				
+			</div>
+			<div class="col-sm-4">
+				<div class="row">
+					<div class="col-sm-12">
+						<div style="margin-top: 30px; padding-right: 20px;">
+							<a class="twitter-timeline" href="https://twitter.com/sinae2013" data-widget-id="572509657663823872">Tweets by @sinae2013</a>
+							<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-2"> </div>
+		</div>
 	</ui:define>
 </ui:composition>

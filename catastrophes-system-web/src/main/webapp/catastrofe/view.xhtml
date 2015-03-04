@@ -68,20 +68,24 @@
 					</h:panelGrid>
 				</div>
 				<div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
-					<div class="row">
-					  <div class="col-xs-6 col-md-3">
-					    <a href="#" class="thumbnail">
-					      <h:graphicImage url="#{catastrofeBean.catastrofe.logo}" />
-					    </a>
-					  </div>
+					<div class="well well-lg"><h4 class="text-primary"> #{catastrofeBean.catastrofe.descripcion} </h4> </div>
+					<div class="row">					 
+					    <a href="#" class="thumbnail" style="width: 95%; border: 0;">
+					      <h:graphicImage url="#{catastrofeBean.catastrofe.logo}"  style="width: 95%; margin-left: 5%;"/>
+					    </a>					 
 					</div>
 					<div class="list-group">
 						<a href="/catastrophes-system-web/faces/perosnaDesap/create.xhtml" class="list-group-item">Ingreso de Persona Desaparecida</a>
 						<a href="/catastrophes-system-web/faces/perosnaDesap/search.xhtml" class="list-group-item">Búsqueda de Personas Desaparecidas</a> 
 						<a href="/catastrophes-system-web/faces/donaciones/donaciones.xhtml" class="list-group-item">Realizar Donación</a> 
 						<a href="#" class="list-group-item" data-toggle="modal" data-target="#myModal">Ver Galería</a>
-					</div>
-					<div class="well well-lg">#{catastrofeBean.catastrofe.descripcion}</div>
+					</div>					
+					<div class="row">
+						<div class="col-sm-12">					
+								<a class="twitter-timeline" href="https://twitter.com/sinae2013" data-widget-id="572509657663823872">Tweets by @sinae2013</a>
+								<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+						</div>
+					</div>				
 				</div>
 			</div>
 		</div>

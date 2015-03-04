@@ -20,118 +20,150 @@
 			<h:outputStylesheet name="bootstrap-lightbox/ekko-lightbox.min.css" />
 			<h:outputStylesheet name="style.css" />
 			<h:outputStylesheet name="styleUser.css" />
-		</f:facet>
+	</f:facet>
+	
+		<script>
+			var selected  = "";
+		
+			$(document).ready(function() {
+				console.log( "ready!" );
+				$("#TipoVisa").click(function() {
+					 $("#"+selected).attr("style",""); 
+					 $("#BoxTarjeta input").val("Visa"); 
+					 $("#BoxTarjeta input").attr("value","Visa"); 
+					 $(this).parent().attr("style","background-color: #08C; border: 5px;"); 
+					 selected = $(this).parent().attr("id");
+				});
+				
+				$("#TipoMasterCard").click(function() { 
+					$("#"+selected).attr("style",""); 
+					$("#BoxTarjeta input").val("Master Card"); 
+					$("#BoxTarjeta input").attr("value","Master Card");
+					$(this).parent().attr("style","background-color: #08C; border: 5px;"); 
+					selected = $(this).parent().attr("id");
+				});	
+						
+				$("#TipoAmericanExpress").click(function() {
+					$("#"+selected).attr("style",""); 
+					$("#BoxTarjeta input").val("American Express"); 
+					$("#BoxTarjeta input").attr("value","American Express"); 
+					$(this).parent().attr("style","background-color: #08C; border: 5px;"); 
+					selected = $(this).parent().attr("id");
+				});
+
+				$("#TipoVisa").click();
+				
+			});			
+		</script>
 	
 	<h:outputStylesheet library="css" name="css/style.css" /> 
 		<h:form id="form" >
 		<style type="text/css">
-			.ui-growl {
-				right: 40%;
-				top: 10%;
-				}
+			.ui-growl {	right: 40%;	top: 10%; }
 		</style>
 		
 			
 
 					<div>
-					<h2 class="form-signin-heading text-center" style="text-decoration: underline;">Haz tu donativo para donde más se necesite</h2>
+					<h2 class="form-signin-heading text-center" style="text-decoration: underline; margin-top: -20px;">Haz tu donativo para donde más se necesite</h2>
 					</div>
 					
-					<p:spacer height="10px" />
+					<p:spacer height="30px" />
+					
+					<div class="container">
+						<div class="row" >		
+							<div class="col-sm-3"> </div>							
+							<div class="col-sm-3"> <h3 class="text-primary" style="margin-top: 3px;"> Ong destinataria: </h3> </div>
+							<div class="col-sm-3">
+								<p:selectOneMenu id="comboOng" value="#{donacionesMB.selectedOngDonacion}" converter="#{donacionesMB.ongConverter}"	 style="width:100%;">
+									<f:selectItem itemLabel="Seleccionar" itemValue="" />
+									<f:selectItems value="#{donacionesMB.ongs}" var="ong"   itemLabel="#{ong.nombre}" itemValue="#{ong}" />
+								</p:selectOneMenu>
+							</div>
+						</div>
+					</div>
+			
 
-					<h:panelGrid id="panelId" columns="2" cellspacing="10" styleClass="cen" 
-						columnClasses="izq, top" cellpadding="10">
-						
-							<p:outputLabel value="Ong destinataria" styleClass="labelDonacion" style="margin-bottom:0px" />
-							<p:spacer width="10px" />
-							<p:selectOneMenu id="comboOng" value="#{donacionesMB.selectedOngDonacion}" converter="#{donacionesMB.ongConverter}"						
-								 style="width:160px;">
-								<f:selectItem itemLabel="Seleccionar" itemValue="" />
-								<f:selectItems value="#{donacionesMB.ongs}" var="ong"   itemLabel="#{ong.nombre}" itemValue="#{ong}" />
-							</p:selectOneMenu>
-						
-						
-						<p:spacer width="10px" />
-
-						
+					<h:panelGrid id="panelId" columns="2" cellspacing="10" styleClass="cen" columnClasses="izq, top" cellpadding="10">
+											
+						<p:spacer width="20px" />
+					
+						<p:spacer width="10px" />						
 							<p:tabView orientation="left"  styleClass="tabDonaciones">
 								<p:tab title="Económica">
-									<h:panelGrid columns="2" cellpadding="10">
-										<p:outputLabel for="inputMonto" value="Monto(USD):" style="font-weight: 400;" />
-										<h:inputText id="inputMonto"
-											value="#{donacionesMB.montoDonacion}"
-											styleClass="inputAdmin w160">
-											<f:convertNumber integerOnly="true" />
-										</h:inputText>
-										<p:outputLabel for="inputTarjeta" value="Tarjeta:" style="font-weight: 400;" />
-										<h:inputText id="inputTarjeta"
-											value="#{donacionesMB.tarjetaDonacion}"
-											styleClass="inputAdmin w160">
-										</h:inputText>
-										<p:outputLabel for="inputNroTarjeta" value="Nro. de Tarjeta:"  style="font-weight: 400;"/>
-										<h:inputText id="inputNroTarjeta"
-											value="#{donacionesMB.nroTarjetaDonacion}"
-											styleClass="inputAdmin w160">
-										</h:inputText>
-									</h:panelGrid>
-									<h:panelGrid columns="2" cellspacing="10" styleClass="cen"
-										columnClasses="izq, izq" cellpadding="10">
-										<p:commandButton value="Aceptar"
-											actionListener="#{donacionesMB.crearDonacionEco}"											
-											 style="margin-top: 10px" update=":form:panelId" />
-										<p:commandButton value="Cancelar" actionListener="#{donacionesMB.limpiarCamposDonacion}"
-											onclick="PF('donacionesdDlg').hide();" immediate="true"
-											style="margin-top: 10px" />
-									</h:panelGrid>									
-									<p:spacer width="50px"  />
-									<h:panelGrid columns="1">
-										<p:outputLabel value="PayPal:" style="font-weight: 500;" />
-										<p:commandLink  actionListener="#{donacionesMB.paypal}" >
-											<img src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_donateCC_LG.gif"  />	
-										</p:commandLink>
-									</h:panelGrid>
-									
+								
+									<div class="row" style="width: 800px;">									
+										<div class="col-sm-3"> <h3 class="text-primary" style="padding-top: 20px;"> Tipo Tarjeta: </h3> </div>
+										<div class="col-sm-3" id="BoxTipoVisa"> <img id="TipoVisa" src="/catastrophes-system-web/resources/img/tipo_visa.png" style="width:96%; margin: 2%; cursor: pointer;"/> </div>
+										<div class="col-sm-3" id="BoxTipoMasterCard"> <img id="TipoMasterCard" src="/catastrophes-system-web/resources/img/tipo_master.png" style="width:96%; margin: 2%; cursor: pointer;"/> </div>
+										<div class="col-sm-3" id="BoxTipoAmericanExpress"> <img id="TipoAmericanExpress" src="/catastrophes-system-web/resources/img/tipo_american_express.png" style="width:96%; margin: 2%; cursor: pointer;"/> </div>
+									</div>
+									<div class="row" style="width: 800px;">									
+										<div class="col-sm-3"> <h3 class="text-primary"> Nro. de Tarjeta: </h3> </div>
+										<div class="col-sm-3"> 
+											<h:inputText id="inputNroTarjeta" value="#{donacionesMB.nroTarjetaDonacion}" styleClass="inputAdmin" style="margin-top: 12px; width: 100%;"> </h:inputText>
+										</div>
+										<div class="col-sm-3"> <h3 class="text-primary"> Monto En USD: </h3> </div>
+										<div class="col-sm-3"> 
+											<h:inputText id="inputMonto" value="#{donacionesMB.montoDonacion}" styleClass="inputAdmin" style="margin-top: 12px; width: 100%;">
+												<f:convertNumber integerOnly="true" />
+											</h:inputText>
+										</div>									
+									</div>									
+									<div class="row" style="width: 800px; margin-top: 50px;">									
+										<div class="col-sm-3"> <p:commandLink  actionListener="#{donacionesMB.paypal}" > <img src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_donateCC_LG.gif" /> </p:commandLink> </div>
+										<div class="col-sm-3" id="BoxTarjeta" style="visibility: hidden;"> <h:inputText id="inputTarjeta" value="#{donacionesMB.tarjetaDonacion}" styleClass="inputAdmin" style="width: 100%;"> </h:inputText> </div>
+										<div class="col-sm-3"> <p:commandButton value="Aceptar" actionListener="#{donacionesMB.crearDonacionEco}" update=":form:panelId" styleClass="btn-xs btn-success" style="width: 100%;" /> </div>
+										<div class="col-sm-3"> <p:commandButton value="Cancelar" actionListener="#{donacionesMB.limpiarCamposDonacion}" onclick="PF('donacionesdDlg').hide();" immediate="true" styleClass="btn-xs btn-danger" style="width: 100%;" /> </div>
+									</div>
+																		
+									<h:panelGrid columns="2" cellspacing="10" styleClass="cen" columnClasses="izq, izq" cellpadding="10"> </h:panelGrid>									
 								</p:tab>
-								<p:tab title="De Bienes">
-									<h:panelGrid columns="2" cellpadding="10">
-										<p:outputLabel for="inputDesc" value="Descripción:" style="font-weight: 400;" />
-										<h:inputTextarea id="inputDesc"
-											value="#{donacionesMB.descripcionDonacion}"
-											styleClass="inputAdmin w160">
-										</h:inputTextarea>
-									</h:panelGrid>
-									<h:panelGrid columns="2" cellspacing="10" styleClass="cen"
-										columnClasses="izq, izq" cellpadding="10">
-										<p:commandButton value="Aceptar"
-											actionListener="#{donacionesMB.crearDonacionBienes}"										
-											 style="margin-top: 10px" update=":form:panelId"  />
-										<p:commandButton value="Cancelar"
-											 immediate="true" actionListener="#{donacionesMB.limpiarCamposDonacion}"
-											style="margin-top: 10px" />
-									</h:panelGrid>
+								<p:tab title="De Bienes">			
+						
+									<div class="row" style="width: 800px;">									
+										<div class="col-sm-3">
+											<h3 class="text-primary"> Descripción: </h3>
+										</div>
+										<div class="col-sm-9">
+											<h:inputTextarea id="inputDesc"	value="#{donacionesMB.descripcionDonacion}"	styleClass="inputAdmin" style="width: 100%; height: 100px;"> </h:inputTextarea>
+										</div>
+									</div>
+									
+									<div class="row" style="width: 800px; margin-top: 50px;">									
+										<div class="col-sm-3"> </div>
+										<div class="col-sm-3"> </div>
+										<div class="col-sm-3"> <p:commandButton value="Aceptar" actionListener="#{donacionesMB.crearDonacionBienes}" update=":form:panelId" styleClass="btn-xs btn-success" style="width: 100%;" /> </div>
+										<div class="col-sm-3"> <p:commandButton value="Cancelar" immediate="true" actionListener="#{donacionesMB.limpiarCamposDonacion}" styleClass="btn-xs btn-danger" style="width: 100%;" /> </div>
+									</div>
+																									
 								</p:tab>
 								<p:tab title="De Servicios">
-									<h:panelGrid columns="2" cellpadding="10">
-										<p:outputLabel for="inputServicio" value="Tipo de Servicio:" style="font-weight: 400;" />
-										<h:inputText id="inputServicio"
-											value="#{donacionesMB.tipoServicioDonacion}"
-											styleClass="inputAdmin w160">
-										</h:inputText>
-										<p:outputLabel for="inputHoras" value="Horas dedicadas:" style="font-weight: 400;" />
-										<h:inputText id="inputHoras"
-											value="#{donacionesMB.horasDonacion}"
-											styleClass="inputAdmin w160">
-										</h:inputText>
-									</h:panelGrid>
-									<h:panelGrid columns="2" cellspacing="10" styleClass="cen"
-										columnClasses="izq, izq" cellpadding="10">
-										<p:commandButton value="Aceptar"
-											actionListener="#{donacionesMB.crearDonacionServicio}"											
-											 style="margin-top: 10px" update=":form:panelId" />
-										<p:commandButton value="Cancelar" actionListener="#{donacionesMB.limpiarCamposDonacion}"
-											 immediate="true"
-											style="margin-top: 10px" />
-									</h:panelGrid>
+								
+									<div class="row" style="width: 800px;">									
+										<div class="col-sm-5">
+											<h3 class="text-primary"> Tipo de Servicio: </h3>
+										</div>
+										<div class="col-sm-7">
+											<h:inputText id="inputServicio"	value="#{donacionesMB.tipoServicioDonacion}" styleClass="inputAdmin" style="margin-top: 15px; width: 100%;"> </h:inputText>
+										</div>
+									</div>
+									<div class="row" style="width: 800px;">									
+										<div class="col-sm-5">
+											<h3 class="text-primary"> Horas Dedicadas: </h3>
+										</div>
+										<div class="col-sm-7">
+											<h:inputText id="inputHoras" value="#{donacionesMB.horasDonacion}" styleClass="inputAdmin" style="margin-top: 15px; width: 100%;">	</h:inputText>
+										</div>
+									</div>
+									
+									<div class="row" style="width: 800px; margin-top: 37px;">									
+										<div class="col-sm-3"> </div>
+										<div class="col-sm-3"> </div>
+										<div class="col-sm-3"> <p:commandButton value="Aceptar" actionListener="#{donacionesMB.crearDonacionServicio}" update=":form:panelId" styleClass="btn-xs btn-success" style="width: 100%;" /> </div>
+										<div class="col-sm-3"> <p:commandButton value="Cancelar" immediate="true" actionListener="#{donacionesMB.limpiarCamposDonacion}" styleClass="btn-xs btn-danger" style="width: 100%;" /> </div>
+									</div>							
+									
 								</p:tab>
 							</p:tabView>
 					</h:panelGrid>
@@ -141,6 +173,8 @@
 					<p:commandButton actionListener="#{donacionesMB.volver}" value="Volver" styleClass="btn btn-success" style="width:90px; height:40px;margin-top:0px;"/>
 					<p:growl id="messages" showDetail="true"  autoUpdate="true"/>
 		</h:form>
+					
+		
 		
 		
 	</ui:define>
