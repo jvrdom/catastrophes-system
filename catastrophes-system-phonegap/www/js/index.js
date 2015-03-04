@@ -486,14 +486,7 @@ var app = {
                         fillOpacity: 0.5
                     }).addTo(map).bindPopup(app.nombre).openPopup();
         
-        
-        //var catastrofeLat = -33.928769;
-        //var catastrofeLon = -55.161164;
-        // test bounds
-        // map.fitBounds([
-        //     [catastrofeLat, catastrofeLon],
-        //     [-31.774, -53.1231]
-        // ]);
+        map.panTo(new L.LatLng(lat, lon));
 
         app.dom('addCatastrofeLocation');
     },
@@ -1065,7 +1058,7 @@ var app = {
     
 };
 
-app.hostservidor = "192.168.1.35";
+app.hostservidor = "192.168.1.34";
 //app.hostservidor = "172.16.102.205";
 //app.hostservidor = "192.168.1.41";
 //app.hostservidor = "172.16.100.4";
