@@ -94,7 +94,7 @@
 								
 									<div class="row" style="width: 800px;">									
 										<div class="col-sm-3"> <h3 class="text-primary" style="padding-top: 20px;"> Tipo Tarjeta: </h3> </div>
-										<div class="col-sm-3" id="BoxTipoMasterCard"> <img id="TipoMasterCard" src="/catastrophes-system-web/resources/img/tipo_visa.png" style="width:96%; margin: 2%; cursor: pointer;"/> </div>
+										<div class="col-sm-3" id="BoxTipoVisa"> <img id="TipoVisa" src="/catastrophes-system-web/resources/img/tipo_visa.png" style="width:96%; margin: 2%; cursor: pointer;"/> </div>
 										<div class="col-sm-3" id="BoxTipoMasterCard"> <img id="TipoMasterCard" src="/catastrophes-system-web/resources/img/tipo_master.png" style="width:96%; margin: 2%; cursor: pointer;"/> </div>
 										<div class="col-sm-3" id="BoxTipoAmericanExpress"> <img id="TipoAmericanExpress" src="/catastrophes-system-web/resources/img/tipo_american_express.png" style="width:96%; margin: 2%; cursor: pointer;"/> </div>
 									</div>
@@ -113,8 +113,8 @@
 									<div class="row" style="width: 800px; margin-top: 50px;">									
 										<div class="col-sm-3"> <p:commandLink  actionListener="#{donacionesMB.paypal}" > <img src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_donateCC_LG.gif" /> </p:commandLink> </div>
 										<div class="col-sm-3" id="BoxTarjeta" style="visibility: hidden;"> <h:inputText id="inputTarjeta" value="#{donacionesMB.tarjetaDonacion}" styleClass="inputAdmin" style="width: 100%;"> </h:inputText> </div>
-										<div class="col-sm-3"> <p:commandButton value="Aceptar" actionListener="#{donacionesMB.crearDonacionEco}" update=":form:panelId" styleClass="btn-xs btn-success" style="width: 100%;" /> </div>
-										<div class="col-sm-3"> <p:commandButton value="Cancelar" actionListener="#{donacionesMB.limpiarCamposDonacion}" onclick="PF('donacionesdDlg').hide();" immediate="true" styleClass="btn-xs btn-danger" style="width: 100%;" /> </div>
+										<div class="col-sm-3"> <p:commandButton value="Aceptar" actionListener="#{donacionesMB.crearDonacionEco}" update=":form:panelId" styleClass="btn-xs" style="width: 100%;" /> </div>
+										<div class="col-sm-3"> <p:commandButton value="Cancelar" actionListener="#{donacionesMB.limpiarCamposDonacion}" onclick="PF('donacionesdDlg').hide();" immediate="true" styleClass="btn-xs" style="width: 100%;" /> </div>
 									</div>
 																		
 									<h:panelGrid columns="2" cellspacing="10" styleClass="cen" columnClasses="izq, izq" cellpadding="10"> </h:panelGrid>									
@@ -133,8 +133,8 @@
 									<div class="row" style="width: 800px; margin-top: 50px;">									
 										<div class="col-sm-3"> </div>
 										<div class="col-sm-3"> </div>
-										<div class="col-sm-3"> <p:commandButton value="Aceptar" actionListener="#{donacionesMB.crearDonacionBienes}" update=":form:panelId" styleClass="btn-xs btn-success" style="width: 100%;" /> </div>
-										<div class="col-sm-3"> <p:commandButton value="Cancelar" immediate="true" actionListener="#{donacionesMB.limpiarCamposDonacion}" styleClass="btn-xs btn-danger" style="width: 100%;" /> </div>
+										<div class="col-sm-3"> <p:commandButton value="Aceptar" actionListener="#{donacionesMB.crearDonacionBienes}" update=":form:panelId" styleClass="btn-xs" style="width: 100%;" /> </div>
+										<div class="col-sm-3"> <p:commandButton value="Cancelar" immediate="true" actionListener="#{donacionesMB.limpiarCamposDonacion}" styleClass="btn-xs" style="width: 100%;" /> </div>
 									</div>
 																									
 								</p:tab>
@@ -160,8 +160,8 @@
 									<div class="row" style="width: 800px; margin-top: 37px;">									
 										<div class="col-sm-3"> </div>
 										<div class="col-sm-3"> </div>
-										<div class="col-sm-3"> <p:commandButton value="Aceptar" actionListener="#{donacionesMB.crearDonacionServicio}" update=":form:panelId" styleClass="btn-xs btn-success" style="width: 100%;" /> </div>
-										<div class="col-sm-3"> <p:commandButton value="Cancelar" immediate="true" actionListener="#{donacionesMB.limpiarCamposDonacion}" styleClass="btn-xs btn-danger" style="width: 100%;" /> </div>
+										<div class="col-sm-3"> <p:commandButton value="Aceptar" actionListener="#{donacionesMB.crearDonacionServicio}" update=":form:panelId" styleClass="btn-xs" style="width: 100%;" /> </div>
+										<div class="col-sm-3"> <p:commandButton value="Cancelar" immediate="true" actionListener="#{donacionesMB.limpiarCamposDonacion}" styleClass="btn-xs" style="width: 100%;" /> </div>
 									</div>							
 									
 								</p:tab>
